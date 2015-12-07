@@ -1,9 +1,9 @@
 === CCBPress Core ===
 Contributors: firetree, danielmilner
-Tags: church,ccb,church community builder
+Tags: church, ccb, church community builder, chms
 Requires at least: 4.3
-Tested up to: 4.3.1
-Stable tag: 0.9.5
+Tested up to: 4.4
+Stable tag: 0.9.6
 License: GPLv2 or later
 License URI: http://ww.gnu.org/licenses/gpl-2.0.html
 
@@ -17,7 +17,7 @@ Introducing the easiest way to display information from Church Community Builder
 
 Requires a [Church Community Builder](http://churchcommunitybuilder.com/) account.
 
-Features:
+= Features: =
 * API Status Dashboard Widget
 * Group Information Widget
 * CCB Login Widget
@@ -35,6 +35,10 @@ Features:
 2. Getting Started
 
 == Changelog ==
+
+= 0.9.6 =
+* Removed files that were no longer necessary.
+* Added some missing styles to the stylesheet.
 
 = 0.9.5 =
 * There was a git merge mixup, incorrect version was tagged for release.
