@@ -1,0 +1,15 @@
+@font-face {
+	font-family: 'ccbpress';
+	src:url('../fonts/ccbpress.eot?-yj09f6');
+	src:url('../fonts/ccbpress.eot?#iefix-yj09f6') format('embedded-opentype'),
+		url('../fonts/ccbpress.ttf?-yj09f6') format('truetype'),
+		url('../fonts/ccbpress.woff?-yj09f6') format('woff'),
+		url('../fonts/ccbpress.svg?-yj09f6#ccbpress') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+#wp-admin-bar-ccbpress .ab-icon::before {
+    content: "\e600";
+    font-family: 'ccbpress';
+}

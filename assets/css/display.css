@@ -1,0 +1,8 @@
+.widget .ccbpress-core-group-image img { width: 100%; height: auto; padding-bottom: 10px; }
+.widget .ccbpress-core-group-name { font-size: 1.3em; font-weight: bold; }
+.widget .ccbpress-core-group-description p { padding: 10px 0; margin-bottom: 0; }
+.widget .ccbpress-core-group-leader-title,
+.widget .ccbpress-core-group-registration-forms-title { font-weight: bold; padding: 10px 0; }
+.widget .ccbpress-core-group-leader-name {  }
+.widget .ccbpress-core-group-leader-email,
+.widget .ccbpress-core-group-leader-phone { font-style: italic; }

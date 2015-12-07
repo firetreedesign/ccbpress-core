@@ -1,0 +1,29 @@
+fieldset.ccbpress_multi_select,
+fieldset.ccbpress_list_select,
+fieldset.ccbpress_list_select_right {
+	display: inline;
+	margin-right: 20px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	vertical-align: top;
+	width: 300px;
+}
+
+fieldset.ccbpress_multi_select select[multiple],
+fieldset.ccbpress_list_select_right select {
+	width: 100%;
+	height: 150px;
+	display: block;
+}
+
+fieldset.ccbpress_list_select select,
+fieldset.ccbpress_list_select input[type=text] {
+	width: 100%;
+	display: block;
+}
+
+fieldset.ccbpress_multi_select button,
+fieldset.ccbpress_list_select button {
+	margin-top: 10px;
+}
