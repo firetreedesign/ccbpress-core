@@ -14,6 +14,7 @@ table.ccbpress-dash-widget-api-status td:first-of-type { border-right: 1px solid
 .ccbpress-radio-list { margin: 0; padding-top: 4px; }
 .ccbpress-radio-list li { display: inline-block; padding-right: 15px; }
 
+.about-wrap .feature-section .svg-container { text-align: center; }
 .about-wrap .feature-section .svg-container .dashicons { font-size: 150px; margin: 0; max-width: 100%; width: 150px; height: 150px; vertical-align: middle; text-align: center; color: #ff5555; }
 .about-wrap.ccbpress .feature-section:not(.three-col) { margin-top: 20px; }
 
