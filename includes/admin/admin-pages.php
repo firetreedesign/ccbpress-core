@@ -214,47 +214,6 @@ class CCBPress_Admin_Pages {
 		$services = apply_filters( 'ccbpress_ccb_services', array() );
 		sort( $services );
 		?>
-		<!-- Begin MailChimp Signup Form -->
-		<style>
-		.ccbpress-core-newsletter { clear: both; padding: 20px; background-color: #e7e7e7; color: #777; max-width: 700px; }
-		.ccbpress-core-newsletter p { font-style: italic; margin: 0; }
-		.ccbpress-core-newsletter-field { display: inline-block; margin-top: 10px; }
-		.ccbpress-core-newsletter-field .button { vertical-align: initial; }
-		</style>
-		<form action="//firetreedesign.us8.list-manage.com/subscribe/post?u=cb835fbfeabd73de481b4c161&amp;id=504bd42694" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-
-			<div class="ccbpress-core-newsletter">
-				<div class="ccbpress-core-newsletter-form">
-					<p><?php _e('Sign up for the CCBPress newsletter to stay informed of important news and updates.', 'ccbpress-core'); ?></p>
-					<div class="ccbpress-core-newsletter-field"><input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL" placeholder="Email (required)"></div>
-					<div class="ccbpress-core-newsletter-field"><input type="text" value="" name="FNAME" class="" id="mce-FNAME" placeholder="First Name"></div>
-					<div class="ccbpress-core-newsletter-field"><input type="text" value="" name="LNAME" class="" id="mce-LNAME" placeholder="Last Name"></div>
-					<div class="ccbpress-core-newsletter-field"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
-				</div>
-				<div class="ccbpress-core-newsletter-confirmation" style="display: none;">
-					<p><?php _e('Thank you for subscribing!', 'ccbpress-core'); ?></p>
-				</div>
-			</div>
-
-			<div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_cb835fbfeabd73de481b4c161_504bd42694" tabindex="-1" value=""></div>
-		</form>
-		<script type='text/javascript' src='//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js'></script>
-		<script type='text/javascript'>
-		(function($) {
-			window.fnames = new Array();window.ftypes = new Array();
-			fnames[0]='EMAIL';ftypes[0]='email';fnames[1]='FNAME';ftypes[1]='text';fnames[2]='LNAME';ftypes[2]='text';
-			$( 'form[name="mc-embedded-subscribe-form"]' ).on( 'submit', function () {
-				var email_field = $( this ).find( '#mce-EMAIL' ).val();
-				if ( ! email_field ) {
-					return false;
-				}
-				$( this ).find( '.ccbpress-core-newsletter-confirmation' ).delay(500).slideDown();
-				$( this ).find( '.ccbpress-core-newsletter-form' ).delay(500).slideUp();
-			} );
-		}(jQuery));
-		var $mcj = jQuery.noConflict(true);
-		</script>
-		<!--End mc_embed_signup-->
 		<h3><?php _e('Connecting to Church Community Builder', 'ccbpress-core'); ?></h3>
 		<p><?php _e('Before you can use the plugin, you need to provide it with information needed to connect to your Church Community Builder account.', 'ccbpress-core'); ?></p>
 		<div class="feature-section">

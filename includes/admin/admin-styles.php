@@ -13,6 +13,6 @@ function ccbpress_admin_customizer_styles() {
 	    z-index: 510000 !important;
 	}
 	</style>
-<?
+<?php
 }
 add_action( 'customize_controls_print_styles', 'ccbpress_admin_customizer_styles' );

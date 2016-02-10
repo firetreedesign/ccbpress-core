@@ -3,7 +3,7 @@ Contributors: firetree, danielmilner
 Tags: church, ccb, church community builder, chms
 Requires at least: 4.3
 Tested up to: 4.4
-Stable tag: 0.9.6
+Stable tag: 0.9.7
 License: GPLv2 or later
 License URI: http://ww.gnu.org/licenses/gpl-2.0.html
 
@@ -35,6 +35,11 @@ Requires a [Church Community Builder](http://churchcommunitybuilder.com/) accoun
 2. Getting Started
 
 == Changelog ==
+
+= 0.9.7 =
+* Fixed incorrect opening PHP statement.
+* Removed code that was no longer in use.
+* Removed the activation redirect in favor of a dismissible notification banner.
 
 = 0.9.6 =
 * Removed files that were no longer necessary.
