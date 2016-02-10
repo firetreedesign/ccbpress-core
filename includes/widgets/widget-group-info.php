@@ -83,20 +83,6 @@ class CCBPress_Widget_Group_Info extends WP_Widget {
 			$group->widget_options->show_group_leader_phone_numbers	= $show_group_leader_phone_numbers;
 			$group->widget_options->show_group_registration_forms	= $show_group_registration_forms;
 
-			// Retrieve the lightbox settings from the plugin options
-			// switch ( ccbpress_get_option( 'ccbpress_group_options', 'registration_form_lightbox' ) ) {
-			//
-			// 	case 'easy-fancybox':
-			// 		$lightbox_code = ' class="fancybox-iframe"';
-			// 		break;
-			//
-			// 	default:
-			// 		$lightbox_code = '';
-			// 		break;
-			//
-			// }
-			// $group->widget_options->lightbox_code = $lightbox_code;
-
 			// Echo the group data and apply any filters
 			echo $this->ccbpress_get_template( $group );
 

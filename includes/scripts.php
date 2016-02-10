@@ -1,6 +1,5 @@
 <?php
 function ccbpress_plugin_scripts() {
-	//wp_register_script( 'chosen', CCBPRESS_CORE_PLUGIN_URL . 'lib/chosen/chosen.jquery.min.js', array('jquery'), '1.4.2', true );
 	wp_register_script( 'ccbpress-core-beacon', CCBPRESS_CORE_PLUGIN_URL . 'assets/js/beacon.js', array(), '1.0.0', true );
 
 	global $current_user;
