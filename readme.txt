@@ -39,6 +39,7 @@ Requires a [Church Community Builder](http://churchcommunitybuilder.com/) accoun
 = 0.9.7 =
 * Fixed incorrect opening PHP statement.
 * Removed code that was no longer in use.
+* Removed the activation redirect in favor of a dismissible notification banner.
 
 = 0.9.6 =
 * Removed files that were no longer necessary.
