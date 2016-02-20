@@ -3,7 +3,7 @@
  * Plugin Name: CCBPress Core
  * Plugin URI: http://ccbpress.com/
  * Description: Display information from Church Community Builder on your WordPress site.
- * Version: 0.9.7
+ * Version: 0.9.8
  * Author: CCBPress <info@ccbpress.com>
  * Author URI: https://ccbpress.com/
  * Text Domain: ccbpress-core
@@ -15,6 +15,8 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 if ( ! class_exists( 'CCBPress_Core' ) ) :
+
+register_activation_hook( __FILE__, array( 'CCBPress_Core', 'create_tables' ) );
 
 add_action( 'admin_notices', array('CCBPress_Core', 'activation_admin_notice') );
 add_action( 'admin_init', array('CCBPress_Core', 'ignore_admin_notice') );
@@ -51,7 +53,7 @@ class CCBPress_Core {
     * @var string
     * @since 1.0.0
     */
-   public $version = '0.9.7';
+   public $version = '0.9.8';
 
    /**
      * Main CCBPress_Core Instance
@@ -268,6 +270,7 @@ class CCBPress_Core {
 		 require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/widgets/widget-login.php';
 		 require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/widgets/widget-online-giving.php';
 		 require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/widgets/widget-group-info.php';
+		 require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/group_profiles-db.php';
 
         if ( is_admin() ) {
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/admin-page-tabs.php';
@@ -278,6 +281,22 @@ class CCBPress_Core {
         }
 
      }
+
+	 /**
+	  * Create the custom tables needed for our plugin
+	  *
+	  * @since 1.0.0
+	  *
+	  * @return void
+	  */
+	 public static function create_tables() {
+
+		 require_once plugin_dir_path( __FILE__ ) . 'includes/group_profiles-db.php';
+		 $group_profiles_db = new CCBPress_Group_Profiles_DB();
+		 $group_profiles_db->create_table();
+		 unset( $group_profiles_db );
+
+	 }
 
 }
 
