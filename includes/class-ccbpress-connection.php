@@ -55,6 +55,21 @@ class CCBPress_Connection {
 
     }
 
+	/**
+	 * Test if we are connected to Church Community Builder
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return boolean Answer
+	 */
+	public function is_connected() {
+		$ccbpress_ccb = get_option( 'ccbpress_ccb', array() );
+		if ( isset( $ccbpress_ccb['connection_test']) && 'success' === $ccbpress_ccb['connection_test'] ) {
+			return TRUE;
+		}
+		return FALSE;
+	}
+
     /**
 	 * GET data from CCB.
 	 *
@@ -697,6 +712,10 @@ class CCBPress_Connection {
 
 		$defaults = array(
 			'include_participants'	=> '0',		// 1 = yes, 0 = no
+			'include_image_link'	=> '0',
+			'page'					=> null,
+			'per_page'				=> null,
+			'campus_id'				=> null,
 			'modified_since'		=> (string)date( 'Y-m-d', strtotime('-6 months') ),	// Date. Example: YYYY-MM-DD.
 			'cache_lifespan'		=> $this->cache_lifespan( 'group_profiles' ),
 		);
@@ -707,7 +726,21 @@ class CCBPress_Connection {
 
 			$url = add_query_arg( 'srv', 'group_profiles', $this->api_url );
 			$url = add_query_arg( 'include_participants', $args['include_participants'], $url );
+			$url = add_query_arg( 'include_image_link', $args['include_image_link'], $url );
 			$url = add_query_arg( 'modified_since', $args['modified_since'], $url );
+
+			if ( $args['page'] )  {
+				$url = add_query_arg( 'page', $args['page'], $url );
+			}
+
+			if ( $args['per_page'] )  {
+				$url = add_query_arg( 'per_page', $args['per_page'], $url );
+			}
+
+			if ( $args['campus_id'] )  {
+				$url = add_query_arg( 'campus_id', $args['campus_id'], $url );
+			}
+
 			$ccb_data = $this->get( $url, $args['cache_lifespan'] );
 
 			if ( $this->is_valid( $ccb_data ) ) {

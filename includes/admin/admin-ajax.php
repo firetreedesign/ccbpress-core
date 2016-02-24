@@ -6,6 +6,9 @@ class CCBPress_Admin_Ajax {
 
 	public function __construct() {
 		add_action( 'wp_ajax_ccbpress_check_services', array( $this, 'check_services' ) );
+		add_action( 'wp_ajax_ccbpress_sync_groups', array( $this, 'sync_groups' ) );
+		add_action( 'wp_ajax_ccbpress_sync_groups_status', array( $this, 'sync_groups_status' ) );
+		add_action( 'wp_ajax_ccbpress_last_group_sync', array( $this, 'last_group_sync' ) );
 	}
 
 	public function check_services() {
@@ -66,6 +69,70 @@ class CCBPress_Admin_Ajax {
 
 	}
 
+	public function sync_groups() {
+
+		if ( ! isset( $_POST[ 'ccbpress_nonce' ] ) || ! wp_verify_nonce( $_POST[ 'ccbpress_nonce' ], 'ccbpress-nonce' ) ) {
+			die( 'Insufficient Permissions' );
+		}
+
+		$ccbpress_sync_options = get_option('ccbpress_settings_sync', array() );
+
+		$include_image_link = '0';
+		if ( isset( $ccbpress_sync_options['group_include_images'] ) ) {
+			$include_image_link = '1';
+		}
+
+		CCBPress()->sync->push_to_queue( array(
+			'srv' => 'group_profiles',
+			'args' => array(
+				'include_participants'	=> '0',
+				'include_image_link'	=> $include_image_link,
+				'page'					=> 1,
+				'per_page'				=> 100,
+				'cache_lifespan'		=> 0,
+			),
+		) );
+		CCBPress()->sync->save()->dispatch();
+
+		echo 'started';
+
+		wp_die();
+
+	}
+
+	public function sync_groups_status() {
+
+		if ( ! isset( $_POST[ 'ccbpress_nonce' ] ) || ! wp_verify_nonce( $_POST[ 'ccbpress_nonce' ], 'ccbpress-nonce' ) ) {
+			die( 'Insufficient Permissions' );
+		}
+
+		// Send back the number of complete payments
+		if ( $status = get_option( 'ccbpress_group_sync_in_progress', false ) ) {
+			echo '<strong>' . $status . '...</strong><br /><i>Sync is running in the background. Leaving this page will not interrupt the process.</i>';
+		} else {
+			echo 'false';
+		}
+
+		wp_die();
+
+	}
+
+	public function last_group_sync() {
+
+		if ( ! isset( $_POST[ 'ccbpress_nonce' ] ) || ! wp_verify_nonce( $_POST[ 'ccbpress_nonce' ], 'ccbpress-nonce' ) ) {
+			die( 'Insufficient Permissions' );
+		}
+
+		$last_sync = get_option( 'ccbpress_last_group_sync', 'Never' );
+		if ( 'Never' === $last_sync ) {
+			echo $last_sync;
+		} else {
+			echo (string) date( get_option('date_format') . ' \a\t ' . get_option('time_format'), strtotime( $last_sync ) );
+		}
+
+		wp_die();
+
+	}
 
 }
 new CCBPress_Admin_Ajax();

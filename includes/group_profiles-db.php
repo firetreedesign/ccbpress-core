@@ -89,7 +89,7 @@ class CCBPress_Group_Profiles_DB {
 	}
 
 	/**
-	 * Add a list to the database
+	 * Add a group to the database
 	 *
 	 * @since 1.0.0
 	 *
@@ -103,10 +103,10 @@ class CCBPress_Group_Profiles_DB {
 			'last_sync' => date('Y-m-d H:i:s', current_time( 'timestamp' ) ),
 		);
 
-		$list = wp_parse_args( $data, $defaults );
+		$group = wp_parse_args( $data, $defaults );
 
 		global $wpdb;
-		return $wpdb->insert( $this->table_name, $list );
+		return $wpdb->insert( $this->table_name, $group );
 
 	}
 
