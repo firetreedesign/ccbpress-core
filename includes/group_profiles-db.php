@@ -140,14 +140,25 @@ class CCBPress_Group_Profiles_DB {
 	 *
 	 * @return integer          The number of rows that were affected
 	 */
-	public function delete( $group_id = false ) {
+	public function delete( $group_id = FALSE ) {
 
-		if ( false === $group_id ) {
-			return false;
+		if ( FALSE === $group_id ) {
+			return FALSE;
 		}
 
 		global $wpdb;
 		return $wpdb->delete( $this->table_name, array( 'group_id' => $group_id ) );
+
+	}
+
+	public function purge( $last_sync = FALSE ) {
+
+		if ( FALSE === $last_sync ) {
+			return FALSE;
+		}
+
+		global $wpdb;
+		return $wpdb->query( 'DELETE * FROM ' . $this->table_name . ' WHERE last_sync < ' . $last_sync );
 
 	}
 

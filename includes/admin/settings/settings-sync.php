@@ -36,7 +36,7 @@ class CCBPress_Settings_Sync extends CCBPress_Settings {
 
 		// Check for group related services
 		if ( in_array( 'group_profiles', $services ) || in_array( 'group_profile_from_id', $services ) ) {
-			$group_auto_sync_schedule = __('Scheduled to run in approximately ', 'ccbpress-core') . human_time_diff( strtotime('now'), wp_next_scheduled( 'ccbpress_daily_maintenance' ) ) . '.';
+			$group_auto_sync_schedule = __('Scheduled to run in approximately ', 'ccbpress-core') . human_time_diff( strtotime('now'), wp_next_scheduled( 'ccbpress_daily_maintenance' ) );
 			$group_auto_sync = TRUE;
 		}
 
@@ -63,7 +63,7 @@ class CCBPress_Settings_Sync extends CCBPress_Settings {
 
 		$last_group_sync = get_option( 'ccbpress_last_group_sync', 'Never' );
  		if ( 'Never' != $last_group_sync ) {
- 			$last_group_sync = (string) date( get_option('date_format') . ' \a\t ' . get_option('time_format'), strtotime( $last_group_sync ) );
+			$last_group_sync = human_time_diff( strtotime('now', current_time('timestamp') ), strtotime( $last_group_sync, current_time('timestamp') ) ) . ' ago';
  		}
 
     	add_settings_field(

@@ -4,10 +4,23 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 class CCBPress_Maintenance {
 
-	public function init() {
+	public function __construct() {
 
 		if ( $this->should_sync('groups') ) {
-			$this->run_sync('groups');
+
+			switch( date('l') ) {
+				case 'Sunday':
+					$this->run_sync( 'groups', TRUE );
+					break;
+				case 'Monday':
+					$this->run_sync('groups');
+					$this->purge('groups');
+					break;
+				default:
+					$this->run_sync('groups');
+					break;
+			}
+
 		}
 
 	}
@@ -36,7 +49,7 @@ class CCBPress_Maintenance {
 
 	}
 
-	private function run_sync( $what ) {
+	private function run_sync( $what, $sync_all = FALSE ) {
 
 		$ccbpress_sync_options = get_option('ccbpress_settings_sync', array() );
 
@@ -49,6 +62,12 @@ class CCBPress_Maintenance {
 					$include_image_link = '1';
 				}
 
+				if ( 'Never' === ( $last_sync = get_option( 'ccbpress_last_group_sync', 'Never' ) ) || $sync_all ) {
+					$modified_since = (string) date('Y-m-d', strtotime( '-6 months', current_time('timestamp') ) );
+				} else {
+					$modified_since = (string) date('Y-m-d', strtotime( $last_sync ) );
+				}
+
 				CCBPress()->sync->push_to_queue( array(
 					'srv' => 'group_profiles',
 					'args' => array(
@@ -56,6 +75,7 @@ class CCBPress_Maintenance {
 						'include_image_link'	=> $include_image_link,
 						'page'					=> 1,
 						'per_page'				=> 100,
+						'modified_since'		=> $modified_since,
 						'cache_lifespan'		=> 0,
 					),
 				) );
@@ -66,6 +86,24 @@ class CCBPress_Maintenance {
 
 	}
 
+	private function purge( $what ) {
+
+		switch( $what ) {
+
+			case 'groups':
+
+				$group_profiles_db = new CCBPress_Group_Profiles_DB();
+				$group_profiles_db->purge( strtotime('yesterday') );
+
+				break;
+
+		}
+
+	}
+
 }
 
-add_action('ccbpress_daily_maintenance', array( 'CCBPress_Maintenance', 'init' ) );
+add_action('ccbpress_daily_maintenance', 'ccbpress_daily_maintenance' );
+function ccbpress_daily_maintenance() {
+	new CCBPress_Maintenance();
+}

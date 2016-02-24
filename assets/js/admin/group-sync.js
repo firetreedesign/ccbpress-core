@@ -10,7 +10,6 @@ jQuery( document ).ready(function($) {
 			jQuery( '#ccbpress-manual-group-sync-button' ).on( 'click', { self: self }, self.startSync );
 			if ( 'running' == jQuery( '#ccbpress-manual-group-sync-button' ).attr('data-ccbpress-status') ) {
 				self.disableButton();
-				self.progress('<div class="notice notice-info"><p><span class="spinner is-active"></span>Process is running...</p></div>');
 				self.checkProgress( self );
 			}
 		};

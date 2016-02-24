@@ -82,6 +82,12 @@ class CCBPress_Admin_Ajax {
 			$include_image_link = '1';
 		}
 
+		if ( 'Never' === ( $last_sync = get_option( 'ccbpress_last_group_sync', 'Never' ) ) ) {
+			$modified_since = (string) date('Y-m-d', strtotime( '-6 months', current_time('timestamp') ) );
+		} else {
+			$modified_since = (string) date('Y-m-d', strtotime( $last_sync ) );
+		}
+
 		CCBPress()->sync->push_to_queue( array(
 			'srv' => 'group_profiles',
 			'args' => array(
@@ -89,6 +95,7 @@ class CCBPress_Admin_Ajax {
 				'include_image_link'	=> $include_image_link,
 				'page'					=> 1,
 				'per_page'				=> 100,
+				'modified_since'		=> $modified_since,
 				'cache_lifespan'		=> 0,
 			),
 		) );
@@ -127,7 +134,8 @@ class CCBPress_Admin_Ajax {
 		if ( 'Never' === $last_sync ) {
 			echo $last_sync;
 		} else {
-			echo (string) date( get_option('date_format') . ' \a\t ' . get_option('time_format'), strtotime( $last_sync ) );
+			//echo (string) date( get_option('date_format') . ' \a\t ' . get_option('time_format'), strtotime( $last_sync ) );
+			echo human_time_diff( strtotime('now', current_time('timestamp') ), strtotime( $last_sync, current_time('timestamp') ) ) . ' ago';
 		}
 
 		wp_die();
