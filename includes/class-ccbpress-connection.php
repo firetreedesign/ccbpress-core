@@ -603,6 +603,50 @@ class CCBPress_Connection {
 	}
 
 	/**
+	 * Returns the event profiles
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param  array $args The arguments for the API request
+	 *
+	 * @return varies       Either the data object or FALSE
+	 */
+	public function event_profiles( $args ) {
+
+		$defaults = array(
+			'include_guest_list'	=> '0', // 1 = yes, 0 = no
+			'modified_since'		=> (string)date( 'Y-m-d', strtotime('-6 months') ),	// Date. Example: YYYY-MM-DD.
+			'cache_lifespan'		=> $this->cache_lifespan( 'event_profiles' ),
+		);
+
+		$args = wp_parse_args( $args, $defaults );
+
+		try {
+
+			$url = add_query_arg( 'srv', 'event_profiles', $this->api_url );
+			$url = add_query_arg( 'include_guest_list', $args['include_guest_list'], $url );
+			$url = add_query_arg( 'modified_since', $args['modified_since'], $url );
+			$ccb_data = $this->get( $url, $args['cache_lifespan'] );
+
+			if ( $this->is_valid( $ccb_data ) ) {
+
+				return $ccb_data;
+
+			} else {
+
+				return false;
+
+			}
+
+		} catch ( Exception $e ) {
+
+			return false;
+
+		}
+
+	}
+
+	/**
 	 * Returns a list of forms.
 	 *
 	 * @return	string/array	An XML string containing the data.

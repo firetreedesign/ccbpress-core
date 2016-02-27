@@ -8,6 +8,7 @@ function ccbpress_admin_scripts() {
 
 	if ( isset( $_GET['page'] ) && isset( $_GET['tab'] ) && 'ccbpress-settings' == $_GET['page'] && 'sync' == $_GET['tab'] ) {
 		wp_enqueue_script( 'ccbpress-core-group-sync', CCBPRESS_CORE_PLUGIN_URL . 'assets/js/admin/group-sync.js' );
+        wp_enqueue_script( 'ccbpress-core-event-sync', CCBPRESS_CORE_PLUGIN_URL . 'assets/js/admin/event-sync.js' );
 	}
 }
 add_action( 'admin_enqueue_scripts', 'ccbpress_admin_scripts' );

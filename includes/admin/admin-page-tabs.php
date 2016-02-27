@@ -13,6 +13,13 @@ class CCBPress_Admin_Page_Tabs {
 	public function settings_page_tabs( $tabs ) {
 
 		$tabs[] = array(
+			'tab_id'		=> 'ccbpress',
+			'settings_id'	=> 'ccbpress_settings',
+			'title'			=> __('CCBPress', 'ccbpress-core'),
+			'submit'		=> TRUE,
+		);
+
+		$tabs[] = array(
 			'tab_id'		=> 'ccb',
 			'settings_id'	=> 'ccbpress_settings_ccb',
 			'title'			=> __('Church Community Builder', 'ccbpress-core'),

@@ -19,7 +19,7 @@ class CCBPress_Services {
     }
 
     private function filters() {
-        add_filter( 'ccbpress_ccb_services', array( $this, 'setup_services' ) );
+        //add_filter( 'ccbpress_ccb_services', array( $this, 'setup_services' ) );
     }
 
     /**

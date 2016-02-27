@@ -51,12 +51,12 @@ class CCBPress_Core {
    public $ccb;
 
    /**
-    * CCBPress Group Sync Object
+    * CCBPress Sync Object
     *
     * @var object
     * @since 1.0.0
     */
-   public $group_sync;
+   public $sync;
 
    /**
     * CCBPress Version
@@ -275,15 +275,17 @@ class CCBPress_Core {
         require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/admin-settings.php';
         require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/settings/settings-ccb.php';
 		require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/settings/settings-sync.php';
+        require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/settings/settings-ccbpress.php';
 		require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/settings/settings-licenses.php';
         require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/admin-bar-menu.php';
         require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/purge-transients.php';
 		require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/admin-ajax.php';
-		require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/admin-notices.php';
+		//require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/admin-notices.php';
 		require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/widgets/widget-login.php';
 		require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/widgets/widget-online-giving.php';
-		require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/widgets/widget-group-info.php';
+		//require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/widgets/widget-group-info.php';
 		require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/group_profiles-db.php';
+        require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/event_profiles-db.php';
 		require_once CCBPRESS_CORE_PLUGIN_DIR . 'lib/wp-background-processing/wp-async-request.php';
 		require_once CCBPRESS_CORE_PLUGIN_DIR . 'lib/wp-background-processing/wp-background-process.php';
 		require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/class-ccbpress-sync.php';
@@ -311,6 +313,11 @@ class CCBPress_Core {
 		 $group_profiles_db = new CCBPress_Group_Profiles_DB();
 		 $group_profiles_db->create_table();
 		 unset( $group_profiles_db );
+
+         require_once plugin_dir_path( __FILE__ ) . 'includes/event_profiles-db.php';
+		 $event_profiles_db = new CCBPress_Event_Profiles_DB();
+		 $event_profiles_db->create_table();
+		 unset( $event_profiles_db );
 
 	 }
 

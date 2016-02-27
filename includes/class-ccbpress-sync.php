@@ -24,6 +24,10 @@ class CCBPress_Sync extends WP_Background_Process {
 				return $this->ccb_group_profiles( $item );
 				break;
 
+			case 'event_profiles':
+				return $this->ccb_event_profiles( $item );
+				break;
+
 		}
 
 		return false;
@@ -122,6 +126,105 @@ class CCBPress_Sync extends WP_Background_Process {
 		return false;
 
 	}
+
+	/**
+	 * Event Profiles
+	 */
+	protected function ccb_event_profiles( $item ) {
+
+		update_option('ccbpress_event_sync_in_progress', 'Processing batch ' . $item['args']['page']);
+
+		$results = CCBPress()->ccb->event_profiles( $item['args'] );
+
+		if ( ! $results ) {
+			return false;
+		}
+
+		$events_count = 0;
+
+		if ( isset( $results->response->events['count'] ) ) {
+			$events_count = $results->response->events['count'];
+		}
+
+		$event_profiles_db = new CCBPress_Event_Profiles_DB();
+
+		foreach( $results->response->events->event as $event ) {
+
+			$db_data = array(
+				'event_id'						=> $event['id'],
+				'name'							=> $event->name,
+				'description'					=> $event->description,
+				'leader_notes'					=> $event->leader_notes,
+				'start_datetime'				=> date('Y-m-d H:i:s', strtotime( $event->start_datetime, current_time('timestamp') ) ),
+				'start_date'					=> $event->start_date,
+				'start_time'					=> $event->start_time,
+				'end_datetime'					=> date('Y-m-d H:i:s', strtotime( $event->end_datetime, current_time('timestamp') ) ),
+				'end_date'						=> $event->end_date,
+				'end_time'						=> $event->end_time,
+				'timezone'						=> $event->timezone,
+				'recurrence_description'		=> $event->recurrence_description,
+				'approval_status_id'			=> $event->approval_status['id'],
+				'approval_status'				=> $event->approval_status,
+				'exceptions'					=> json_encode( $event->exceptions ),
+				'group_id'						=> $event->group['id'],
+				'group_name'					=> $event->group,
+				'organizer_id'					=> $event->organizer['id'],
+				'organizer'						=> $event->organizer,
+				'phone_type'					=> $event->phone['type'],
+				'phone'							=> $event->phone,
+				'location_name'					=> $event->location->name,
+				'location_street_address'		=> $event->location->street_address,
+				'location_city'					=> $event->location->city,
+				'location_state'				=> $event->location->state,
+				'location_zip'					=> $event->location->zip,
+				'location_line_1'				=> $event->location->line_1,
+				'location_line_2'				=> $event->location->line_2,
+				'registration_limit'			=> $event->registration_limit,
+				'registration_event_type_id'	=> $event->registration->event_type['id'],
+				'registration_event_type'		=> $event->registration->event_type,
+				'registration_forms'			=> json_encode( $event->registration_forms ),
+				'resources'						=> json_encode( $event->resources ),
+				'setup_start'					=> date('Y-m-d H:i:s', strtotime( $event->setup_start, current_time('timestamp') ) ),
+				'setup_end'						=> date('Y-m-d H:i:s', strtotime( $event->setup_end, current_time('timestamp') ) ),
+				'setup_notes'					=> $event->setup_notes,
+				'event_grouping_id'				=> $event->event_grouping['id'],
+				'event_grouping'				=> $event->event_grouping,
+				'creator_id'					=> $event->creator['id'],
+				'creator'						=> $event->creator,
+				'modifier_id'					=> $event->modifier['id'],
+				'modifier'						=> $event->modifier,
+				'listed'						=> ( 'true' == $event->listed ? 1 : 0 ),
+				'public_calendar_listed'		=> ( 'true' == $event->public_calendar_listed ? 1 : 0 ),
+				'created'						=> date('Y-m-d H:i:s', strtotime( $event->created, current_time('timestamp') ) ),
+				'modified'						=> date('Y-m-d H:i:s', strtotime( $event->modified, current_time('timestamp') ) ),
+			);
+
+			$exists = $event_profiles_db->get( $event['id'] );
+
+			if ( $exists ) {
+				$event_profiles_db->update( $event['id'], $db_data );
+			} else {
+				$event_profiles_db->insert( $db_data );
+			}
+
+			unset( $exists );
+
+		}
+
+		unset( $event_profiles_db );
+		unset( $results );
+
+		if ( $events_count > 0 && $item['args']['per_page'] > 0 && $events_count == $item['args']['per_page'] ) {
+			$item['args']['page'] = $item['args']['page'] + 1;
+			return $item;
+		}
+
+		delete_option('ccbpress_event_sync_in_progress');
+		update_option('ccbpress_last_event_sync', date('Y-m-d H:i:s', current_time( 'timestamp' ) ));
+		return false;
+
+	}
+
 
 	/**
 	 * Complete

@@ -9,6 +9,9 @@ class CCBPress_Admin_Ajax {
 		add_action( 'wp_ajax_ccbpress_sync_groups', array( $this, 'sync_groups' ) );
 		add_action( 'wp_ajax_ccbpress_sync_groups_status', array( $this, 'sync_groups_status' ) );
 		add_action( 'wp_ajax_ccbpress_last_group_sync', array( $this, 'last_group_sync' ) );
+		add_action( 'wp_ajax_ccbpress_sync_events', array( $this, 'sync_events' ) );
+		add_action( 'wp_ajax_ccbpress_sync_events_status', array( $this, 'sync_events_status' ) );
+		add_action( 'wp_ajax_ccbpress_last_event_sync', array( $this, 'last_event_sync' ) );
 	}
 
 	public function check_services() {
@@ -134,7 +137,72 @@ class CCBPress_Admin_Ajax {
 		if ( 'Never' === $last_sync ) {
 			echo $last_sync;
 		} else {
-			//echo (string) date( get_option('date_format') . ' \a\t ' . get_option('time_format'), strtotime( $last_sync ) );
+			echo human_time_diff( strtotime('now', current_time('timestamp') ), strtotime( $last_sync, current_time('timestamp') ) ) . ' ago';
+		}
+
+		wp_die();
+
+	}
+
+	public function sync_events() {
+
+		if ( ! isset( $_POST[ 'ccbpress_nonce' ] ) || ! wp_verify_nonce( $_POST[ 'ccbpress_nonce' ], 'ccbpress-nonce' ) ) {
+			die( 'Insufficient Permissions' );
+		}
+
+		$ccbpress_sync_options = get_option('ccbpress_settings_sync', array() );
+
+		if ( 'Never' === ( $last_sync = get_option( 'ccbpress_last_event_sync', 'Never' ) ) ) {
+			$modified_since = (string) date('Y-m-d', strtotime( '-6 months', current_time('timestamp') ) );
+		} else {
+			$modified_since = (string) date('Y-m-d', strtotime( $last_sync ) );
+		}
+
+		CCBPress()->sync->push_to_queue( array(
+			'srv' => 'event_profiles',
+			'args' => array(
+				'include_guest_list'	=> '0',
+				'page'					=> 1,
+				'per_page'				=> 100,
+				'modified_since'		=> $modified_since,
+				'cache_lifespan'		=> 0,
+			),
+		) );
+		CCBPress()->sync->save()->dispatch();
+
+		echo 'started';
+
+		wp_die();
+
+	}
+
+	public function sync_events_status() {
+
+		if ( ! isset( $_POST[ 'ccbpress_nonce' ] ) || ! wp_verify_nonce( $_POST[ 'ccbpress_nonce' ], 'ccbpress-nonce' ) ) {
+			die( 'Insufficient Permissions' );
+		}
+
+		// Send back the number of complete payments
+		if ( $status = get_option( 'ccbpress_event_sync_in_progress', false ) ) {
+			echo '<strong>' . $status . '...</strong><br /><i>Sync is running in the background. Leaving this page will not interrupt the process.</i>';
+		} else {
+			echo 'false';
+		}
+
+		wp_die();
+
+	}
+
+	public function last_event_sync() {
+
+		if ( ! isset( $_POST[ 'ccbpress_nonce' ] ) || ! wp_verify_nonce( $_POST[ 'ccbpress_nonce' ], 'ccbpress-nonce' ) ) {
+			die( 'Insufficient Permissions' );
+		}
+
+		$last_sync = get_option( 'ccbpress_last_event_sync', 'Never' );
+		if ( 'Never' === $last_sync ) {
+			echo $last_sync;
+		} else {
 			echo human_time_diff( strtotime('now', current_time('timestamp') ), strtotime( $last_sync, current_time('timestamp') ) ) . ' ago';
 		}
 
