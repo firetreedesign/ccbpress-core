@@ -155,7 +155,7 @@ class CCBPress_Core {
                             </a>
                         </div>
                         <div class="ccbpress-core-action">
-                            <a href="<?php echo admin_url( add_query_arg( array( 'page' => 'ccbpress-settings' ), 'index.php' ) ); ?>">
+                            <a href="<?php echo admin_url( add_query_arg( array( 'page' => 'ccbpress-settings' ), 'admin.php' ) ); ?>">
                                 <span class="dashicons dashicons-admin-settings"></span><?php _e('CCBPress Settings', 'ccbpress-core'); ?>
                             </a>
                         </div>
