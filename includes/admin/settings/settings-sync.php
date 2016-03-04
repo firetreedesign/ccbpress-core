@@ -196,7 +196,7 @@ class CCBPress_Settings_Sync extends CCBPress_Settings {
     			array(
                     'header' => NULL,
                     'title' => NULL,
-                    'content' => '<button class="button button-secondary" id="ccbpress-manual-event-sync-button" data-ccbpress-status="' . $event_sync_status . '">Run Import Now</button><div id="ccbpress-group-sync-status"></div>',
+                    'content' => '<button class="button button-secondary" id="ccbpress-manual-event-sync-button" data-ccbpress-status="' . $event_sync_status . '">Run Import Now</button><div id="ccbpress-event-sync-status"></div>',
                 )
         	);
 

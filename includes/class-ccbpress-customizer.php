@@ -25,7 +25,7 @@ class CCBPress_Customizer {
 
 	public function customize_register( $wp_customize ) {
 		$this->add_panel( $wp_customize );
-		$this->ccb_forms( $wp_customize );
+		//$this->ccb_forms( $wp_customize );
 	}
 
 	private function add_panel( $wp_customize ) {

@@ -23,6 +23,23 @@ class CCBPress_Maintenance {
 
 		}
 
+		if ( $this->should_sync('events') ) {
+
+			switch( date('l') ) {
+				case 'Sunday':
+					$this->run_sync( 'events', TRUE );
+					break;
+				case 'Monday':
+					$this->run_sync('events');
+					$this->purge('events');
+					break;
+				default:
+					$this->run_sync('events');
+					break;
+			}
+
+		}
+
 	}
 
 	private function should_sync( $what ) {
@@ -39,6 +56,15 @@ class CCBPress_Maintenance {
 				$services = apply_filters( 'ccbpress_ccb_services', array() );
 				// Check for group related services
 				if ( in_array( 'group_profiles', $services ) || in_array( 'group_profile_from_id', $services ) ) {
+					return TRUE;
+				}
+				break;
+
+			case 'events':
+				// Get the array of registered services
+				$services = apply_filters( 'ccbpress_ccb_services', array() );
+				// Check for group related services
+				if ( in_array( 'event_profiles', $services ) || in_array( 'event_profile', $services ) ) {
 					return TRUE;
 				}
 				break;
@@ -82,6 +108,27 @@ class CCBPress_Maintenance {
 				CCBPress()->sync->save()->dispatch();
 				break;
 
+			case 'events':
+
+				if ( 'Never' === ( $last_sync = get_option( 'ccbpress_last_event_sync', 'Never' ) ) || $sync_all ) {
+					$modified_since = null;
+				} else {
+					$modified_since = (string) date('Y-m-d', strtotime( $last_sync ) );
+				}
+
+				CCBPress()->sync->push_to_queue( array(
+					'srv' => 'event_profiles',
+					'args' => array(
+						'include_guest_list'	=> '0',
+						'page'					=> 1,
+						'per_page'				=> 100,
+						'modified_since'		=> $modified_since,
+						'cache_lifespan'		=> 0,
+					),
+				) );
+				CCBPress()->sync->save()->dispatch();
+				break;
+
 		}
 
 	}
@@ -93,7 +140,14 @@ class CCBPress_Maintenance {
 			case 'groups':
 
 				$group_profiles_db = new CCBPress_Group_Profiles_DB();
-				$group_profiles_db->purge( strtotime('yesterday') );
+				$group_profiles_db->purge( strtotime('yesterday', current_time('timestamp') ) );
+
+				break;
+
+			case 'events':
+
+				$event_profiles_db = new CCBPress_Event_Profiles_DB();
+				$event_profiles_db->purge( strtotime('yesterday', current_time('timestamp') ) );
 
 				break;
 

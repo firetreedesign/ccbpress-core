@@ -615,7 +615,9 @@ class CCBPress_Connection {
 
 		$defaults = array(
 			'include_guest_list'	=> '0', // 1 = yes, 0 = no
-			'modified_since'		=> (string)date( 'Y-m-d', strtotime('-6 months') ),	// Date. Example: YYYY-MM-DD.
+			'page'					=> null,
+			'per_page'				=> null,
+			'modified_since'		=> null,	// Date. Example: YYYY-MM-DD.
 			'cache_lifespan'		=> $this->cache_lifespan( 'event_profiles' ),
 		);
 
@@ -625,7 +627,18 @@ class CCBPress_Connection {
 
 			$url = add_query_arg( 'srv', 'event_profiles', $this->api_url );
 			$url = add_query_arg( 'include_guest_list', $args['include_guest_list'], $url );
-			$url = add_query_arg( 'modified_since', $args['modified_since'], $url );
+
+			if ( $args['page'] )  {
+				$url = add_query_arg( 'page', $args['page'], $url );
+			}
+
+			if ( $args['per_page'] )  {
+				$url = add_query_arg( 'per_page', $args['per_page'], $url );
+			}
+
+			if ( $args['modified_since'] ) {
+				$url = add_query_arg( 'modified_since', $args['modified_since'], $url );
+			}
 			$ccb_data = $this->get( $url, $args['cache_lifespan'] );
 
 			if ( $this->is_valid( $ccb_data ) ) {
@@ -639,7 +652,6 @@ class CCBPress_Connection {
 			}
 
 		} catch ( Exception $e ) {
-
 			return false;
 
 		}

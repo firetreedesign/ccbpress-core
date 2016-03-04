@@ -153,7 +153,7 @@ class CCBPress_Admin_Ajax {
 		$ccbpress_sync_options = get_option('ccbpress_settings_sync', array() );
 
 		if ( 'Never' === ( $last_sync = get_option( 'ccbpress_last_event_sync', 'Never' ) ) ) {
-			$modified_since = (string) date('Y-m-d', strtotime( '-6 months', current_time('timestamp') ) );
+			$modified_since = NULL;
 		} else {
 			$modified_since = (string) date('Y-m-d', strtotime( $last_sync ) );
 		}

@@ -22,7 +22,7 @@ jQuery( document ).ready(function($) {
 				ccbpress_nonce: ccbpress_vars.ccbpress_nonce
 			};
 			jQuery.post( ajaxurl, data,  function( response ) {
-				console.log( response );
+				//console.log( response );
 				if ( 'started' === response ) {
 					self.progress('<div class="notice notice-info"><p><span class="spinner is-active"></span>Process is running...</p></div>');
 					self.checkProgress( self );

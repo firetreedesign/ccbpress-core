@@ -137,6 +137,8 @@ class CCBPress_Sync extends WP_Background_Process {
 		$results = CCBPress()->ccb->event_profiles( $item['args'] );
 
 		if ( ! $results ) {
+			delete_option('ccbpress_event_sync_in_progress');
+			update_option('ccbpress_last_event_sync', date('Y-m-d H:i:s', current_time( 'timestamp' ) ));
 			return false;
 		}
 
@@ -149,6 +151,11 @@ class CCBPress_Sync extends WP_Background_Process {
 		$event_profiles_db = new CCBPress_Event_Profiles_DB();
 
 		foreach( $results->response->events->event as $event ) {
+
+			// Skip the event if it is not listed
+			if ( 'false' == $event->listed || 'false' == $event->public_calendar_listed ) {
+				continue;
+			}
 
 			$db_data = array(
 				'event_id'						=> $event['id'],
@@ -179,14 +186,14 @@ class CCBPress_Sync extends WP_Background_Process {
 				'location_zip'					=> $event->location->zip,
 				'location_line_1'				=> $event->location->line_1,
 				'location_line_2'				=> $event->location->line_2,
-				'registration_limit'			=> $event->registration_limit,
+				'registration_limit'			=> $event->registration->limit,
 				'registration_event_type_id'	=> $event->registration->event_type['id'],
 				'registration_event_type'		=> $event->registration->event_type,
-				'registration_forms'			=> json_encode( $event->registration_forms ),
+				'registration_forms'			=> json_encode( $event->registration->forms ),
 				'resources'						=> json_encode( $event->resources ),
-				'setup_start'					=> date('Y-m-d H:i:s', strtotime( $event->setup_start, current_time('timestamp') ) ),
-				'setup_end'						=> date('Y-m-d H:i:s', strtotime( $event->setup_end, current_time('timestamp') ) ),
-				'setup_notes'					=> $event->setup_notes,
+				'setup_start'					=> date('Y-m-d H:i:s', strtotime( $event->setup->start, current_time('timestamp') ) ),
+				'setup_end'						=> date('Y-m-d H:i:s', strtotime( $event->setup->end, current_time('timestamp') ) ),
+				'setup_notes'					=> $event->setup->notes,
 				'event_grouping_id'				=> $event->event_grouping['id'],
 				'event_grouping'				=> $event->event_grouping,
 				'creator_id'					=> $event->creator['id'],
@@ -218,6 +225,7 @@ class CCBPress_Sync extends WP_Background_Process {
 			$item['args']['page'] = $item['args']['page'] + 1;
 			return $item;
 		}
+
 
 		delete_option('ccbpress_event_sync_in_progress');
 		update_option('ccbpress_last_event_sync', date('Y-m-d H:i:s', current_time( 'timestamp' ) ));
