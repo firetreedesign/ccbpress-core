@@ -29,4 +29,4 @@ function ccbpress_core_purge_all_cache() {
 	die();
 
 }
-add_action( 'admin_post_ccbpress-purge-all-cache', 'ccbpress_purge_core_all_cache' );
+add_action( 'admin_post_ccbpress-purge-all-cache', 'ccbpress_core_purge_all_cache' );
