@@ -283,7 +283,7 @@ class CCBPress_Core {
 		//require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/admin-notices.php';
 		require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/widgets/widget-login.php';
 		require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/widgets/widget-online-giving.php';
-		//require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/widgets/widget-group-info.php';
+		require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/widgets/widget-group-info.php';
 		require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/group_profiles-db.php';
         require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/event_profiles-db.php';
 		require_once CCBPRESS_CORE_PLUGIN_DIR . 'lib/wp-background-processing/wp-async-request.php';

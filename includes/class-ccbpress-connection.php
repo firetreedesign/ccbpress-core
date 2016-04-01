@@ -772,7 +772,7 @@ class CCBPress_Connection {
 			'page'					=> null,
 			'per_page'				=> null,
 			'campus_id'				=> null,
-			'modified_since'		=> (string)date( 'Y-m-d', strtotime('-6 months') ),	// Date. Example: YYYY-MM-DD.
+			'modified_since'		=> (string)date( 'Y-m-d', strtotime('-5 months') ),	// Date. Example: YYYY-MM-DD.
 			'cache_lifespan'		=> $this->cache_lifespan( 'group_profiles' ),
 		);
 
