@@ -21,6 +21,15 @@ class CCBPress_Admin_Ajax {
 		}
 
 		$services = apply_filters( 'ccbpress_ccb_services', array() );
+
+		if ( ! in_array( 'group_profiles', $services ) ) {
+			$services[] = 'group_profiles';
+		}
+
+		if ( ! in_array( 'group_profile_from_id', $services ) ) {
+			$services[] = 'group_profile_from_id';
+		}
+
 		sort( $services );
 
 		if ( count( $services ) == 0 ) {

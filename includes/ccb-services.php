@@ -19,7 +19,7 @@ class CCBPress_Services {
     }
 
     private function filters() {
-        //add_filter( 'ccbpress_ccb_services', array( $this, 'setup_services' ) );
+        add_filter( 'ccbpress_ccb_services', array( $this, 'setup_services' ) );
     }
 
     /**
@@ -29,14 +29,6 @@ class CCBPress_Services {
 
 		if ( ! in_array( 'individual_profile_from_id', $services ) ) {
 			$services[] = 'individual_profile_from_id';
-		}
-
-		if ( ! in_array( 'group_profiles', $services ) ) {
-			$services[] = 'group_profiles';
-		}
-
-		if ( ! in_array( 'group_profile_from_id', $services ) ) {
-			$services[] = 'group_profile_from_id';
 		}
 
 		if ( ! in_array( 'form_list', $services ) ) {

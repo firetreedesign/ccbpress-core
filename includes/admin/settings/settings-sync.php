@@ -32,7 +32,7 @@ class CCBPress_Settings_Sync extends CCBPress_Settings {
 
 		// Set some default values
 		$group_auto_sync = FALSE;
-		$group_auto_sync_schedule = __('No services are currently registered to use groups.', 'ccbpress-core');
+		$group_auto_sync_schedule = __('No add-ons are currently registered to use groups.', 'ccbpress-core');
 
 		// Check for group related services
 		if ( in_array( 'group_profiles', $services ) || in_array( 'group_profile_from_id', $services ) ) {
@@ -129,7 +129,7 @@ class CCBPress_Settings_Sync extends CCBPress_Settings {
 
 		// Set some default values
 		$event_auto_sync = FALSE;
-		$event_auto_sync_schedule = __('No services are currently registered to use events.', 'ccbpress-core');
+		$event_auto_sync_schedule = __('No add-ons are currently registered to use events.', 'ccbpress-core');
 
 		// Check for group related services
 		if ( in_array( 'event_profiles', $services ) || in_array( 'event_profile_from_id', $services ) ) {

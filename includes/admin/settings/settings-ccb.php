@@ -170,6 +170,14 @@ class CCBPress_Settings_CCB extends CCBPress_Settings {
 	public function help_tabs( $help_tabs ) {
 
 		$services = apply_filters( 'ccbpress_ccb_services', array() );
+
+		if ( ! in_array( 'group_profiles', $services ) ) {
+			$services[] = 'group_profiles';
+		}
+		if ( ! in_array( 'group_profile_from_id', $services ) ) {
+			$services[] = 'group_profile_from_id';
+		}
+
 		sort( $services );
 		ob_start();
 		?>

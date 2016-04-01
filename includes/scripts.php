@@ -2,8 +2,7 @@
 function ccbpress_plugin_scripts() {
 	wp_register_script( 'ccbpress-core-beacon', CCBPRESS_CORE_PLUGIN_URL . 'assets/js/beacon.js', array(), '1.0.0', true );
 
-	global $current_user;
-	get_currentuserinfo();
+	$current_user = wp_get_current_user();
 
 	wp_localize_script( 'ccbpress-core-beacon', 'ccbpress_core_beacon_vars', array(
 	   'customer_name'	=> $current_user->display_name,
