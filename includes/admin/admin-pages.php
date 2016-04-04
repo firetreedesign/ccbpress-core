@@ -95,7 +95,9 @@ class CCBPress_Admin_Pages {
      * @return void
      */
     public function welcome_page() {
-		wp_enqueue_script('ccbpress-core-beacon');
+		if ( has_filter('ccbpress_enable_beacon') ) {
+			wp_enqueue_script('ccbpress-core-beacon');
+		}
 		$active_tab = isset( $_GET['tab'] ) ? $_GET['tab'] : 'welcome';
         ?>
         <div class="wrap about-wrap ccbpress">
@@ -263,7 +265,9 @@ class CCBPress_Admin_Pages {
      * @return void
      */
     public function settings_page() {
-		wp_enqueue_script('ccbpress-core-beacon');
+		if ( has_filter('ccbpress_enable_beacon') ) {
+			wp_enqueue_script('ccbpress-core-beacon');
+		}
 		$all_tabs = apply_filters( 'ccbpress_settings_page_tabs', array() );
 		$active_tab = isset( $_GET['tab'] ) ? $_GET['tab'] : $all_tabs[0]['tab_id'];
 
