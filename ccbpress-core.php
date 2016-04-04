@@ -209,12 +209,10 @@ class CCBPress_Core {
 
     public static function ignore_admin_notice() {
 
-        // Get the global user
-        global $current_user;
-        $user_id = $current_user->ID;
+		$current_user = wp_get_current_user();
 
         if ( isset( $_GET['ccbpress_core_notice_ignore'] ) && '0' == $_GET['ccbpress_core_notice_ignore'] ) {
-            add_user_meta( $user_id, 'ccbpress_core_activation_ignore_notice', 'true', true );
+            add_user_meta( $current_user->ID, 'ccbpress_core_activation_ignore_notice', 'true', true );
         }
 
     }
@@ -268,7 +266,6 @@ class CCBPress_Core {
 		require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/class-ccbpress-customizer.php';
         require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/ccb-services.php';
         require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/schedule-get.php';
-        require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/scripts.php';
         require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/styles.php';
 		require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/helpers.php';
 		require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/maintenance.php';
@@ -280,7 +277,6 @@ class CCBPress_Core {
         require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/admin-bar-menu.php';
         require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/purge-transients.php';
 		require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/admin-ajax.php';
-		//require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/admin-notices.php';
 		require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/widgets/widget-login.php';
 		require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/widgets/widget-online-giving.php';
 		require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/widgets/widget-group-info.php';
