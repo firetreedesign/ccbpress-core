@@ -55,6 +55,21 @@ class CCBPress_Connection {
 
     }
 
+	/**
+	 * Test if we are connected to Church Community Builder
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return boolean Answer
+	 */
+	public function is_connected() {
+		$ccbpress_ccb = get_option( 'ccbpress_ccb', array() );
+		if ( isset( $ccbpress_ccb['connection_test']) && 'success' === $ccbpress_ccb['connection_test'] ) {
+			return TRUE;
+		}
+		return FALSE;
+	}
+
     /**
 	 * GET data from CCB.
 	 *
@@ -396,13 +411,25 @@ class CCBPress_Connection {
 					switch ( $argument['value'] ) {
 
 						case 'group_profile_from_id':
+							$image_url = $ccb_data->response->groups->group->image;
 
-							if ( isset( $ccb_data->response->groups->group->image ) && isset( $ccb_data->response->groups->group['id'] ) ) {
-								$image_url = $ccb_data->response->groups->group->image;
-								$image_id = $ccb_data->response->groups->group['id'];
-								$this->cache_image( $image_url, $image_id, 'group' );
+							if ( false !== strpos( $image_url, 'group-default' ) ) {
+							    break;
 							}
 
+							$image_id = $ccb_data->response->groups->group['id'];
+							$this->cache_image( $image_url, $image_id, 'group' );
+							break;
+
+						case 'event_profile':
+							$image_url = $ccb_data->response->events->event->image;
+
+							if ( false !== strpos( $image_url, 'event-default.png' ) ) {
+							    break;
+							}
+
+							$image_id = $ccb_data->response->events->event['id'];
+							$this->cache_image( $image_url, $image_id, 'event' );
 							break;
 
 					}
@@ -472,6 +499,10 @@ class CCBPress_Connection {
 
 		// If there is an error, then return false
 		if ( false != $upload_dir['error'] ) {
+			return '';
+		}
+
+		if ( ! file_exists( $upload_dir['basedir'] . '/' . $this->image_cache_dir . '/cache/' . $type . '-' . $image_id . '.jpg' ) ) {
 			return '';
 		}
 
@@ -588,6 +619,64 @@ class CCBPress_Connection {
 	}
 
 	/**
+	 * Returns the event profiles
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param  array $args The arguments for the API request
+	 *
+	 * @return varies       Either the data object or FALSE
+	 */
+	public function event_profiles( $args ) {
+
+		$defaults = array(
+			'include_guest_list' => '0', // 1 = yes, 0 = no
+			'include_image_link' => '0', // 1 = yes, 0 = no
+			'page'               => NULL,
+			'per_page'           => NULL,
+			'modified_since'     => NULL, // Date. Example: YYYY-MM-DD.
+			'cache_lifespan'     => $this->cache_lifespan( 'event_profiles' ),
+		);
+
+		$args = wp_parse_args( $args, $defaults );
+
+		try {
+
+			$url = add_query_arg( 'srv', 'event_profiles', $this->api_url );
+			$url = add_query_arg( 'include_guest_list', $args['include_guest_list'], $url );
+			$url = add_query_arg( 'include_image_link', $args['include_image_link'], $url );
+
+			if ( $args['page'] )  {
+				$url = add_query_arg( 'page', $args['page'], $url );
+			}
+
+			if ( $args['per_page'] )  {
+				$url = add_query_arg( 'per_page', $args['per_page'], $url );
+			}
+
+			if ( $args['modified_since'] ) {
+				$url = add_query_arg( 'modified_since', $args['modified_since'], $url );
+			}
+			$ccb_data = $this->get( $url, $args['cache_lifespan'] );
+
+			if ( $this->is_valid( $ccb_data ) ) {
+
+				return $ccb_data;
+
+			} else {
+
+				return false;
+
+			}
+
+		} catch ( Exception $e ) {
+			return false;
+
+		}
+
+	}
+
+	/**
 	 * Returns a list of forms.
 	 *
 	 * @return	string/array	An XML string containing the data.
@@ -648,9 +737,10 @@ class CCBPress_Connection {
 	public function group_profile_from_id( $args ) {
 
 		$defaults = array(
-			'id'				=> NULL,	// Integer (Required).
-			'describe_api'		=> 0,
-			'cache_lifespan'	=> $this->cache_lifespan( 'group_profile_from_id' ), // In minutes.
+			'id'                 => NULL, // Integer (Required).
+			'include_image_link' => '1', // 1 = yes, 0 = no
+			'describe_api'       => '0',
+			'cache_lifespan'     => $this->cache_lifespan( 'group_profile_from_id' ), // In minutes.
 		);
 
 		$args = wp_parse_args( $args, $defaults );
@@ -660,7 +750,12 @@ class CCBPress_Connection {
 			// Retrieve the data from CCB
 			$url = add_query_arg( 'srv', 'group_profile_from_id', $this->api_url );
 			$url = add_query_arg( 'id', $args['id'], $url );
-			if ( 1 === $args['describe_api'] ) { $url = add_query_arg( 'describe_api', $args['describe_api'], $url ); }
+			$url = add_query_arg( 'include_image_link', $args['include_image_link'], $url );
+
+			if ( '1' === $args['describe_api'] ) {
+				$url = add_query_arg( 'describe_api', $args['describe_api'], $url );
+			}
+
 			$ccb_data = $this->get( $url, $args['cache_lifespan'] );
 
 			if ( $this->is_valid( $ccb_data ) ) {
@@ -697,7 +792,11 @@ class CCBPress_Connection {
 
 		$defaults = array(
 			'include_participants'	=> '0',		// 1 = yes, 0 = no
-			'modified_since'		=> (string)date( 'Y-m-d', strtotime('-6 months') ),	// Date. Example: YYYY-MM-DD.
+			'include_image_link'	=> '0',
+			'page'					=> null,
+			'per_page'				=> null,
+			'campus_id'				=> null,
+			'modified_since'		=> (string)date( 'Y-m-d', strtotime('-5 months') ),	// Date. Example: YYYY-MM-DD.
 			'cache_lifespan'		=> $this->cache_lifespan( 'group_profiles' ),
 		);
 
@@ -707,7 +806,21 @@ class CCBPress_Connection {
 
 			$url = add_query_arg( 'srv', 'group_profiles', $this->api_url );
 			$url = add_query_arg( 'include_participants', $args['include_participants'], $url );
+			$url = add_query_arg( 'include_image_link', $args['include_image_link'], $url );
 			$url = add_query_arg( 'modified_since', $args['modified_since'], $url );
+
+			if ( $args['page'] )  {
+				$url = add_query_arg( 'page', $args['page'], $url );
+			}
+
+			if ( $args['per_page'] )  {
+				$url = add_query_arg( 'per_page', $args['per_page'], $url );
+			}
+
+			if ( $args['campus_id'] )  {
+				$url = add_query_arg( 'campus_id', $args['campus_id'], $url );
+			}
+
 			$ccb_data = $this->get( $url, $args['cache_lifespan'] );
 
 			if ( $this->is_valid( $ccb_data ) ) {
@@ -753,6 +866,7 @@ class CCBPress_Connection {
 			$url = add_query_arg( 'srv', 'individual_profile_from_id', $this->api_url );
 			$url = add_query_arg( 'individual_id', $args['individual_id'], $url );
 			$url = add_query_arg( 'include_inactive', $args['include_inactive'], $url );
+
 			$ccb_data = $this->get( $url, $args['cache_lifespan'] );
 
 			if ( $this->is_valid( $ccb_data ) ) {

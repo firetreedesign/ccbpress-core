@@ -80,6 +80,31 @@ class CCBPress_Settings_CCB extends CCBPress_Settings {
     		)
     	);
 
+		if ( CCBPress()->ccb->is_connected() ) {
+
+			// First, we register a section. This is necessary since all future options must belong to one.
+	    	add_settings_section(
+	    		'ccbpress_settings_ccb_api_services_section',
+	    		__( 'API Services', 'ccbpress-core' ),
+	    		array( $this, 'api_services_section_callback' ),
+	    		'ccbpress_settings_ccb'
+	    	);
+
+			add_settings_field(
+	            'check_services_form',
+	            '<strong>' . __('Check Your Services', 'ccbpress-core') . '</strong>',
+	            array( $this, 'text_callback' ),
+	            'ccbpress_settings_ccb',
+	            'ccbpress_settings_ccb_api_services_section',
+	            array(
+	                'header' => NULL,
+	                'title' => NULL,
+	                'content' => '<button class="button button-secondary" id="ccbpress-ccb-service-check-button">Check Services Now</button> <img src="' . admin_url('/images/spinner-2x.gif') . '" width="16" height="16" class="waiting" id="ccbpress-ccb-service-check-loading" style="display: none;" /><div id="ccbpress-ccb-service-check-results"></div>',
+	            )
+	        );
+
+		}
+
         // Finally, we register the fields with WordPress
     	register_setting(
     		'ccbpress_settings_ccb',			// The group name of the settings being registered
@@ -91,6 +116,10 @@ class CCBPress_Settings_CCB extends CCBPress_Settings {
 
     public function ccb_section_callback() {
         echo '<p>' . __('These are the settings for the API connection to Church Community Builder.', 'ccbpress-core') . '</p>';
+	}
+
+	public function api_services_section_callback() {
+        echo '<p>' . __('Use this tool to check if your API User has the appropriate API Services enabled in Church Community Builder.', 'ccbpress-core') . '</p>';
 	}
 
     public function sanitize_callback( $input ) {
@@ -131,7 +160,6 @@ class CCBPress_Settings_CCB extends CCBPress_Settings {
     	}
 
     	// Let's test the connection with our newly saved settings
-    	//$output['ccb_api_connection_test'] = (string) ccbpress_connection_test( $output['ccb_api_url'], $output['ccb_api_user'], $output['ccb_api_pass'] );
         $output['connection_test'] = (string) CCBPress()->ccb->test_connection( $output['api_prefix'], $output['api_user'], $output['api_pass'] );
 
     	// Return the array
@@ -142,6 +170,14 @@ class CCBPress_Settings_CCB extends CCBPress_Settings {
 	public function help_tabs( $help_tabs ) {
 
 		$services = apply_filters( 'ccbpress_ccb_services', array() );
+
+		if ( ! in_array( 'group_profiles', $services ) ) {
+			$services[] = 'group_profiles';
+		}
+		if ( ! in_array( 'group_profile_from_id', $services ) ) {
+			$services[] = 'group_profile_from_id';
+		}
+
 		sort( $services );
 		ob_start();
 		?>

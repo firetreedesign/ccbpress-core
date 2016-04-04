@@ -36,9 +36,9 @@ class CCBPress_Options {
 	 */
 	private function hooks() {
 
-		add_filter( 'ccbpress_tools_page_tabs', array( $this, 'tools_page_tabs' ) );
+		//add_filter( 'ccbpress_tools_page_tabs', array( $this, 'tools_page_tabs' ) );
 		add_filter( 'ccbpress_settings_page_tabs', array( $this, 'settings_page_tabs' ) );
-		add_filter( 'ccbpress_tools_page_actions', array( $this, 'tools_page_actions' ) );
+		//add_filter( 'ccbpress_tools_page_actions', array( $this, 'tools_page_actions' ) );
 		add_filter( 'ccbpress_settings_page_actions', array( $this, 'settings_page_actions' ) );
 
 	}

@@ -2,8 +2,8 @@
 Contributors: firetree, danielmilner
 Tags: church, ccb, church community builder, chms
 Requires at least: 4.3
-Tested up to: 4.4
-Stable tag: 0.9.8
+Tested up to: 4.5
+Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: http://ww.gnu.org/licenses/gpl-2.0.html
 
@@ -36,8 +36,11 @@ Requires a [Church Community Builder](http://churchcommunitybuilder.com/) accoun
 
 == Changelog ==
 
-= 0.9.8 =
-* Fixed Purge All Cache in the admin bar menu.
+= 1.0.0 =
+* Fixed group images not downloading.
+* No longer downloads images that are placeholders.
+* Added option to completely delete data/options created by CCBPress upon uninstall.
+* Added a backend to sync group/event data to a custom table for add-ons that support it.
 
 = 0.9.7 =
 * Fixed incorrect opening PHP statement.

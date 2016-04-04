@@ -10,6 +10,8 @@ table.ccbpress-dash-widget-api-status td:first-of-type { border-right: 1px solid
 
 #ccbpress_tab_container form > h3 { padding: 8px 0; font-size: 1.3em; }
 #ccbpress_tab_container .notice { background: #f1f1f1; }
+#ccbpress_tab_container p { max-width: 800px; }
+#ccbpress_tab_container form > h2:not(:first-of-type) { margin-top: 30px; }
 
 .ccbpress-radio-list { margin: 0; padding-top: 4px; }
 .ccbpress-radio-list li { display: inline-block; padding-right: 15px; }

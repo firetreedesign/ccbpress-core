@@ -62,18 +62,6 @@ class CCBPress_Admin_Pages {
         );
 		add_action( 'load-' . $ccbpress_settings_help_page, array( $this, 'settings_page_help' ) );
 
-        // Tools Page
-		global $ccbpress_tools_help_page;
-		$ccbpress_tools_help_page = add_submenu_page(
-    	    'ccbpress',
-    	    __( 'Tools', 'ccbpress-core' ),
-    	    __( 'Tools', 'ccbpress-core' ),
-    	    'administrator',
-    	    'ccbpress-tools',
-    	    array( $this, 'tools_page' )
-        );
-		add_action( 'load-' . $ccbpress_tools_help_page, array( $this, 'tools_page_help' ) );
-
     }
 
     /**
@@ -107,7 +95,9 @@ class CCBPress_Admin_Pages {
      * @return void
      */
     public function welcome_page() {
-		wp_enqueue_script('ccbpress-core-beacon');
+		if ( has_filter('ccbpress_enable_beacon') ) {
+			wp_enqueue_script('ccbpress-core-beacon');
+		}
 		$active_tab = isset( $_GET['tab'] ) ? $_GET['tab'] : 'welcome';
         ?>
         <div class="wrap about-wrap ccbpress">
@@ -275,7 +265,9 @@ class CCBPress_Admin_Pages {
      * @return void
      */
     public function settings_page() {
-		wp_enqueue_script('ccbpress-core-beacon');
+		if ( has_filter('ccbpress_enable_beacon') ) {
+			wp_enqueue_script('ccbpress-core-beacon');
+		}
 		$all_tabs = apply_filters( 'ccbpress_settings_page_tabs', array() );
 		$active_tab = isset( $_GET['tab'] ) ? $_GET['tab'] : $all_tabs[0]['tab_id'];
 
@@ -335,74 +327,6 @@ class CCBPress_Admin_Pages {
         <?php
     }
 
-    /**
-     * Render Tools Page
-     *
-     * @access public
-     * @since 1.0.0
-     * @return void
-     */
-    public function tools_page() {
-		wp_enqueue_script('ccbpress-core-beacon');
-		$all_tabs = apply_filters( 'ccbpress_tools_page_tabs', array() );
-		$active_tab = isset( $_GET['tab'] ) ? $_GET['tab'] : $all_tabs[0]['tab_id'];
-
-		$all_tab_actions = apply_filters( 'ccbpress_tools_page_actions', array() );
-		$has_tab_actions = FALSE;
-		foreach ( $all_tab_actions as $tab_action ) {
-			if ( isset( $tab_action['tab_id'] ) && $tab_action['tab_id'] == $active_tab ) {
-				$has_tab_actions = TRUE;
-			}
-		}
-        ?>
-        <div class="wrap">
-			<h1><?php _e('Tools', 'ccbpress-core'); ?></h1>
-			<div class="wp-filter">
-				<ul class="filter-links">
-					<?php foreach ( $all_tabs as $tab ) : ?>
-						<li class="<?php echo esc_attr( $tab['tab_id'] ); ?>">
-							<a class="<?php echo ( $active_tab === $tab['tab_id'] ? ' current' : '' ); ?>" href="<?php echo esc_url( admin_url( add_query_arg( array( 'tab' => $tab['tab_id'] ), add_query_arg( array( 'page' => 'ccbpress-tools' ), 'admin.php' ) ) ) ); ?>">
-			                    <?php echo $tab['title']; ?>
-			                </a>
-						</li>
-					<?php endforeach; ?>
-				</ul>
-				<?php if ( $has_tab_actions ) : ?>
-					<div class="ccbpress_tab_actions">
-					<?php foreach ( $all_tab_actions as $tab_action ) : ?>
-						<?php if ( isset( $tab_action['tab_id'] ) && $tab_action['tab_id'] == $active_tab ) : ?>
-							<a class="button button-<?php echo $tab_action['type']; ?><?php echo ( is_null( $tab_action['class'] ) ) ? '' : ' ' . $tab_action['class']; ?>" href="<?php echo esc_url( $tab_action['link'] ); ?>"<?php echo ( is_null( $tab_action['target'] ) ) ? '' : ' target="' . $tab_action['target'] . '"'; ?>><?php echo $tab_action['title']; ?></a>
-						<?php endif; ?>
-					<?php endforeach; ?>
-					</div>
-				<?php endif; ?>
-			</div>
-            <div id="ccbpress_tab_container" class="metabox-holder">
-				<div class="postbox">
-					<div class="inside">
-		    			<form method="post" action="options.php">
-		    				<table class="form-table">
-								<?php
-								foreach ( $all_tabs as $tab ) {
-									if ( isset( $tab['tab_id'] ) && isset( $tab['settings_id'] ) && $tab['tab_id'] == $active_tab ) {
-										settings_fields( $tab['settings_id'] );
-										do_settings_sections( $tab['settings_id'] );
-										if ( TRUE === $tab['submit'] ) {
-											submit_button();
-										}
-										settings_errors();
-									}
-								}
-								?>
-		    				</table>
-		    			</form>
-					</div>
-				</div>
-    		</div><!-- #tab_container-->
-        </div>
-        <?php
-    }
-
 	public function settings_page_help() {
 
 		global $ccbpress_settings_help_page;
@@ -416,31 +340,6 @@ class CCBPress_Admin_Pages {
 		$active_tab = isset( $_GET['tab'] ) ? $_GET['tab'] : $all_tabs[0]['tab_id'];
 
 		$help_tabs = apply_filters('ccbpress_settings_help_tabs', array() );
-		foreach( $help_tabs as $help_tab ) {
-			if ( $help_tab['tab_id'] == $active_tab ) {
-				$screen->add_help_tab( array(
-					'id'		=> $help_tab['tab_id'],
-					'title'		=> $help_tab['title'],
-					'content'	=> $help_tab['content']
-				) );
-			}
-		}
-
-	}
-
-	public function tools_page_help() {
-
-		global $ccbpress_tools_help_page;
-		$screen = get_current_screen();
-
-		if ( $screen->id != $ccbpress_tools_help_page ) {
-			return;
-		}
-
-		$all_tabs = apply_filters( 'ccbpress_tools_page_tabs', array() );
-		$active_tab = isset( $_GET['tab'] ) ? $_GET['tab'] : $all_tabs[0]['tab_id'];
-
-		$help_tabs = apply_filters('ccbpress_tools_help_tabs', array() );
 		foreach( $help_tabs as $help_tab ) {
 			if ( $help_tab['tab_id'] == $active_tab ) {
 				$screen->add_help_tab( array(
