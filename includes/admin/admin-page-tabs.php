@@ -5,23 +5,9 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 class CCBPress_Admin_Page_Tabs {
 
 	public function __construct() {
-		add_filter( 'ccbpress_tools_page_tabs', array( $this, 'tools_page_tabs' ) );
 		add_filter( 'ccbpress_settings_page_tabs', array( $this, 'settings_page_tabs_late' ), 100 );
 		add_filter( 'ccbpress_settings_page_tabs', array( $this, 'settings_page_tabs' ) );
 		add_filter( 'ccbpress_settings_page_actions', array( $this, 'settings_page_actions' ) );
-	}
-
-	public function tools_page_tabs( $tabs ) {
-
-		$tabs[] = array(
-			'tab_id'			=> 'ccb',
-			'settings_id'	=> 'ccbpress_tools_ccb',
-			'title'			=> __('Church Community Builder', 'ccbpress-core'),
-			'submit'		=> FALSE,
-		);
-
-		return $tabs;
-
 	}
 
 	public function settings_page_tabs( $tabs ) {
@@ -32,6 +18,25 @@ class CCBPress_Admin_Page_Tabs {
 			'title'			=> __('Church Community Builder', 'ccbpress-core'),
 			'submit'		=> TRUE,
 		);
+
+		$tabs[] = array(
+			'tab_id'		=> 'ccbpress',
+			'settings_id'	=> 'ccbpress_settings',
+			'title'			=> __('CCBPress', 'ccbpress-core'),
+			'submit'		=> TRUE,
+		);
+
+
+		if ( CCBPress()->ccb->is_connected() ) {
+
+			$tabs[] = array(
+				'tab_id'			=> 'sync',
+				'settings_id'	=> 'ccbpress_settings_sync',
+				'title'			=> __('Data Import', 'ccbpress-core'),
+				'submit'		=> TRUE,
+			);
+
+		}
 
 		return $tabs;
 

@@ -31,14 +31,6 @@ class CCBPress_Services {
 			$services[] = 'individual_profile_from_id';
 		}
 
-		if ( ! in_array( 'group_profiles', $services ) ) {
-			$services[] = 'group_profiles';
-		}
-
-		if ( ! in_array( 'group_profile_from_id', $services ) ) {
-			$services[] = 'group_profile_from_id';
-		}
-
 		if ( ! in_array( 'form_list', $services ) ) {
 			$services[] = 'form_list';
 		}

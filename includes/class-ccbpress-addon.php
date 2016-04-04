@@ -97,6 +97,8 @@ class CCBPress_Addon {
 	 */
 	public function support_topics( $topics ) {
 
+		add_filter('ccbpress_enable_beacon', function() {} );
+
 		if ( is_array( $this->support_topics ) ) {
 			foreach( $this->support_topics as $topic ) {
 				$topics[] = array(

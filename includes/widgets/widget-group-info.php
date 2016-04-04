@@ -106,7 +106,7 @@ class CCBPress_Widget_Group_Info extends WP_Widget {
 	public function form( $instance ) {
 
 		wp_enqueue_script( 'ccbpress-select2' );
-		wp_enqueue_style( 'ccbpress-select2' );
+		wp_enqueue_style( 'ccbpress-select2', CCBPRESS_CORE_PLUGIN_URL . 'lib/select2ccbpress/select2ccbpress.min.css' );
 
 		$instance = wp_parse_args( $instance, array(
 			'title'								=> '',
@@ -129,7 +129,7 @@ class CCBPress_Widget_Group_Info extends WP_Widget {
 				<input type="text" class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" value="<?php echo $instance['title']; ?>" />
 			</p>
 
-			<p>
+			<p class="ccbpress-select">
 				<label for="<?php echo $this->get_field_id( 'group_id' ); ?>"><?php _e( 'Group Info From:', 'ccbpress-core' ); ?></label>
 				<select name="<?php echo $this->get_field_name( 'group_id' ); ?>" id="<?php echo $this->get_field_id( 'group_id' ); ?>" data-placeholder="Start typing to search..." class="widefat">
 					<option value="none"><?php _e('None', 'ccbpress-core'); ?></option>
@@ -144,38 +144,17 @@ class CCBPress_Widget_Group_Info extends WP_Widget {
 					unset( $ccb_groups );
 					?>
 				</select>
-				<script>
-				jQuery( document ).ready(function($) {
-					jQuery('#<?php echo $this->get_field_id( 'group_id' ); ?>').select2ccbpress({ width: '100%' });
-
-					jQuery(document).on('widget-updated widget-added', function() {
-						jQuery('#<?php echo $this->get_field_id( 'group_id' ); ?>').select2ccbpress({ width: '100%' });
-					} );
-				} );
-				</script>
-				<style>
-				.select2-dropdown {
-					z-index: 510000 !important;
-				}
-				</style>
 			</p>
-
+			<script>
+			jQuery( document ).ready(function($) {
+				jQuery('#widgets-right .ccbpress-select select').select2ccbpress({ width: '100%' });
+			});
+			</script>
 			<p>
 				<strong><?php _e( 'What would you like to show?', 'ccbpress-core' ); ?></strong>
 			</p>
 
-			<table class="ccbpress_widget_table">
-				<tr>
-					<td>
-						<label for="<?php echo $this->get_field_id( 'show_group_name' ); ?>"><?php _e( 'Group Name', 'ccbpress-core' ); ?></label>
-					</td>
-					<td>
-						<select id="<?php echo $this->get_field_id( 'show_group_name' ); ?>" name="<?php echo $this->get_field_name( 'show_group_name' );  ?>">
-							<option <?php selected( $instance['show_group_name'], 'show' ); ?> value="show"><?php _e( 'Show', 'ccbpress-core' ); ?></option>
-							<option <?php selected( $instance['show_group_name'], 'hide' ); ?> value="hide"><?php _e( 'Hide', 'ccbpress-core' ); ?></option>
-						</select>
-					</td>
-				</tr>
+			<table class="ccbpress_widget_table" style="width: 100%;">
 				<tr>
 					<td>
 						<label for="<?php echo $this->get_field_id( 'show_group_image' ); ?>"><?php _e( 'Group Image', 'ccbpress-core' ); ?></label>
@@ -184,6 +163,17 @@ class CCBPress_Widget_Group_Info extends WP_Widget {
 						<select id="<?php echo $this->get_field_id( 'show_group_image' ); ?>" name="<?php echo $this->get_field_name( 'show_group_image' );  ?>">
 							<option <?php selected( $instance['show_group_image'], 'show' ); ?> value="show"><?php _e( 'Show', 'ccbpress-core' ); ?></option>
 							<option <?php selected( $instance['show_group_image'], 'hide' ); ?> value="hide"><?php _e( 'Hide', 'ccbpress-core' ); ?></option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="<?php echo $this->get_field_id( 'show_group_name' ); ?>"><?php _e( 'Group Name', 'ccbpress-core' ); ?></label>
+					</td>
+					<td>
+						<select id="<?php echo $this->get_field_id( 'show_group_name' ); ?>" name="<?php echo $this->get_field_name( 'show_group_name' );  ?>">
+							<option <?php selected( $instance['show_group_name'], 'show' ); ?> value="show"><?php _e( 'Show', 'ccbpress-core' ); ?></option>
+							<option <?php selected( $instance['show_group_name'], 'hide' ); ?> value="hide"><?php _e( 'Hide', 'ccbpress-core' ); ?></option>
 						</select>
 					</td>
 				</tr>
@@ -198,48 +188,49 @@ class CCBPress_Widget_Group_Info extends WP_Widget {
 						</select>
 					</td>
 				</tr>
-			</table>
-
-			<p>
-				<div class="ccbpress_widget_group">
-					<div class="ccbpress_widget_group_title">
-						<select id="<?php echo $this->get_field_id( 'show_group_leader_card' ); ?>" name="<?php echo $this->get_field_name( 'show_group_leader_card' );  ?>" style="float: right;">
+				<tr>
+					<td colspan="2">
+						<hr />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="<?php echo $this->get_field_id( 'show_group_leader_card' ); ?>"><?php _e( 'Main Leader', 'ccbpress-core' ); ?></label>
+					</td>
+					<td>
+						<select id="<?php echo $this->get_field_id( 'show_group_leader_card' ); ?>" name="<?php echo $this->get_field_name( 'show_group_leader_card' );  ?>">
 							<option <?php selected( $instance['show_group_leader_card'], 'show' ); ?> value="show"><?php _e( 'Show', 'ccbpress-core' ); ?></option>
 							<option <?php selected( $instance['show_group_leader_card'], 'hide' ); ?> value="hide"><?php _e( 'Hide', 'ccbpress-core' ); ?></option>
 						</select>
-						<label for="<?php echo $this->get_field_id( 'show_group_leader_card' ); ?>"><?php _e( 'Main Leader', 'ccbpress-core' ); ?></label>
-					</div>
-					<div class="ccbpress_widget_group_inside">
-						<table class="ccbpress_widget_table">
-							<tr>
-								<td>
-									<label for="<?php echo $this->get_field_id( 'show_group_leader_email' ); ?>"><?php _e( 'Email Address', 'ccbpress-core' ); ?></label>
-								</td>
-								<td>
-									<select id="<?php echo $this->get_field_id( 'show_group_leader_email' ); ?>" name="<?php echo $this->get_field_name( 'show_group_leader_email' );  ?>">
-										<option <?php selected( $instance['show_group_leader_email'], 'show' ); ?> value="show"><?php _e( 'Show', 'ccbpress-core' ); ?></option>
-										<option <?php selected( $instance['show_group_leader_email'], 'hide' ); ?> value="hide"><?php _e( 'Hide', 'ccbpress-core' ); ?></option>
-									</select>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<label for="<?php echo $this->get_field_id( 'show_group_leader_phone_numbers' ); ?>"><?php _e( 'Phone Numbers', 'ccbpress-core' ); ?></label>
-								</td>
-								<td>
-									<select id="<?php echo $this->get_field_id( 'show_group_leader_phone_numbers' ); ?>" name="<?php echo $this->get_field_name( 'show_group_leader_phone_numbers' );  ?>">
-										<option <?php selected( $instance['show_group_leader_phone_numbers'], 'show' ); ?> value="show"><?php _e( 'Show', 'ccbpress-core' ); ?></option>
-										<option <?php selected( $instance['show_group_leader_phone_numbers'], 'hide' ); ?> value="hide"><?php _e( 'Hide', 'ccbpress-core' ); ?></option>
-									</select>
-								</td>
-							</tr>
-						</table>
-					</div>
-				</div>
-			</p>
-
-			<p>
-			<table class="ccbpress_widget_table">
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="<?php echo $this->get_field_id( 'show_group_leader_email' ); ?>"><?php _e( 'Email Address', 'ccbpress-core' ); ?></label>
+					</td>
+					<td>
+						<select id="<?php echo $this->get_field_id( 'show_group_leader_email' ); ?>" name="<?php echo $this->get_field_name( 'show_group_leader_email' );  ?>">
+							<option <?php selected( $instance['show_group_leader_email'], 'show' ); ?> value="show"><?php _e( 'Show', 'ccbpress-core' ); ?></option>
+							<option <?php selected( $instance['show_group_leader_email'], 'hide' ); ?> value="hide"><?php _e( 'Hide', 'ccbpress-core' ); ?></option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="<?php echo $this->get_field_id( 'show_group_leader_phone_numbers' ); ?>"><?php _e( 'Phone Numbers', 'ccbpress-core' ); ?></label>
+					</td>
+					<td>
+						<select id="<?php echo $this->get_field_id( 'show_group_leader_phone_numbers' ); ?>" name="<?php echo $this->get_field_name( 'show_group_leader_phone_numbers' );  ?>">
+							<option <?php selected( $instance['show_group_leader_phone_numbers'], 'show' ); ?> value="show"><?php _e( 'Show', 'ccbpress-core' ); ?></option>
+							<option <?php selected( $instance['show_group_leader_phone_numbers'], 'hide' ); ?> value="hide"><?php _e( 'Hide', 'ccbpress-core' ); ?></option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<hr />
+					</td>
+				</tr>
 				<tr>
 					<td>
 						<label for="<?php echo $this->get_field_id( 'show_group_registration_forms' ); ?>"><?php _e( 'Registration Forms', 'ccbpress-core' ); ?></label>
@@ -252,7 +243,6 @@ class CCBPress_Widget_Group_Info extends WP_Widget {
 					</td>
 				</tr>
 			</table>
-			</p>
 
 		</div>
 		<?php
@@ -349,13 +339,13 @@ class CCBPress_Widget_Group_Info_Template extends CCBPress_Template {
 	 */
 	public function show_group_image( $group ) {
 
-		$group_image = $group->image;
+		$upload_dir = wp_upload_dir();
 
-		if ( $group->widget_options->show_group_image == 'show' && strlen( $group_image ) > 0 ) {
-			return true;
+		if ( $group->widget_options->show_group_image != 'show' || false === strpos( $group->image, $upload_dir['baseurl'] ) ) {
+			return false;
 		}
 
-		return false;
+		return true;
 
 	}
 
