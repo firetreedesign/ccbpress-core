@@ -42,6 +42,9 @@ Requires a [Church Community Builder](http://churchcommunitybuilder.com/) accoun
 * Added option to completely delete data/options created by CCBPress upon uninstall.
 * Added a backend to sync group/event data to a custom table for add-ons that support it.
 
+= 0.9.8 =
+* Fixed an issue with the Purge All Cache menu item.
+
 = 0.9.7 =
 * Fixed incorrect opening PHP statement.
 * Removed code that was no longer in use.
