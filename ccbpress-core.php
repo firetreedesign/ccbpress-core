@@ -3,7 +3,7 @@
  * Plugin Name: CCBPress Core
  * Plugin URI: http://ccbpress.com/
  * Description: Display information from Church Community Builder on your WordPress site.
- * Version: 1.0.0
+ * Version: 1.0.1
  * Author: CCBPress <info@ccbpress.com>
  * Author URI: https://ccbpress.com/
  * Text Domain: ccbpress-core
@@ -63,7 +63,7 @@ class CCBPress_Core {
     * @var string
     * @since 1.0.0
     */
-   public $version = '1.0.0';
+   public $version = '1.0.1';
 
    /**
      * Main CCBPress_Core Instance
@@ -122,12 +122,12 @@ class CCBPress_Core {
                     .updated.ccbpress-core header img { flex-grow: 0; flex-shrink: 0; height: 70px; width: auto; }
                     .updated.ccbpress-core header h3 { margin: 0; position: absolute; top: 50%; transform: translateY(-50%); }
                     .updated.ccbpress-core header h3 span { color: #ff5555; }
-                    .updated.ccbpress-core header .dismiss { flex-grow: 0; flex-shrink: 0; width: 70px; height: 70px; background-color: #ff5555; color: #fff; line-height: 50px; text-align: center; }
+                    .updated.ccbpress-core header .dismiss { flex-grow: 0; flex-shrink: 0; width: 70px; height: 70px; background-color: #ff5555; color: #fff; line-height: 50px; text-align: center; text-decoration: none; }
                     .updated.ccbpress-core header .dismiss .dashicons { line-height: 50px; font-size: 24px; }
                     .updated.ccbpress-core .ccbpress-core-actions { display: flex; width: 100%; align-content: stretch; background-color: #f5f5f5; }
                     .updated.ccbpress-core .ccbpress-core-action { flex: 1 auto; height: 60px; position: relative; }
                     .updated.ccbpress-core .ccbpress-core-action.mailchimp { min-width: 33%; padding: 0 15px; overflow: hidden; }
-                    .updated.ccbpress-core .ccbpress-core-action a { display: block; height: 60px; line-height: 60px; padding: 0 15px; color: #ff5555; }
+                    .updated.ccbpress-core .ccbpress-core-action a { display: block; height: 60px; line-height: 60px; padding: 0 15px; color: #ff5555; text-decoration: none; }
                     .updated.ccbpress-core .ccbpress-core-action a:hover { background-color: rgba(0, 0, 0, 0.05); }
                     .updated.ccbpress-core .ccbpress-core-action a .dashicons { line-height: 60px; margin-right: 10px; }
                     .updated.ccbpress-core .ccbpress-core-action form { margin: 0; padding: 0; width: 90%; position: absolute; top: 50%; transform: translateY(-50%); }
@@ -343,6 +343,7 @@ class CCBPress_Core {
 	  */
 	 public static function unschedule_cron() {
 		 wp_clear_scheduled_hook( 'ccbpress_daily_maintenance' );
+		 wp_clear_scheduled_hook( 'ccbpress_transient_cache_cleanup' );
 	 }
 
 }

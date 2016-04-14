@@ -153,7 +153,7 @@ class CCBPress_Sync extends WP_Background_Process {
 		foreach( $results->response->events->event as $event ) {
 
 			// Skip the event if it is not listed
-			if ( 'false' == $event->listed || 'false' == $event->public_calendar_listed ) {
+			if ( 'false' == $event->public_calendar_listed ) {
 				continue;
 			}
 

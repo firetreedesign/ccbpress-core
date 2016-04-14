@@ -48,7 +48,7 @@ class CCBPress_Connection {
 		$this->api_url				= $this->api_protocol . $api_prefix . $this->api_endpoint;
 		$this->api_user				= $api_user;
 		$this->api_pass				= $api_pass;
-        $this->transient_prefix		= 'ccbpress_';
+        $this->transient_prefix		= 'ccbp_';
 		$this->test_srv				= 'api_status';
 		$this->image_cache_dir		= 'ccbpress';
 		$this->transient_fallback	= CCBPress()->transients;
