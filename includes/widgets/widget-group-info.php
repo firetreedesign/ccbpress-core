@@ -60,7 +60,7 @@ class CCBPress_Widget_Group_Info extends WP_Widget {
 			echo $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ) . $args['after_title'];
 		}
 
-		if ( ! $ccbpress_data === false ) {
+		if ( false !== $ccbpress_data ) {
 
 			// Define the array to hold all found group
 			$group = array();

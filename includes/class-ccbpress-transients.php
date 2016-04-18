@@ -53,8 +53,10 @@ class CCBPress_Transients {
 
 				$data = get_site_transient( $fallback_transient );
 
-				wp_clear_scheduled_hook( $hook, $args );
-				wp_schedule_single_event( time(), $hook, $args );
+				if ( ! wp_get_schedule( $hook, $args ) ) {
+					wp_clear_scheduled_hook( $hook, $args );
+					wp_schedule_single_event( time(), $hook, $args );
+				}
 
 				return $data;
 
@@ -68,8 +70,10 @@ class CCBPress_Transients {
 
 				$data = get_transient( $fallback_transient );
 
-				wp_clear_scheduled_hook( $hook, $args );
-				wp_schedule_single_event( time(), $hook, $args );
+				if ( ! wp_get_schedule( $hook, $args ) ) {
+					wp_clear_scheduled_hook( $hook, $args );
+					wp_schedule_single_event( time(), $hook, $args );
+				}
 
 				return $data;
 
