@@ -39,6 +39,7 @@ Requires a [Church Community Builder](http://churchcommunitybuilder.com/) accoun
 = 1.0.1 =
 * Fixed an issue with the cache not working properly.
 * A cache cleanup function is now properly unscheduled on plugin deactivation.
+* Group images should now update correctly.
 * Minor display adjustments.
 
 = 1.0.0 =
