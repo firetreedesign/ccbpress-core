@@ -3,7 +3,7 @@
  * Plugin Name: CCBPress Core
  * Plugin URI: http://ccbpress.com/
  * Description: Display information from Church Community Builder on your WordPress site.
- * Version: 0.9.7
+ * Version: 1.0.1
  * Author: CCBPress <info@ccbpress.com>
  * Author URI: https://ccbpress.com/
  * Text Domain: ccbpress-core
@@ -15,6 +15,10 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 if ( ! class_exists( 'CCBPress_Core' ) ) :
+
+register_activation_hook( __FILE__, array( 'CCBPress_Core', 'create_tables' ) );
+register_activation_hook( __FILE__, array( 'CCBPress_Core', 'schedule_cron' ) );
+register_deactivation_hook( __FILE__, array( 'CCBPress_Core', 'unschedule_cron' ) );
 
 add_action( 'admin_notices', array('CCBPress_Core', 'activation_admin_notice') );
 add_action( 'admin_init', array('CCBPress_Core', 'ignore_admin_notice') );
@@ -47,11 +51,19 @@ class CCBPress_Core {
    public $ccb;
 
    /**
+    * CCBPress Sync Object
+    *
+    * @var object
+    * @since 1.0.0
+    */
+   public $sync;
+
+   /**
     * CCBPress Version
     * @var string
     * @since 1.0.0
     */
-   public $version = '0.9.7';
+   public $version = '1.0.1';
 
    /**
      * Main CCBPress_Core Instance
@@ -74,8 +86,9 @@ class CCBPress_Core {
             self::$instance->setup_constants();
             self::$instance->includes();
 
-            self::$instance->transients    = new CCBPress_Transients();
-            self::$instance->ccb           = new CCBPress_Connection();
+            self::$instance->transients = new CCBPress_Transients();
+            self::$instance->ccb        = new CCBPress_Connection();
+			self::$instance->sync       = new CCBPress_Sync();
 
         }
 
@@ -109,12 +122,12 @@ class CCBPress_Core {
                     .updated.ccbpress-core header img { flex-grow: 0; flex-shrink: 0; height: 70px; width: auto; }
                     .updated.ccbpress-core header h3 { margin: 0; position: absolute; top: 50%; transform: translateY(-50%); }
                     .updated.ccbpress-core header h3 span { color: #ff5555; }
-                    .updated.ccbpress-core header .dismiss { flex-grow: 0; flex-shrink: 0; width: 70px; height: 70px; background-color: #ff5555; color: #fff; line-height: 50px; text-align: center; }
+                    .updated.ccbpress-core header .dismiss { flex-grow: 0; flex-shrink: 0; width: 70px; height: 70px; background-color: #ff5555; color: #fff; line-height: 50px; text-align: center; text-decoration: none; }
                     .updated.ccbpress-core header .dismiss .dashicons { line-height: 50px; font-size: 24px; }
                     .updated.ccbpress-core .ccbpress-core-actions { display: flex; width: 100%; align-content: stretch; background-color: #f5f5f5; }
                     .updated.ccbpress-core .ccbpress-core-action { flex: 1 auto; height: 60px; position: relative; }
                     .updated.ccbpress-core .ccbpress-core-action.mailchimp { min-width: 33%; padding: 0 15px; overflow: hidden; }
-                    .updated.ccbpress-core .ccbpress-core-action a { display: block; height: 60px; line-height: 60px; padding: 0 15px; color: #ff5555; }
+                    .updated.ccbpress-core .ccbpress-core-action a { display: block; height: 60px; line-height: 60px; padding: 0 15px; color: #ff5555; text-decoration: none; }
                     .updated.ccbpress-core .ccbpress-core-action a:hover { background-color: rgba(0, 0, 0, 0.05); }
                     .updated.ccbpress-core .ccbpress-core-action a .dashicons { line-height: 60px; margin-right: 10px; }
                     .updated.ccbpress-core .ccbpress-core-action form { margin: 0; padding: 0; width: 90%; position: absolute; top: 50%; transform: translateY(-50%); }
@@ -142,7 +155,7 @@ class CCBPress_Core {
                             </a>
                         </div>
                         <div class="ccbpress-core-action">
-                            <a href="<?php echo admin_url( add_query_arg( array( 'page' => 'ccbpress-settings' ), 'index.php' ) ); ?>">
+                            <a href="<?php echo admin_url( add_query_arg( array( 'page' => 'ccbpress-settings' ), 'admin.php' ) ); ?>">
                                 <span class="dashicons dashicons-admin-settings"></span><?php _e('CCBPress Settings', 'ccbpress-core'); ?>
                             </a>
                         </div>
@@ -196,12 +209,10 @@ class CCBPress_Core {
 
     public static function ignore_admin_notice() {
 
-        // Get the global user
-        global $current_user;
-        $user_id = $current_user->ID;
+		$current_user = wp_get_current_user();
 
         if ( isset( $_GET['ccbpress_core_notice_ignore'] ) && '0' == $_GET['ccbpress_core_notice_ignore'] ) {
-            add_user_meta( $user_id, 'ccbpress_core_activation_ignore_notice', 'true', true );
+            add_user_meta( $current_user->ID, 'ccbpress_core_activation_ignore_notice', 'true', true );
         }
 
     }
@@ -246,28 +257,34 @@ class CCBPress_Core {
       */
      private function includes() {
 
-         require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/class-ccbpress-transients.php';
-         require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/class-ccbpress-connection.php';
-		 require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/class-ccbpress-licenses.php';
-		 require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/class-ccbpress-addon.php';
-		 require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/class-ccbpress-options.php';
-		 require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/class-ccbpress-template.php';
-		 require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/class-ccbpress-customizer.php';
-         require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/ccb-services.php';
-         require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/schedule-get.php';
-         require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/scripts.php';
-         require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/styles.php';
-		 require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/helpers.php';
-         require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/settings/settings.php';
-         require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/settings/settings-settings.php';
-		 require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/settings/settings-tools.php';
-		 require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/settings/settings-licenses.php';
-         require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/admin-bar-menu.php';
-         require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/purge-transients.php';
-		 require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/admin-ajax.php';
-		 require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/widgets/widget-login.php';
-		 require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/widgets/widget-online-giving.php';
-		 require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/widgets/widget-group-info.php';
+        require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/class-ccbpress-transients.php';
+        require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/class-ccbpress-connection.php';
+		require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/class-ccbpress-licenses.php';
+		require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/class-ccbpress-addon.php';
+		require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/class-ccbpress-options.php';
+		require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/class-ccbpress-template.php';
+		require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/class-ccbpress-customizer.php';
+        require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/ccb-services.php';
+        require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/schedule-get.php';
+        require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/styles.php';
+		require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/helpers.php';
+		require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/maintenance.php';
+        require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/admin-settings.php';
+        require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/settings/settings-ccb.php';
+		require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/settings/settings-sync.php';
+        require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/settings/settings-ccbpress.php';
+		require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/settings/settings-licenses.php';
+        require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/admin-bar-menu.php';
+        require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/purge-transients.php';
+		require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/admin-ajax.php';
+		require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/widgets/widget-login.php';
+		require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/widgets/widget-online-giving.php';
+		require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/widgets/widget-group-info.php';
+		require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/group_profiles-db.php';
+        require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/event_profiles-db.php';
+		require_once CCBPRESS_CORE_PLUGIN_DIR . 'lib/wp-background-processing/wp-async-request.php';
+		require_once CCBPRESS_CORE_PLUGIN_DIR . 'lib/wp-background-processing/wp-background-process.php';
+		require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/class-ccbpress-sync.php';
 
         if ( is_admin() ) {
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/admin-page-tabs.php';
@@ -278,6 +295,56 @@ class CCBPress_Core {
         }
 
      }
+
+	 /**
+	  * Create the custom tables needed for our plugin
+	  *
+	  * @since 1.0.0
+	  *
+	  * @return void
+	  */
+	 public static function create_tables() {
+
+		 require_once plugin_dir_path( __FILE__ ) . 'includes/group_profiles-db.php';
+		 $group_profiles_db = new CCBPress_Group_Profiles_DB();
+		 $group_profiles_db->create_table();
+		 unset( $group_profiles_db );
+
+         require_once plugin_dir_path( __FILE__ ) . 'includes/event_profiles-db.php';
+		 $event_profiles_db = new CCBPress_Event_Profiles_DB();
+		 $event_profiles_db->create_table();
+		 unset( $event_profiles_db );
+
+	 }
+
+	 /**
+	  * Schedule daily mantenance tasks
+	  *
+	  * @since 1.0.0
+	  *
+	  * @return void
+	  */
+	 public static function schedule_cron() {
+		 if ( FALSE === wp_next_scheduled( 'ccbpress_daily_maintenance' ) ) {
+			 $timestamp = strtotime( 'midnight ' . get_option('timezone_string') );
+			 if ( $timestamp < current_time('timestamp') ) {
+				 $timestamp = strtotime('+1 day', $timestamp );
+			 }
+			 wp_schedule_event( $timestamp, 'daily', 'ccbpress_daily_maintenance' );
+		 }
+	 }
+
+	 /**
+	  * Unschedule daily mantenance tasks
+	  *
+	  * @since 1.0.0
+	  *
+	  * @return void
+	  */
+	 public static function unschedule_cron() {
+		 wp_clear_scheduled_hook( 'ccbpress_daily_maintenance' );
+		 wp_clear_scheduled_hook( 'ccbpress_transient_cache_cleanup' );
+	 }
 
 }
 

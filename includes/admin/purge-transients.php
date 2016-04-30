@@ -8,7 +8,7 @@ function ccbpress_core_purge_all_cache() {
 
 		global $wpdb;
 
-		$cache = $wpdb->get_col( "SELECT option_name FROM $wpdb->options where option_name LIKE '_transient_timeout_ccbpress_%'" );
+		$cache = $wpdb->get_col( "SELECT option_name FROM $wpdb->options where option_name LIKE '_transient_timeout_ccbp_%'" );
 
 		if ( ! empty( $cache ) ) {
 
@@ -29,4 +29,4 @@ function ccbpress_core_purge_all_cache() {
 	die();
 
 }
-add_action( 'admin_post_ccbpress-purge-all-cache', 'ccbpress_purge_core_all_cache' );
+add_action( 'admin_post_ccbpress-purge-all-cache', 'ccbpress_core_purge_all_cache' );

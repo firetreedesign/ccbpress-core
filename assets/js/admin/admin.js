@@ -21,4 +21,8 @@ jQuery( document ).ready(function($) {
 		return false;
 	});
 
+	jQuery(document).on('widget-updated widget-added', function() {
+		jQuery('#widgets-right .ccbpress-select select').select2ccbpress({ width: '100%' });
+	} );
+
 });
