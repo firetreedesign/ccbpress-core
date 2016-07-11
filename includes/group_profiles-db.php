@@ -177,8 +177,18 @@ class CCBPress_Group_Profiles_DB {
 			return false;
 		}
 
-		global $wpdb;
-		return $wpdb->get_results( "SELECT * FROM $this->table_name WHERE group_id = '$group_id'", OBJECT );
+		$result = wp_cache_get( 'ccbpress_group_' . $group_id );
+
+		if ( false === $result ) {
+
+			global $wpdb;
+			$result = $wpdb->get_results( "SELECT * FROM $this->table_name WHERE group_id = '$group_id'", OBJECT );
+
+			wp_cache_set( 'ccbpress_group_' . $group_id, $result );
+
+		}
+
+		return $result;
 
 	}
 
@@ -191,8 +201,18 @@ class CCBPress_Group_Profiles_DB {
 	 */
 	public function get_all() {
 
-		global $wpdb;
-		return $wpdb->get_results( "SELECT * FROM $this->table_name ORDER BY name ASC", OBJECT );
+		$result = wp_cache_get( 'ccbpress_groups_all' );
+
+		if ( false === $result ) {
+
+			global $wpdb;
+			$result = $wpdb->get_results( "SELECT * FROM $this->table_name ORDER BY name ASC", OBJECT );
+
+			wp_cache_set( 'ccbpress_groups_all', $result );
+
+		}
+
+		return $result;
 
 	}
 

@@ -187,8 +187,18 @@ class CCBPress_Event_Profiles_DB {
 			return false;
 		}
 
-		global $wpdb;
-		return $wpdb->get_results( "SELECT * FROM $this->table_name WHERE event_id = '$event_id'", OBJECT );
+		$result = wp_cache_get( 'ccbpress_event_' . (string)$event_id );
+
+		if ( false === $result ) {
+
+			global $wpdb;
+			$result = $wpdb->get_results( "SELECT * FROM $this->table_name WHERE event_id = '$event_id'", OBJECT );
+
+			wp_cache_set( 'ccbpress_event_' . $event_id, $result );
+
+		}
+
+		return $result;
 
 	}
 
@@ -201,8 +211,18 @@ class CCBPress_Event_Profiles_DB {
 	 */
 	public function get_all() {
 
-		global $wpdb;
-		return $wpdb->get_results( "SELECT * FROM $this->table_name ORDER BY name ASC", OBJECT );
+		$result = wp_cache_get( 'ccbpress_events_all' );
+
+		if ( false === $result ) {
+
+			global $wpdb;
+			$result = $wpdb->get_results( "SELECT * FROM $this->table_name ORDER BY name ASC", OBJECT );
+
+			wp_cache_set( 'ccbpress_events_all' );
+
+		}
+
+		return $result;
 
 	}
 
