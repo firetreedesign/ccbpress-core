@@ -95,7 +95,7 @@ class CCBPress_Admin_Ajax {
 		}
 
 		if ( 'Never' === ( $last_sync = get_option( 'ccbpress_last_group_sync', 'Never' ) ) ) {
-			$modified_since = (string) date('Y-m-d', strtotime( '-6 months', current_time('timestamp') ) );
+			$modified_since = (string) date('Y-m-d', strtotime( '-10 years', current_time('timestamp') ) );
 		} else {
 			$modified_since = (string) date('Y-m-d', strtotime( $last_sync ) );
 		}
