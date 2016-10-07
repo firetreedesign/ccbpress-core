@@ -105,7 +105,7 @@ class CCBPress_Widget_Group_Info extends WP_Widget {
 	 */
 	public function form( $instance ) {
 
-		wp_enqueue_script( 'ccbpress-select2' );
+		wp_enqueue_script( 'ccbpress-select2', CCBPRESS_CORE_PLUGIN_URL . 'lib/select2ccbpress/select2ccbpress.full.min.js' );
 		wp_enqueue_style( 'ccbpress-select2', CCBPRESS_CORE_PLUGIN_URL . 'lib/select2ccbpress/select2ccbpress.min.css' );
 
 		$instance = wp_parse_args( $instance, array(
