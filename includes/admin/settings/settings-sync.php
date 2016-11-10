@@ -178,6 +178,20 @@ class CCBPress_Settings_Sync extends CCBPress_Settings {
                 )
         	);
 
+			// Include Images
+        	add_settings_field(
+        		'event_include_images',
+        		'<strong>' . __('Include images?', 'ccbpress-core') . '</strong>',
+        		array( $this, 'checkbox_callback' ),
+        		'ccbpress_settings_sync',
+        		'ccbpress_settings_event_sync_section',
+        		array(
+        			'field_id'  => 'event_include_images',
+        			'page_id'   => 'ccbpress_settings_sync',
+        			'label'     => __('Download event images during import. <i>(Turning this on will dramatically slow down the process.)</i>', 'ccbpress-core'),
+        		)
+        	);
+
     		/**
         	 * Manual Sync
         	 */
@@ -205,7 +219,7 @@ class CCBPress_Settings_Sync extends CCBPress_Settings {
         // Finally, we register the fields with WordPress
     	register_setting(
     		'ccbpress_settings_sync',			// The group name of the settings being registered
-    		'ccbpress_sync',			// The name of the set of options being registered
+    		'ccbpress_settings_sync',			// The name of the set of options being registered
     		array( $this, 'sanitize_callback' )	// The name of the function responsible for validating the fields
     	);
 

@@ -157,6 +157,11 @@ class CCBPress_Sync extends WP_Background_Process {
 				continue;
 			}
 
+			if ( strlen( $event->image ) > 0 ) {
+				update_option('ccbpress_event_sync_in_progress', 'Processing batch ' . $item['args']['page'] . '(Downloading ' . esc_attr( $event->name ) . ' image.)');
+				CCBPress()->ccb->cache_image( $event->image, $event['id'], 'event' );
+			}
+
 			$db_data = array(
 				'event_id'						=> $event['id'],
 				'name'							=> $event->name,
