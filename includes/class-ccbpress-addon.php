@@ -14,6 +14,7 @@ class CCBPress_Addon {
 
 	private $services;
 	private $support_topics;
+	private $uninstall;
 
     /**
      * Create a new instance
@@ -41,6 +42,10 @@ class CCBPress_Addon {
 			$this->support_topics = $_args['support_topics'];
 		}
 
+		if ( isset( $_args['uninstall'] ) ) {
+			$this->uninstall = $_args['uninstall'];
+		}
+
 		$this->hooks();
 
     }
@@ -58,6 +63,7 @@ class CCBPress_Addon {
 
 		add_filter( 'ccbpress_ccb_services', array( $this, 'setup_services' ) );
 		add_filter( 'ccbpress_support_topics', array( $this, 'support_topics' ) );
+		add_filter( 'ccbpress_uninstall_settings', array( $this, 'uninstall_settings' ) );
 
 	}
 
@@ -109,6 +115,30 @@ class CCBPress_Addon {
 		}
 
 		return $topics;
+
+	}
+
+	/**
+	 * Add the Uninstall Settings
+	 *
+	 * @since 1.0.3
+	 *
+	 * @param  array $settings
+	 *
+	 * @return array
+	 */
+	public function uninstall_settings( $settings ) {
+
+		if ( is_array( $this->uninstall ) && isset( $this->uninstall['id'] ) && isset( $this->uninstall['name'] ) ) {
+
+			$settings[] = array(
+				'id'	=> $this->uninstall['id'],
+				'name'	=> $this->uninstall['name'],
+			);
+
+		}
+
+		return $settings;
 
 	}
 
