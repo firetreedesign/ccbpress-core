@@ -51,7 +51,7 @@ class CCBPress_Widget_Group_Info extends WP_Widget {
 		);
 		$ccbpress_data = false;
 		if ( strlen( $group_id ) > 0 ) {
-			$ccbpress_data = CCBPress()->ccb->group_profile_from_id( $ccbpress_args );
+			$ccbpress_data = ccbpress()->ccb->group_profile_from_id( $ccbpress_args );
 		}
 
 		echo $args['before_widget'];
@@ -68,10 +68,10 @@ class CCBPress_Widget_Group_Info extends WP_Widget {
 			//$group_id = (string)$group['id'];
 
 			// Get the cached group image
-			$group->image = CCBPress()->ccb->get_image( $group_id, 'group' );
+			$group->image = ccbpress()->ccb->get_image( $group_id, 'group' );
 
 			// Get their profile image from their user profile
-			$group_main_leader_profile = CCBPress()->ccb->individual_profile_from_id( array( 'individual_id' => (string)$group->main_leader['id'] ) );
+			$group_main_leader_profile = ccbpress()->ccb->individual_profile_from_id( array( 'individual_id' => (string)$group->main_leader['id'] ) );
 			$group->main_leader->image	= $group_main_leader_profile->response->individuals->individual->image;
 
 			// Set the values passed from the widget options
@@ -134,7 +134,7 @@ class CCBPress_Widget_Group_Info extends WP_Widget {
 				<select name="<?php echo $this->get_field_name( 'group_id' ); ?>" id="<?php echo $this->get_field_id( 'group_id' ); ?>" data-placeholder="Start typing to search..." class="widefat">
 					<option value="none"><?php _e('None', 'ccbpress-core'); ?></option>
 					<?php
-					$ccb_groups = CCBPress()->ccb->group_profiles( array( 'cache_lifespan' => 2880 ) );
+					$ccb_groups = ccbpress()->ccb->group_profiles( array( 'cache_lifespan' => 2880 ) );
 
 					if ( $ccb_groups ) {
 						foreach( $ccb_groups->response->groups->group as $group ) : ?>
@@ -451,7 +451,7 @@ class CCBPress_Widget_Group_Info_Template extends CCBPress_Template {
 	 */
 	public function is_form_active( $registration_form ) {
 
-		return CCBPress()->ccb->is_form_active( (string)$registration_form['id'] );
+		return ccbpress()->ccb->is_form_active( (string) $registration_form['id'] );
 
 	}
 
@@ -466,7 +466,7 @@ class CCBPress_Widget_Group_Info_Template extends CCBPress_Template {
 	 */
 	public function email_url( $individual_id, $group_id, $individual_full_name ) {
 
-		$url = str_replace( 'api.php', 'easy_email.php', CCBPress()->ccb->api_url );
+		$url = str_replace( 'api.php', 'easy_email.php', ccbpress()->ccb->api_url );
 		$url = add_query_arg( 'ax', 'create_new', $url );
 		$url = add_query_arg( 'individual_id', $individual_id, $url );
 		$url = add_query_arg( 'group_id', $group_id, $url );

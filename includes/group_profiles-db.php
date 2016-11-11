@@ -162,6 +162,13 @@ class CCBPress_Group_Profiles_DB {
 
 	}
 
+	public function purge_all() {
+
+		global $wpdb;
+		return $wpdb->query( 'TRUNCATE TABLE ' . $this->table_name );
+
+	}
+
 	/**
 	 * Retrieves a group from the database
 	 *

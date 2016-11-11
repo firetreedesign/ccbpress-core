@@ -147,6 +147,7 @@ class CCBPress_Maintenance {
 
 				$group_profiles_db = new CCBPress_Group_Profiles_DB();
 				$group_profiles_db->purge( strtotime('yesterday', current_time('timestamp') ) );
+				unset( $group_profiles_db );
 
 				break;
 
@@ -154,6 +155,7 @@ class CCBPress_Maintenance {
 
 				$event_profiles_db = new CCBPress_Event_Profiles_DB();
 				$event_profiles_db->purge( strtotime('yesterday', current_time('timestamp') ) );
+				unset( $event_profiles_db );
 
 				break;
 

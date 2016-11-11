@@ -172,6 +172,13 @@ class CCBPress_Event_Profiles_DB {
 
 	}
 
+	public function purge_all() {
+
+		global $wpdb;
+		return $wpdb->query( 'TRUNCATE TABLE ' . $this->table_name );
+
+	}
+
 	/**
 	 * Retrieves an event from the database
 	 *
