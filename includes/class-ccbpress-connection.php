@@ -424,8 +424,12 @@ class CCBPress_Connection {
 						case 'event_profile':
 							$image_url = $ccb_data->response->events->event->image;
 
-							if ( false !== strpos( $image_url, 'event-default.png' ) ) {
-							    break;
+							// if ( false !== strpos( $image_url, 'event-default.png' ) ) {
+							//     break;
+							// }
+
+							if ( 0 === strlen( $image_url ) ) {
+								break;
 							}
 
 							$image_id = $ccb_data->response->events->event['id'];
@@ -483,6 +487,38 @@ class CCBPress_Connection {
 			return false;
 		}
 
+	}
+
+	/**
+	 * Purge the image cache
+	 *
+	 * @since 1.0.2
+	 *
+	 * @return boolean
+	 */
+	public function purge_image_cache() {
+
+		$upload_dir = wp_upload_dir();
+
+		// If there is an error, then return false.
+		if ( false !== $upload_dir['error'] ) {
+			return false;
+		}
+
+		$cache_path = $upload_dir['basedir'] . '/' . $this->image_cache_dir . '/cache';
+
+		if ( ! file_exists( $cache_path ) ) {
+			return true;
+		}
+
+		$images = glob( $cache_path . '/*' );
+		foreach ( $images as $image ) {
+			if ( is_file( $image ) ) {
+				unlink( $image );
+			}
+		}
+
+		return true;
 	}
 
     /**

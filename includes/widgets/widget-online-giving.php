@@ -33,7 +33,7 @@ class CCBPress_Widget_Online_Giving extends WP_Widget {
 	 */
 	public function widget( $args, $instance ) {
 
-		$ccb_api_url = CCBPress()->ccb->api_url;
+		$ccb_api_url = ccbpress()->ccb->api_url;
 		$ccb_online_giving_url = str_replace( 'api.php', 'w_give_online.php', $ccb_api_url );
 
 		echo $args['before_widget'];
@@ -102,12 +102,12 @@ class CCBPress_Widget_Online_Giving extends WP_Widget {
 
 // register CCBPress_Widget_Online_Giving widget
 function register_ccbpress_widget_online_giving() {
-    
+
     $ccbpress_ccb = get_option( 'ccbpress_ccb' );
 	if ( isset( $ccbpress_ccb['connection_test'] ) && $ccbpress_ccb['connection_test'] === 'success' ) {
     	register_widget( 'CCBPress_Widget_Online_Giving' );
     }
-    
+
 }
 add_action( 'widgets_init', 'register_ccbpress_widget_online_giving' );
 

@@ -161,6 +161,11 @@ class CCBPress_Admin_Ajax {
 
 		$ccbpress_sync_options = get_option('ccbpress_settings_sync', array() );
 
+		$include_image_link = '0';
+		if ( isset( $ccbpress_sync_options['event_include_images'] ) ) {
+			$include_image_link = '1';
+		}
+
 		if ( 'Never' === ( $last_sync = get_option( 'ccbpress_last_event_sync', 'Never' ) ) ) {
 			$modified_since = NULL;
 		} else {
@@ -171,6 +176,7 @@ class CCBPress_Admin_Ajax {
 			'srv' => 'event_profiles',
 			'args' => array(
 				'include_guest_list'	=> '0',
+				'include_image_link'	=> $include_image_link,
 				'page'					=> 1,
 				'per_page'				=> 100,
 				'modified_since'		=> $modified_since,

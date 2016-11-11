@@ -5,7 +5,7 @@ table.ccbpress-dash-widget-api-status td { padding: 15px; width: 50%; }
 table.ccbpress-dash-widget-api-status td div { font-size: 26px; font-weight: bold; color: #ff5555; padding-bottom: 8px; }
 table.ccbpress-dash-widget-api-status td:first-of-type { border-right: 1px solid #ececec; }
 
-.ccbpress_tab_actions { clear: both; margin: 12px 0; overflow: auto; text-align: right; }
+.ccbpress_tab_actions { clear: both; margin-top: 23px; margin-bottom: 10px; padding: 10px; overflow: hidden; background: #fbfbfb; border: 1px solid #e5e5e5; -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .04); box-shadow: 0 1px 1px rgba(0, 0, 0, .04); }
 .ccbpress_tab_actions a { display: inline-block; }
 .ccbpress_tab_actions a:not(:last-of-type) { margin-right: 10px; }
 .ccbpress_tab_actions:after { content: ''; clear: both; }

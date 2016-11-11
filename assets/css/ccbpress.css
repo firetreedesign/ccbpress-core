@@ -13,3 +13,12 @@
     content: "\e600";
     font-family: 'ccbpress';
 }
+
+#wpadminbar .ccbpress-import-notice > .ab-item {
+	color: #fff;
+	background-color: #ff5555;
+}
+#wpadminbar .ccbpress-import-notice:hover > .ab-item {
+	color: #fff !important;
+	background-color: #db4848 !important;
+}

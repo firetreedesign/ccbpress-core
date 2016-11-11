@@ -117,12 +117,12 @@ class CCBPress_Settings {
 
         // Set the defaults
 		$defaults = array(
-			'field_id'		=> NULL,
-			'page_id'		=> NULL,
+			'field_id'		=> null,
+			'page_id'		=> null,
 			'value'			=> '1',
-			'label'      	=> NULL,
-            'before'        => NULL,
-            'after'         => NULL,
+			'label'      	=> null,
+            'before'        => null,
+            'after'         => null,
 		);
 
 		// Parse the arguments
