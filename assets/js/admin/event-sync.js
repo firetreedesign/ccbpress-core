@@ -39,10 +39,12 @@ jQuery( document ).ready(function($) {
 
 		this.enableButton = function() {
 			jQuery( '#ccbpress-manual-event-sync-button' ).attr('disabled', false);
+			jQuery( '#ccbpress-manual-group-sync-button' ).attr('disabled', false);
 		}
 
 		this.disableButton = function() {
 			jQuery( '#ccbpress-manual-event-sync-button' ).attr('disabled', true);
+			jQuery( '#ccbpress-manual-group-sync-button' ).attr('disabled', true);
 		}
 
 		this.checkProgress = function( self ) {

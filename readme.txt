@@ -2,8 +2,8 @@
 Contributors: firetree, danielmilner
 Tags: church, ccb, church community builder, chms
 Requires at least: 4.3
-Tested up to: 4.5
-Stable tag: 1.0.1
+Tested up to: 4.5.3
+Stable tag: 1.0.2
 License: GPLv2 or later
 License URI: http://ww.gnu.org/licenses/gpl-2.0.html
 
@@ -35,6 +35,12 @@ Requires a [Church Community Builder](http://churchcommunitybuilder.com/) accoun
 2. Getting Started
 
 == Changelog ==
+
+= 1.0.2 =
+* Added more options for purging cache.
+* Added a notice when an add-on requires data, but the database is empty.
+* Added option to include event images during the import process.
+* Fixed an issue where the Data Import options would not save.
 
 = 1.0.1 =
 * Fixed an issue with the cache not working properly.

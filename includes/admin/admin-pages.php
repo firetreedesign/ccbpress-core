@@ -106,20 +106,14 @@ class CCBPress_Admin_Pages {
 				<?php _e( 'Thank you for using CCBPress. CCBPress allows you to display content from Church Community Builder on your WordPress site.', 'ccbpress-core' ); ?>
 			</div>
             <div class="ccbpress-badge"><img src="<?php echo CCBPRESS_CORE_PLUGIN_URL . 'assets/images/ccbpress_mark.png'; ?>" alt="<?php _e( 'CCBPress', 'ccbpress-core' ); ?>" / ></div>
-			<div class="wp-filter">
-				<ul class="filter-links">
-					<li>
-						<a class="<?php echo ( $active_tab === 'welcome' ? 'current' : '' ); ?>" href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'ccbpress' ), 'admin.php' ) ) ); ?>">
-	                    	<?php _e( 'Welcome', 'ccbpress-core' ); ?>
-	                	</a>
-					</li>
-					<li>
-						<a class="<?php echo ( $active_tab === 'getting_started' ? 'current' : '' ); ?>" href="<?php echo esc_url( admin_url( add_query_arg( array( 'tab' => 'getting_started' ), add_query_arg( array( 'page' => 'ccbpress' ), 'admin.php' ) ) ) ); ?>">
-		                    <?php _e( 'Getting Started', 'ccbpress-core' ); ?></span>
-		                </a>
-					</li>
-				</ul>
-			</div>
+            <h1 class="nav-tab-wrapper">
+                <a class="nav-tab<?php echo ( $active_tab === 'welcome' ? ' nav-tab-active' : '' ); ?>" href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'ccbpress' ), 'admin.php' ) ) ); ?>">
+                    <?php _e( 'Welcome', 'ccbpress-core' ); ?>
+                </a>
+                <a class="nav-tab<?php echo ( $active_tab === 'getting_started' ? ' nav-tab-active' : '' ); ?>" href="<?php echo esc_url( admin_url( add_query_arg( array( 'tab' => 'getting_started' ), add_query_arg( array( 'page' => 'ccbpress' ), 'admin.php' ) ) ) ); ?>">
+                    <?php _e( 'Getting Started', 'ccbpress-core' ); ?>
+                </a>
+            </h1>
 			<?php
 			switch ( $active_tab ) {
 				case 'getting_started':
@@ -281,26 +275,22 @@ class CCBPress_Admin_Pages {
 		?>
         <div class="wrap">
 			<h1><?php _e('Settings', 'ccbpress-core'); ?></h1>
-			<div class="wp-filter">
-				<ul class="filter-links">
-					<?php foreach ( $all_tabs as $tab ) : ?>
-						<li class="<?php echo esc_attr( $tab['tab_id'] ); ?>">
-							<a class="<?php echo ( $active_tab === $tab['tab_id'] ? ' current' : '' ); ?>" href="<?php echo esc_url( admin_url( add_query_arg( array( 'tab' => $tab['tab_id'] ), add_query_arg( array( 'page' => 'ccbpress-settings' ), 'admin.php' ) ) ) ); ?>">
-			                    <?php echo $tab['title']; ?>
-			                </a>
-						</li>
-					<?php endforeach; ?>
-				</ul>
-				<?php if ( $has_tab_actions ) : ?>
-					<div class="ccbpress_tab_actions">
-					<?php foreach ( $all_tab_actions as $tab_action ) : ?>
-						<?php if ( isset( $tab_action['tab_id'] ) && $tab_action['tab_id'] == $active_tab ) : ?>
-							<a class="button button-<?php echo $tab_action['type']; ?><?php echo ( is_null( $tab_action['class'] ) ) ? '' : ' ' . $tab_action['class']; ?>" href="<?php echo esc_url( $tab_action['link'] ); ?>"<?php echo ( is_null( $tab_action['target'] ) ) ? '' : ' target="' . $tab_action['target'] . '"'; ?>><?php echo $tab_action['title']; ?></a>
-						<?php endif; ?>
-					<?php endforeach; ?>
-					</div>
-				<?php endif; ?>
-			</div>
+            <h1 class="nav-tab-wrapper">
+                <?php foreach ( $all_tabs as $tab ) : ?>
+                    <a class="nav-tab<?php echo ( $active_tab === $tab['tab_id'] ? ' nav-tab-active' : '' ); ?>" href="<?php echo esc_url( admin_url( add_query_arg( array( 'tab' => $tab['tab_id'] ), add_query_arg( array( 'page' => 'ccbpress-settings' ), 'admin.php' ) ) ) ); ?>">
+                        <?php echo $tab['title']; ?>
+                    </a>
+                <?php endforeach; ?>
+            </h1>
+            <?php if ( $has_tab_actions ) : ?>
+                <div class="ccbpress_tab_actions">
+                <?php foreach ( $all_tab_actions as $tab_action ) : ?>
+                    <?php if ( isset( $tab_action['tab_id'] ) && $tab_action['tab_id'] == $active_tab ) : ?>
+                        <a class="button button-<?php echo $tab_action['type']; ?><?php echo ( is_null( $tab_action['class'] ) ) ? '' : ' ' . $tab_action['class']; ?>" href="<?php echo esc_url( $tab_action['link'] ); ?>"<?php echo ( is_null( $tab_action['target'] ) ) ? '' : ' target="' . $tab_action['target'] . '"'; ?>><?php echo $tab_action['title']; ?></a>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
 			<div id="ccbpress_tab_container" class="metabox-holder">
 				<div class="postbox">
 					<div class="inside">
