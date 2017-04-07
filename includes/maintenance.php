@@ -165,7 +165,7 @@ class CCBPress_Maintenance {
 
 }
 
-add_action('ccbpress_daily_maintenance', 'ccbpress_daily_maintenance' );
+// add_action('ccbpress_daily_maintenance', 'ccbpress_daily_maintenance' );
 function ccbpress_daily_maintenance() {
 	new CCBPress_Maintenance();
 }

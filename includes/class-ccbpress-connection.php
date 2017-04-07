@@ -64,10 +64,125 @@ class CCBPress_Connection {
 	 */
 	public function is_connected() {
 		$ccbpress_ccb = get_option( 'ccbpress_ccb', array() );
-		if ( isset( $ccbpress_ccb['connection_test']) && 'success' === $ccbpress_ccb['connection_test'] ) {
-			return TRUE;
+		if ( isset( $ccbpress_ccb['connection_test'] ) && 'success' === $ccbpress_ccb['connection_test'] ) {
+			return true;
 		}
-		return FALSE;
+		return false;
+	}
+
+	/**
+	 * Build the URL
+	 *
+	 * @since 1.0.3
+	 *
+	 * @param  array $query_string Array of query strings.
+	 *
+	 * @return string
+	 */
+	public function build_url( $query_string = array() ) {
+
+		if ( ! is_array( $query_string ) ) {
+			return false;
+		}
+
+		if ( 0 === count( $query_string ) ) {
+			return false;
+		}
+
+		$url = $this->api_url;
+		foreach ( $query_string as $key => $value ) {
+			$url = add_query_arg( (string) $key, (string) $value, $url );
+		}
+
+		return $url;
+	}
+
+	/**
+	 * GET data from CCB
+	 *
+	 * @since 1.0.3
+	 *
+	 * @param array $args Arguments.
+	 *
+	 * @return	string	An XML string containing the data.
+	 */
+	public function get_new( $args = array() ) {
+
+		$defaults = array(
+			'query_string'		=> array(),
+			'cache_lifespan'	=> 60,
+			'addon'				=> null,
+			'refresh_cache'		=> 0,
+		);
+		$args = wp_parse_args( $args, $defaults );
+
+		// Construct the URL.
+		$get_url = $this->build_url( $args['query_string'] );
+
+		$transient_name = md5( $get_url );
+		$ccb_data = false;
+
+		// Check the transient cache if the cache is not set to 0.
+		if ( $args['cache_lifespan'] > 0 && 0 === $args['refresh_cache'] ) {
+			$ccb_data = $this->transient_fallback->get_transient( $transient_name, 'ccbpress_schedule_get', $args );
+		}
+
+		// Check for a cached copy in the transient data.
+		if ( false !== $ccb_data ) {
+
+			// Load the cached copy from the transient data.
+			$ccb_data = @simplexml_load_string( $ccb_data );
+
+			if ( ! $ccb_data ) {
+				$this->transient_fallback->delete_transient( $transient_name );
+				$ccb_data = '';
+			}
+
+			return $ccb_data;
+		}
+
+		$get_args = array(
+			'headers' => array(
+				'Authorization' => 'Basic ' . base64_encode( $this->api_user . ':' . $this->api_pass ),
+			),
+			'timeout' => 300,
+		);
+		$response = wp_remote_get( $get_url, $get_args );
+
+		// Return false if there was an error.
+		if ( is_wp_error( $response ) ) {
+			return false;
+		}
+
+		// Grab the body from the response.
+		$ccb_data = wp_remote_retrieve_body( $response );
+
+		// Free up the memory.
+		unset( $response );
+
+		if ( ! $this->is_valid( $ccb_data ) ) {
+			return false;
+		}
+
+		// Save the transient data according to the $cache_lifespan.
+		if ( $args['cache_lifespan'] > 0 ) {
+			$this->transient_fallback->set_transient( $transient_name, $ccb_data, $args['cache_lifespan'] );
+		}
+
+		$ccb_data = @simplexml_load_string( $ccb_data );
+
+		if ( ! $ccb_data ) {
+			$this->transient_fallback->delete_transient( $transient_name );
+			return false;
+		}
+
+		// $this->find_images( $ccb_data );
+
+		$srv = strtolower( $args['query_string']['srv'] );
+		do_action( "ccbpress_after_get_{$srv}", $ccb_data, $args );
+
+		return $ccb_data;
+
 	}
 
     /**
@@ -84,7 +199,6 @@ class CCBPress_Connection {
 	 */
 	public function get( $get_url, $cache_lifespan = 0 ) {
 
-		//$get_url = $this->api_url . $srv;
 		$transient_name = md5( $get_url );
 		$ccb_data = false;
 

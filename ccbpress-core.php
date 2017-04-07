@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! class_exists( 'CCBPress_Core' ) ) :
 
-	register_activation_hook( __FILE__, array( 'CCBPress_Core', 'create_tables' ) );
+	// register_activation_hook( __FILE__, array( 'CCBPress_Core', 'create_tables' ) );
 	register_activation_hook( __FILE__, array( 'CCBPress_Core', 'schedule_cron' ) );
 	register_deactivation_hook( __FILE__, array( 'CCBPress_Core', 'unschedule_cron' ) );
 
@@ -90,9 +90,9 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 	            self::$instance->setup_constants();
 	            self::$instance->includes();
 
-	            self::$instance->transients = new CCBPress_Transients();
-	            self::$instance->ccb        = new CCBPress_Connection();
-				self::$instance->sync       = new CCBPress_Sync();
+	            self::$instance->transients	= new CCBPress_Transients();
+	            self::$instance->ccb		= new CCBPress_Connection();
+				self::$instance->get		= new CCBPress_Background_Get();
 
 	        }
 
@@ -151,7 +151,7 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 	        require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/schedule-get.php';
 	        require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/styles.php';
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/helpers.php';
-			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/maintenance.php';
+			// require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/maintenance.php';
 	        require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/admin-settings.php';
 	        require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/settings/settings-ccb.php';
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/settings/settings-sync.php';
@@ -163,11 +163,13 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/widgets/widget-login.php';
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/widgets/widget-online-giving.php';
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/widgets/widget-group-info.php';
-			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/group_profiles-db.php';
-	        require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/event_profiles-db.php';
+			// require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/group_profiles-db.php';
+	        // require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/event_profiles-db.php';
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'lib/wp-background-processing/wp-async-request.php';
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'lib/wp-background-processing/wp-background-process.php';
-			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/class-ccbpress-sync.php';
+			// require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/class-ccbpress-sync.php';
+			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/class-ccbpress-background-get.php';
+			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/import.php';
 
 	        if ( is_admin() ) {
 				require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/admin-page-tabs.php';
@@ -193,10 +195,10 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 			 $group_profiles_db->create_table();
 			 unset( $group_profiles_db );
 
-	         require_once plugin_dir_path( __FILE__ ) . 'includes/event_profiles-db.php';
-			 $event_profiles_db = new CCBPress_Event_Profiles_DB();
-			 $event_profiles_db->create_table();
-			 unset( $event_profiles_db );
+	        //  require_once plugin_dir_path( __FILE__ ) . 'includes/event_profiles-db.php';
+			//  $event_profiles_db = new CCBPress_Event_Profiles_DB();
+			//  $event_profiles_db->create_table();
+			//  unset( $event_profiles_db );
 
 		}
 
@@ -209,14 +211,14 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 		 */
 		public static function schedule_cron() {
 
-			if ( false === wp_next_scheduled( 'ccbpress_daily_maintenance' ) ) {
+			if ( false === wp_next_scheduled( 'ccbpress_maintenance' ) ) {
 
 				$timestamp = strtotime( 'midnight ' . get_option( 'timezone_string' ) );
 				if ( $timestamp < current_time( 'timestamp' ) ) {
 					$timestamp = strtotime( '+1 day', $timestamp );
 				}
 
-				wp_schedule_event( $timestamp, 'daily', 'ccbpress_daily_maintenance' );
+				wp_schedule_event( $timestamp, 'daily', 'ccbpress_maintenance' );
 
 			}
 
@@ -230,7 +232,7 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 		 * @return void
 		 */
 		public static function unschedule_cron() {
-			wp_clear_scheduled_hook( 'ccbpress_daily_maintenance' );
+			wp_clear_scheduled_hook( 'ccbpress_maintenance' );
 			wp_clear_scheduled_hook( 'ccbpress_transient_cache_cleanup' );
 		}
 
