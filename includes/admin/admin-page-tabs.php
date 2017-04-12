@@ -30,8 +30,8 @@ class CCBPress_Admin_Page_Tabs {
 		if ( CCBPress()->ccb->is_connected() ) {
 
 			$tabs[] = array(
-				'tab_id'			=> 'sync',
-				'settings_id'	=> 'ccbpress_settings_sync',
+				'tab_id'		=> 'import',
+				'settings_id'	=> 'ccbpress_settings_import',
 				'title'			=> __('Data Import', 'ccbpress-core'),
 				'submit'		=> TRUE,
 			);

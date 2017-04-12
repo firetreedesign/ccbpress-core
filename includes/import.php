@@ -152,4 +152,4 @@ class CCBPress_Import {
 	}
 
 }
-CCBPPress_Import::init();
+CCBPress_Import::init();

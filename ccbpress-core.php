@@ -154,7 +154,7 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 			// require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/maintenance.php';
 	        require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/admin-settings.php';
 	        require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/settings/settings-ccb.php';
-			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/settings/settings-sync.php';
+			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/settings/settings-import.php';
 	        require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/settings/settings-ccbpress.php';
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/settings/settings-licenses.php';
 	        require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/admin-bar-menu.php';
@@ -190,10 +190,10 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 		 */
 		public static function create_tables() {
 
-			 require_once plugin_dir_path( __FILE__ ) . 'includes/group_profiles-db.php';
-			 $group_profiles_db = new CCBPress_Group_Profiles_DB();
-			 $group_profiles_db->create_table();
-			 unset( $group_profiles_db );
+			//  require_once plugin_dir_path( __FILE__ ) . 'includes/group_profiles-db.php';
+			//  $group_profiles_db = new CCBPress_Group_Profiles_DB();
+			//  $group_profiles_db->create_table();
+			//  unset( $group_profiles_db );
 
 	        //  require_once plugin_dir_path( __FILE__ ) . 'includes/event_profiles-db.php';
 			//  $event_profiles_db = new CCBPress_Event_Profiles_DB();

@@ -164,7 +164,7 @@ if ( ! class_exists( 'CCBPress_Addon' ) ) :
 		 */
 		public function import_jobs( $jobs ) {
 
-			if ( ! is_array( $this->import_settings ) ) {
+			if ( ! is_array( $this->import_jobs ) ) {
 				return $jobs;
 			}
 

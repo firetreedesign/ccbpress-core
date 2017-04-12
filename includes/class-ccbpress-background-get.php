@@ -56,10 +56,8 @@ class CCBPress_Background_Get extends WP_Background_Process {
 		/**
 		 * Update our import status
 		 */
-		if ( ! is_null( $item['addon'] ) ) {
-			delete_option( 'ccbpress_' . $item['addon'] . '_import_in_progress' );
-			update_option( 'ccbpress_' . $item['addon'] . '_last_import', date( 'Y-m-d H:i:s', current_time( 'timestamp' ) ) );
-		}
+		delete_option( 'ccbpress_import_in_progress' );
+		update_option( 'ccbpress_last_import', date( 'Y-m-d H:i:s', current_time( 'timestamp' ) ) );
 
 		/**
 		 * Done
