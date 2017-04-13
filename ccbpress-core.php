@@ -20,7 +20,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! class_exists( 'CCBPress_Core' ) ) :
 
-	// register_activation_hook( __FILE__, array( 'CCBPress_Core', 'create_tables' ) );
 	register_activation_hook( __FILE__, array( 'CCBPress_Core', 'schedule_cron' ) );
 	register_deactivation_hook( __FILE__, array( 'CCBPress_Core', 'unschedule_cron' ) );
 
@@ -180,27 +179,6 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 	        }
 
 	    }
-
-		/**
-		 * Create the custom tables needed for our plugin
-		 *
-		 * @since 1.0.0
-		 *
-		 * @return void
-		 */
-		public static function create_tables() {
-
-			//  require_once plugin_dir_path( __FILE__ ) . 'includes/group_profiles-db.php';
-			//  $group_profiles_db = new CCBPress_Group_Profiles_DB();
-			//  $group_profiles_db->create_table();
-			//  unset( $group_profiles_db );
-
-	        //  require_once plugin_dir_path( __FILE__ ) . 'includes/event_profiles-db.php';
-			//  $event_profiles_db = new CCBPress_Event_Profiles_DB();
-			//  $event_profiles_db->create_table();
-			//  unset( $event_profiles_db );
-
-		}
 
 		/**
 		 * Schedule daily mantenance tasks

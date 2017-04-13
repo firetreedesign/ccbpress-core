@@ -77,11 +77,11 @@ class CCBPress_Admin_Bar {
 			// Get the array of registered services
 			$services = apply_filters( 'ccbpress_ccb_services', array() );
 			// Check for group related services
-			if ( ( array_intersect( array( 'event_profiles', 'event_profile' ), $services ) && false === get_option( 'ccbpress_last_event_sync', false ) ) || ( array_intersect( array( 'group_profiles', 'group_profile_from_id' ), $services ) && false === get_option( 'ccbpress_last_group_sync', false ) ) ) {
+			if ( ( array_intersect( array( 'event_profiles', 'event_profile', 'group_profiles', 'group_profile_from_id' ), $services ) && false === get_option( 'ccbpress_last_import', false ) ) ) {
 				//Add the main siteadmin menu item
 				$wp_admin_bar->add_menu( array(
 					'id'     => 'ccbpress-import-notice',
-					'href'   => admin_url() . 'admin.php?page=ccbpress-settings&tab=sync',
+					'href'   => admin_url() . 'admin.php?page=ccbpress-settings&tab=import',
 					'parent' => 'top-secondary',
 					'title'  => esc_html__( 'CCB Data Not Imported', 'ccbpress-core' ),
 					'meta'   => array( 'class' => 'ccbpress-import-notice' ),

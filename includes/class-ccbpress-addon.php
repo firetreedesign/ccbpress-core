@@ -72,8 +72,8 @@ if ( ! class_exists( 'CCBPress_Addon' ) ) :
 				$this->support_topics = $_args['support_topics'];
 			}
 
-			if ( isset( $args['import_jobs'] ) ) {
-				$this->import_jobs = $args['import_jobs'];
+			if ( isset( $_args['import_jobs'] ) ) {
+				$this->import_jobs = $_args['import_jobs'];
 			}
 
 			if ( isset( $_args['uninstall'] ) ) {

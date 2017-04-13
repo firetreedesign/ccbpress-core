@@ -48,32 +48,37 @@ class CCBPress_Settings_Import extends CCBPress_Settings {
 		// First, we register a section. This is necessary since all future options must belong to one.
 		add_settings_section(
 			'ccbpress_settings_import_section',
-			__( 'Data', 'ccbpress-core' ),
+			__( 'Data Import', 'ccbpress-core' ),
 			array( $this, 'data_import_section_callback' ),
 			'ccbpress_settings_import'
 		);
 
+		$import_schedule = __( 'No import jobs are currently scheduled.', 'ccbpress-core' );
+		$import_active = false;
+
 		$import_jobs = apply_filters( 'ccbpress_import_jobs', array() );
-		var_dump( $import_jobs );
-		// if ( 0 < count( $import_jobs ) ) {
+		if ( 0 < count( $import_jobs ) ) {
+			$import_schedule = __( 'Scheduled to run in approximately ', 'ccbpress-core' ) . human_time_diff( strtotime( 'now' ), wp_next_scheduled( 'ccbpress_maintenance' ) );
+			$import_active = true;
+		}
 
-			$import_schedule = __( 'Scheduled to run in approximately ', 'ccbpress-core' ) . human_time_diff( strtotime( 'now' ), wp_next_scheduled( 'ccbpress_daily_maintenance' ) );
+		/**
+		 * Automatic Sync
+	 	 */
+		add_settings_field(
+			'auto_import',
+			'<strong>' . __( 'Automatic Import', 'ccbpress-core' ) . '</strong>',
+			array( $this, 'text_callback' ),
+			'ccbpress_settings_import',
+			'ccbpress_settings_import_section',
+			array(
+				'header'	=> null,
+				'title'		=> null,
+				'content'	=> $import_schedule,
+			)
+		);
 
-			/**
-			 * Automatic Sync
-		 	 */
-			add_settings_field(
-				'auto_import',
-				'<strong>' . __( 'Automatic Import', 'ccbpress-core' ) . '</strong>',
-				array( $this, 'text_callback' ),
-				'ccbpress_settings_import',
-				'ccbpress_settings_import_section',
-				array(
-					'header'	=> null,
-					'title'		=> null,
-					'content'	=> $import_schedule,
-				)
-			);
+		if ( true === $import_active ) {
 
 			/**
 			 * Last Import
@@ -117,7 +122,7 @@ class CCBPress_Settings_Import extends CCBPress_Settings {
 				)
 			);
 
-		// }
+		}
 
 		// Finally, we register the fields with WordPress.
 		register_setting(
@@ -348,7 +353,7 @@ class CCBPress_Settings_Import extends CCBPress_Settings {
     }
 
 	public function data_import_section_callback() {
-        echo '<p>' . __( 'Here you can manage the import settings for you Church Community Builder data. If you have add-ons that need group data, we will automatically import the data from CCB for you every night.', 'ccbpress-core' ) . '</p>';
+        echo '<p>' . __( 'Here you can manage the import settings for you Church Community Builder data. If you have add-ons that need data, we will automatically import the data from Church Community Builder for you every night.', 'ccbpress-core' ) . '</p>';
 	}
 
     public function group_sync_section_callback() {

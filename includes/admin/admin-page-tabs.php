@@ -33,7 +33,7 @@ class CCBPress_Admin_Page_Tabs {
 				'tab_id'		=> 'import',
 				'settings_id'	=> 'ccbpress_settings_import',
 				'title'			=> __('Data Import', 'ccbpress-core'),
-				'submit'		=> TRUE,
+				'submit'		=> false,
 			);
 
 		}

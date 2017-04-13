@@ -8,27 +8,87 @@
  * @since       1.0.0
  */
 
-// Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
+/**
+ * CCBPress_Connection class
+ *
+ * @since 1.0.0
+ */
 class CCBPress_Connection {
 
+	/**
+	 * API Protocol
+	 *
+	 * @var $api_protocol
+	 */
 	private $api_protocol = 'https://';
+
+	/**
+	 * API Endpoint
+	 *
+	 * @var $api_endpoint
+	 */
 	private $api_endpoint = '.ccbchurch.com/api.php';
+
+	/**
+	 * API URL
+	 *
+	 * @var $api_url
+	 */
 	public $api_url;
+
+	/**
+	 * API User
+	 *
+	 * @var $api_user
+	 */
 	private $api_user;
+
+	/**
+	 * API Password
+	 *
+	 * @var $api_pass
+	 */
 	private $api_pass;
+
+	/**
+	 * Transient Prefix
+	 *
+	 * @var $transient_prefix
+	 */
 	private $transient_prefix;
+
+	/**
+	 * Test Service
+	 *
+	 * @var $test_srv
+	 */
 	private $test_srv;
+
+	/**
+	 * Transient Fallback
+	 *
+	 * @var $transient_fallback
+	 */
 	private $transient_fallback;
+
+	/**
+	 * Image Cache Directory
+	 *
+	 * @var $image_cache_dir
+	 */
 	private $image_cache_dir;
 
-    /**
-     * Create a new instance
-     */
-    function __construct() {
+	/**
+	 * Create a new instance
+	 */
+	function __construct() {
 
-        $ccbpress_ccb = get_option( 'ccbpress_ccb' );
+		$ccbpress_ccb = get_option( 'ccbpress_ccb' );
 
 		$api_user = '';
 		if ( isset( $ccbpress_ccb['api_user'] ) ) {
@@ -41,19 +101,19 @@ class CCBPress_Connection {
 		}
 
 		$api_prefix = '';
-        if ( isset( $ccbpress_ccb['api_prefix'] ) ) {
-            $api_prefix = $ccbpress_ccb['api_prefix'];
-        }
+		if ( isset( $ccbpress_ccb['api_prefix'] ) ) {
+			$api_prefix = $ccbpress_ccb['api_prefix'];
+		}
 
 		$this->api_url				= $this->api_protocol . $api_prefix . $this->api_endpoint;
 		$this->api_user				= $api_user;
 		$this->api_pass				= $api_pass;
-        $this->transient_prefix		= 'ccbp_';
+		$this->transient_prefix		= 'ccbp_';
 		$this->test_srv				= 'api_status';
 		$this->image_cache_dir		= 'ccbpress';
 		$this->transient_fallback	= CCBPress()->transients;
 
-    }
+	}
 
 	/**
 	 * Test if we are connected to Church Community Builder
@@ -91,6 +151,9 @@ class CCBPress_Connection {
 
 		$url = $this->api_url;
 		foreach ( $query_string as $key => $value ) {
+			if ( 0 === strlen( trim( $value ) ) ) {
+				continue;
+			}
 			$url = add_query_arg( (string) $key, (string) $value, $url );
 		}
 
@@ -155,29 +218,26 @@ class CCBPress_Connection {
 		}
 
 		// Grab the body from the response.
-		$ccb_data = wp_remote_retrieve_body( $response );
+		$ccb_data_raw = wp_remote_retrieve_body( $response );
 
 		// Free up the memory.
 		unset( $response );
+
+		$ccb_data = @simplexml_load_string( $ccb_data_raw );
 
 		if ( ! $this->is_valid( $ccb_data ) ) {
 			return false;
 		}
 
-		// Save the transient data according to the $cache_lifespan.
+		// Save the transient data according to the cache_lifespan.
 		if ( $args['cache_lifespan'] > 0 ) {
-			$this->transient_fallback->set_transient( $transient_name, $ccb_data, $args['cache_lifespan'] );
+			$this->transient_fallback->set_transient( $transient_name, $ccb_data_raw, $args['cache_lifespan'] );
 		}
 
-		$ccb_data = @simplexml_load_string( $ccb_data );
+		// Free up the memory.
+		unset( $ccb_data_raw );
 
-		if ( ! $ccb_data ) {
-			$this->transient_fallback->delete_transient( $transient_name );
-			return false;
-		}
-
-		// $this->find_images( $ccb_data );
-
+		// $this->find_images( $ccb_data );.
 		$srv = strtolower( $args['query_string']['srv'] );
 		do_action( "ccbpress_after_get_{$srv}", $ccb_data, $args );
 
@@ -470,26 +530,54 @@ class CCBPress_Connection {
 
 	}
 
-    /**
+	/**
 	 * Validates the data from CCB.
 	 *
-	 * @param	string	$ccb_data	The data from CCB.
+	 * @param	string $ccb_data	The data from CCB.
 	 *
 	 * @return 	bool	true/false.
 	 */
 	public function is_valid( $ccb_data ) {
 
-		if ( is_object( $ccb_data ) && count( get_object_vars( $ccb_data ) ) > 0 ) {
-
-            if ( ! is_null( $ccb_data->request ) && ! is_null( $ccb_data->response ) && is_null( $ccb_data->response->errors->error ) ) {
-
-                return true;
-
-            }
-
+		// Make sure that we're dealing with an object.
+		if ( ! is_object( $ccb_data ) ) {
+			return false;
 		}
 
-		return false;
+		// Make sure that the object has properties.
+		if ( 0 === count( get_object_vars( $ccb_data ) ) ) {
+			return false;
+		}
+
+		// Make sure that the request property exists.
+		if ( is_null( $ccb_data->request ) ) {
+			return false;
+		}
+
+		// Make sure that the response property exists.
+		if ( is_null( $ccb_data->response ) ) {
+			return false;
+		}
+
+		// Make sure that there are no errors.
+		if ( ! is_null( $ccb_data->response->errors->error ) ) {
+			return false;
+		}
+
+		// Make sure that there are records in the response.
+		$object_vars = get_object_vars( $ccb_data->response );
+		foreach ( $object_vars as $key => $value ) {
+			foreach ( $ccb_data->response->{$key}->attributes() as $attr_key => $attr_value ) {
+				if ( 'count' !== (string) $attr_key ) {
+					continue;
+				}
+				if ( '0' === (string) $attr_value ) {
+					return false;
+				}
+			}
+		}
+
+		return true;
 
 	}
 

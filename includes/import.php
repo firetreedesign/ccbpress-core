@@ -1,6 +1,6 @@
 <?php
 /**
- * CCBPRess - Import
+ * CCBPress - Import
  *
  * @since	1.0.3
  * @package	CCBPress Core
@@ -26,6 +26,8 @@ class CCBPress_Import {
 	public static function init() {
 		add_action( 'ccbpress_maintenance',				__CLASS__ . '::run' );
 		add_action( 'ccbpress_import_job_queued',		__CLASS__ . '::import_job_queued' );
+		add_action( 'ccbpress_import_jobs_dispatched',	__CLASS__ . '::import_jobs_dispatched' );
+		add_action( 'ccbpress_background_get_complete', __CLASS__ . '::import_complete' );
 		add_action( 'wp_ajax_ccbpress_import',			__CLASS__ . '::ajax_run' );
 		add_action( 'wp_ajax_ccbpress_import_status',	__CLASS__ . '::ajax_status' );
 		add_action( 'wp_ajax_ccbpress_last_import',		__CLASS__ . '::ajax_last_import' );
@@ -62,15 +64,43 @@ class CCBPress_Import {
 	}
 
 	/**
-	 * Run the import
+	 * Import job queued
+	 *
+	 * @param array $job Job array.
 	 *
 	 * @since 1.0.0
 	 *
 	 * @return void
 	 */
 	public static function import_job_queued( $job ) {
+		update_option( 'ccbpress_import_in_progress', __( 'Pushing job to the queue...', 'ccbpress-core' ) );
+	}
 
-		// update_option( 'ccbpress_import_in_progress', __( 'Pushing Event Calendars to the queue...', 'rockpress-events' ) );
+	/**
+	 * Import job dispatched
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	public static function import_jobs_dispatched() {
+		update_option( 'ccbpress_import_in_progress', __( 'Import job has been dispatched...', 'ccbpress-core' ) );
+	}
+
+	/**
+	 * Import complete
+	 *
+	 * @since 1.0.3
+	 *
+	 * @return void
+	 */
+	public static function import_complete() {
+
+		/**
+		 * Update our import status
+		 */
+		delete_option( 'ccbpress_import_in_progress' );
+		update_option( 'ccbpress_last_import', date( 'Y-m-d H:i:s', current_time( 'timestamp' ) ) );
 
 	}
 
@@ -111,7 +141,7 @@ class CCBPress_Import {
 		$progress = get_option( 'ccbpress_import_in_progress', false );
 
 		if ( false === $progress ) {
-			wp_send_json( $status );
+			wp_send_json( 'false' );
 		}
 
 		array_push( $status, array(
