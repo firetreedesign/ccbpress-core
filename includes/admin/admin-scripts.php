@@ -69,7 +69,7 @@ class CCBPress_Admin_Scripts {
 	 * @return void
 	 */
 	private function register() {
-		// wp_register_script( 'ccbpress-select2', CCBPRESS_CORE_PLUGIN_URL . 'lib/select2ccbpress/select2ccbpress.full.min.js', array('jquery'), '4.0.1' );.
+		wp_register_script( 'chosen', CCBPRESS_CORE_PLUGIN_URL . 'lib/chosen/chosen.jquery.min.js', array( 'jquery' ), '1.7.0' );
 		wp_register_script( 'ccbpress-core-beacon', CCBPRESS_CORE_PLUGIN_URL . 'assets/js/help.js', array(), '1.0.1', true );
 	}
 

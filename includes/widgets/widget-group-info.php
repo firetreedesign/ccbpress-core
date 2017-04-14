@@ -105,8 +105,8 @@ class CCBPress_Widget_Group_Info extends WP_Widget {
 	 */
 	public function form( $instance ) {
 
-		wp_enqueue_script( 'ccbpress-select2', CCBPRESS_CORE_PLUGIN_URL . 'lib/select2ccbpress/select2ccbpress.full.min.js' );
-		wp_enqueue_style( 'ccbpress-select2', CCBPRESS_CORE_PLUGIN_URL . 'lib/select2ccbpress/select2ccbpress.min.css' );
+		wp_enqueue_script( 'chosen' );
+		wp_enqueue_style( 'chosen' );
 
 		$instance = wp_parse_args( $instance, array(
 			'title'								=> '',
@@ -147,7 +147,7 @@ class CCBPress_Widget_Group_Info extends WP_Widget {
 			</p>
 			<script>
 			jQuery( document ).ready(function($) {
-				jQuery('#widgets-right .ccbpress-select select').select2ccbpress({ width: '100%' });
+				jQuery('#widgets-right .ccbpress-select select').chosen({width: "100%", disable_search_threshold: 10});
 			});
 			</script>
 			<p>
@@ -458,9 +458,9 @@ class CCBPress_Widget_Group_Info_Template extends CCBPress_Template {
 	/**
 	 * Build the CCB Easy Email URL
 	 *
-	 * @param	string	$individual_id			The individual id.
-	 * @param	string	$group_id				The group id.
-	 * @param	string	$individual_full_name	The individual's full name.
+	 * @param	string $individual_id			The individual id.
+	 * @param	string $group_id				The group id.
+	 * @param	string $individual_full_name	The individual's full name.
 	 *
 	 * @return	string	The URL.
 	 */
@@ -485,7 +485,7 @@ class CCBPress_Widget_Group_Info_Template extends CCBPress_Template {
 	 */
 	public function lightbox_class() {
 
-		// Retrieve the lightbox settings from the plugin options
+		// Retrieve the lightbox settings from the plugin options.
 		switch ( get_option( 'ccbpress_ccb_forms_lightbox' ) ) {
 
 			case 'easy-fancybox':
