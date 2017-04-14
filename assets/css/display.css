@@ -6,3 +6,5 @@
 .widget .ccbpress-core-group-leader-name {  }
 .widget .ccbpress-core-group-leader-email,
 .widget .ccbpress-core-group-leader-phone { font-style: italic; }
+.widget .ccbpress-core-login label,
+.widget .ccbpress-core-login input:not([type=submit]) { display: block; width: 100%; margin-bottom: 10px; }
