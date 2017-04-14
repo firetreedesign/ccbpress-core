@@ -10,7 +10,7 @@ class CCBPress_Admin_Ajax {
 
 	public function check_services() {
 
-		if ( ! isset( $_POST['ccbpress_nonce'] ) || ! wp_verify_nonce( $_POST['ccbpress_nonce'], 'ccbpress-nonce' ) ) {
+		if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'ccbpress-nonce' ) ) {
 			die( esc_html( 'Insufficient Permissions', 'ccbpress-core' ) );
 		}
 
