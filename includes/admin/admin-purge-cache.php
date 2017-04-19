@@ -25,7 +25,6 @@ class CCBPress_Purge_Cache {
 	public static function init() {
 		add_action( 'admin_post_ccbpress-purge-all-cache', 'CCBPress_Purge_Cache::purge_all_cache_post' );
 		add_action( 'admin_post_ccbpress-purge-image-cache', 'CCBPress_Purge_Cache::purge_images_post' );
-		add_action( 'admin_post_ccbpress-purge-db-cache', 'CCBPress_Purge_Cache::purge_db_post' );
 		add_action( 'admin_post_ccbpress-purge-transient-cache', 'CCBPress_Purge_Cache::purge_transients_post' );
 	}
 
@@ -37,7 +36,6 @@ class CCBPress_Purge_Cache {
 		if ( isset( $_GET['_wpnonce'] ) && wp_verify_nonce( $_GET['_wpnonce'], 'ccbpress-purge-all-cache' ) ) {
 			CCBPress_Purge_Cache::purge_transients();
 			CCBPress_Purge_Cache::purge_image_cache();
-			CCBPress_Purge_Cache::purge_db();
 		}
 
 		wp_redirect( wp_get_referer() );
@@ -52,20 +50,6 @@ class CCBPress_Purge_Cache {
 
 		if ( isset( $_GET['_wpnonce'] ) && wp_verify_nonce( $_GET['_wpnonce'], 'ccbpress-purge-image-cache' ) ) {
 			CCBPress_Purge_Cache::purge_images();
-		}
-
-		wp_redirect( wp_get_referer() );
-		die();
-
-	}
-
-	/**
-	 * Purge database cache
-	 */
-	public static function purge_db_post() {
-
-		if ( isset( $_GET['_wpnonce'] ) && wp_verify_nonce( $_GET['_wpnonce'], 'ccbpress-purge-db-cache' ) ) {
-			CCBPress_Purge_Cache::purge_db();
 		}
 
 		wp_redirect( wp_get_referer() );
@@ -115,32 +99,9 @@ class CCBPress_Purge_Cache {
 	 * Purge image cache
 	 */
 	public static function purge_images() {
-		ccbpress()->ccb->purge_image_cache();
+		CCBPress()->ccb->purge_image_cache();
 	}
 
-	/**
-	 * Purge the database cache
-	 *
-	 * @since 1.0.2
-	 *
-	 * @return void
-	 */
-	public static function purge_db() {
-
-		// Purge the event_profiles table.
-		$event_profiles_db = new CCBPress_Event_Profiles_DB();
-		$event_profiles_db->purge_all();
-		unset( $event_profiles_db );
-
-		// Drop the group_profiles table.
-		$group_profiles_db = new CCBPress_Group_Profiles_DB();
-		$group_profiles_db->purge_all();
-		unset( $group_profiles_db );
-
-		delete_option( 'ccbpress_last_event_sync' );
-		delete_option( 'ccbpress_last_group_sync' );
-
-	}
 
 }
 CCBPress_Purge_Cache::init();

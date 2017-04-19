@@ -52,17 +52,9 @@ class CCBPress_Admin_Bar {
 
 			$wp_admin_bar->add_node(
                 array(
-                    'id'    	=> 'ccbpress_purge_db_cache',
-                    'title' 	=> sprintf( '<span class="dashicons dashicons-list-view" style="font: 400 18px/1 dashicons !important; vertical-align: text-top; -webkit-font-smoothing: antialiased !important;"></span> %1s', __( 'Purge database cache', 'ccbpress-core' ) ),
-                    'href'  	=> wp_nonce_url( admin_url( 'admin-post.php?action=ccbpress-purge-db-cache' ), 'ccbpress-purge-db-cache' ),
-                    'parent'    => 'ccbpress-purge-cache-options',
-            ) );
-
-			$wp_admin_bar->add_node(
-                array(
                     'id'    	=> 'ccbpress_purge_transient_cache',
                     'title' 	=> sprintf( '<span class="dashicons dashicons-clock" style="font: 400 18px/1 dashicons !important; vertical-align: text-top; -webkit-font-smoothing: antialiased !important;"></span> %1s', __( 'Purge transient cache', 'ccbpress-core' ) ),
-                    'href'  	=> wp_nonce_url( admin_url( 'admin-post.php?action=ccbpress-purge-db-cache' ), 'ccbpress-purge-transient-cache' ),
+                    'href'  	=> wp_nonce_url( admin_url( 'admin-post.php?action=ccbpress-purge-transient-cache' ), 'ccbpress-purge-transient-cache' ),
                     'parent'    => 'ccbpress-purge-cache-options',
             ) );
 

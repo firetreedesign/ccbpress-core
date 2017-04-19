@@ -38,7 +38,7 @@
 				 * Check the widget settings to see if it should be displayed.
 				 */
 				if ( $template->show_group_leader_email( $group ) ) : ?>
-					<div class="ccbpress-core-group-leader-email"><a href="<?php echo $template->email_url( (string)$group->main_leader['id'], (string)$group['id'], $group->main_leader->full_name ); ?>" target="_blank" class="<?php echo $template->lightbox_class(); ?>"><?php _e('Send email', 'ccbpress-core'); ?></a></div>
+					<div class="ccbpress-core-group-leader-email"><?php echo $template->email_link( array( 'individual_id' => (string) $group->main_leader['id'], 'class' => $template->lightbox_class(), 'link_text' => esc_html( 'Send email', 'ccbpress-core' ) ) ); ?></div>
 				<?php endif; ?>
 				<?php
 				/**

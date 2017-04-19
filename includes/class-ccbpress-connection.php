@@ -116,6 +116,17 @@ class CCBPress_Connection {
 	}
 
 	/**
+	 * Action hooks
+	 *
+	 * @since 1.1.0
+	 *
+	 * @return void
+	 */
+	public function actions() {
+		add_action( 'ccbpress_after_get_group_profile_from_id', array( $this, 'cache_image_group_profile_from_id' ), 10, 2 );
+	}
+
+	/**
 	 * Test if we are connected to Church Community Builder
 	 *
 	 * @since 1.0.0
@@ -608,7 +619,7 @@ class CCBPress_Connection {
 
 			foreach ( $ccb_data->request->parameters->argument as $argument ) {
 
-				if ( $argument['name'] == 'srv' ) {
+				if ( $argument['name'] === 'srv' ) {
 
 					switch ( $argument['value'] ) {
 
@@ -625,10 +636,6 @@ class CCBPress_Connection {
 
 						case 'event_profile':
 							$image_url = $ccb_data->response->events->event->image;
-
-							// if ( false !== strpos( $image_url, 'event-default.png' ) ) {
-							//     break;
-							// }
 
 							if ( 0 === strlen( $image_url ) ) {
 								break;
@@ -721,6 +728,33 @@ class CCBPress_Connection {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Cache group_profile_from_id image
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param  object $data	Data from Church Community Builder.
+	 * @param  array  $args Import job item.
+	 *
+	 * @return void
+	 */
+	public function cache_image_group_profile_from_id( $data, $args ) {
+
+		if ( ! isset( $data->response->groups->group->image ) ) {
+			return;
+		}
+
+		$image_url = $data->response->groups->group->image;
+
+		if ( false !== strpos( $image_url, 'group-default' ) ) {
+			return;
+		}
+
+		$image_id = $data->response->groups->group['id'];
+		$this->cache_image( $image_url, $image_id, 'group' );
+
 	}
 
     /**

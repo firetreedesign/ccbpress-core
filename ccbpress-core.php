@@ -3,7 +3,7 @@
  * Plugin Name: CCBPress Core
  * Plugin URI: http://ccbpress.com/
  * Description: Display information from Church Community Builder on your WordPress site.
- * Version: 1.0.2
+ * Version: 1.1.0
  * Author: CCBPress <info@ccbpress.com>
  * Author URI: https://ccbpress.com/
  * Text Domain: ccbpress-core
@@ -66,7 +66,7 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 	     * @var string
 	     * @since 1.0.0
 	     */
-	    public $version = '1.0.2';
+	    public $version = '1.1.0';
 
 		/**
 	     * Main CCBPress_Core Instance
@@ -150,7 +150,6 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 	        require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/schedule-get.php';
 	        require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/styles.php';
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/helpers.php';
-			// require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/maintenance.php';
 	        require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/admin-settings.php';
 	        require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/settings/settings-ccb.php';
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/settings/settings-import.php';
@@ -162,11 +161,8 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/widgets/widget-login.php';
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/widgets/widget-online-giving.php';
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/widgets/widget-group-info.php';
-			// require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/group_profiles-db.php';
-	        // require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/event_profiles-db.php';
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'lib/wp-background-processing/wp-async-request.php';
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'lib/wp-background-processing/wp-background-process.php';
-			// require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/class-ccbpress-sync.php';
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/class-ccbpress-background-get.php';
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/import.php';
 

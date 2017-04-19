@@ -1,315 +1,373 @@
 <?php
-// Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+/**
+ * Widget - Group Info
+ *
+ * @since 1.0.0
+ *
+ * @package CCBPress Core
+ */
+
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 if ( ! class_exists( 'CCBPress_Widget_Group_Info' ) ) :
 
-class CCBPress_Widget_Group_Info extends WP_Widget {
-
 	/**
-	 * Register the widget with WordPress
+	 * Group Info Widget
 	 *
 	 * @since 1.0.0
 	 */
-	function __construct() {
+	class CCBPress_Widget_Group_Info extends WP_Widget {
 
-		parent::__construct(
-			'ccbpress_widget_group_info',
-			__('Group Information (CCBPress)', 'ccbpress-core'),
-			array(
-				'description'	=> __('Display group information from Church Community Builder.', 'ccbpress-core' ),
-				'classname'		=> 'ccbpress-group-info'
-			)
-		);
+		/**
+		 * Register the widget with WordPress
+		 *
+		 * @since 1.0.0
+		 */
+		function __construct() {
 
-	}
-
-	/**
-	 * Front-end display of the widget
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param  array $args     Widget arguments.
-	 * @param  array $instance Saved values from database.
-	 *
-	 * @return void
-	 */
-	public function widget( $args, $instance ) {
-
-		$group_id 							= $instance['group_id'];
-		$show_group_name 					= $instance['show_group_name'];
-		$show_group_description 			= $instance['show_group_description'];
-		$show_group_image 					= $instance['show_group_image'];
-		$show_group_leader_card 			= $instance['show_group_leader_card'];
-		$show_group_leader_phone_numbers	= $instance['show_group_leader_phone_numbers'];
-		$show_group_leader_email			= $instance['show_group_leader_email'];
-		$show_group_registration_forms 		= $instance['show_group_registration_forms'];
-
-		// Build the query to get the data from CCB
-		$ccbpress_args = array(
-			'id' => $group_id,
-		);
-		$ccbpress_data = false;
-		if ( strlen( $group_id ) > 0 ) {
-			$ccbpress_data = ccbpress()->ccb->group_profile_from_id( $ccbpress_args );
-		}
-
-		echo $args['before_widget'];
-
-		if ( ! empty( $instance['title'] ) ) {
-			echo $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ) . $args['after_title'];
-		}
-
-		if ( false !== $ccbpress_data ) {
-
-			// Define the array to hold all found group
-			$group = array();
-			$group = $ccbpress_data->response->groups->group;
-			//$group_id = (string)$group['id'];
-
-			// Get the cached group image
-			$group->image = ccbpress()->ccb->get_image( $group_id, 'group' );
-
-			// Get their profile image from their user profile
-			$group_main_leader_profile = ccbpress()->ccb->individual_profile_from_id( array( 'individual_id' => (string)$group->main_leader['id'] ) );
-			$group->main_leader->image	= $group_main_leader_profile->response->individuals->individual->image;
-
-			// Set the values passed from the widget options
-			$group->widget_options->show_group_name					= $show_group_name;
-			$group->widget_options->show_group_image				= $show_group_image;
-			$group->widget_options->show_group_description			= $show_group_description;
-			$group->widget_options->show_group_leader				= $show_group_leader_card;
-			$group->widget_options->show_group_leader_email			= $show_group_leader_email;
-			$group->widget_options->show_group_leader_phone_numbers	= $show_group_leader_phone_numbers;
-			$group->widget_options->show_group_registration_forms	= $show_group_registration_forms;
-
-			// Echo the group data and apply any filters
-			echo $this->ccbpress_get_template( $group );
+			parent::__construct(
+				'ccbpress_widget_group_info',
+				__( 'Group Information (CCBPress)', 'ccbpress-core' ),
+				array(
+					'description'	=> __( 'Display group information from Church Community Builder.', 'ccbpress-core' ),
+					'classname'		=> 'ccbpress-group-info',
+				)
+			);
 
 		}
 
-		echo $args['after_widget'];
+		/**
+		 * Front-end display of the widget
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param  array $args     Widget arguments.
+		 * @param  array $instance Saved values from database.
+		 *
+		 * @return void
+		 */
+		public function widget( $args, $instance ) {
 
-	}
+			$group_id 							= $instance['group_id'];
+			$show_group_name 					= $instance['show_group_name'];
+			$show_group_description 			= $instance['show_group_description'];
+			$show_group_image 					= $instance['show_group_image'];
+			$show_group_leader_card 			= $instance['show_group_leader_card'];
+			$show_group_leader_phone_numbers	= $instance['show_group_leader_phone_numbers'];
+			$show_group_leader_email			= $instance['show_group_leader_email'];
+			$show_group_registration_forms 		= $instance['show_group_registration_forms'];
 
-	/**
-	 * Back-end widget form
-	 *
-	 * @since 1.0.0
-	 *
-	 * @see WP_Widget::form()
-	 *
-	 * @param  array $instance Previously saved values from database
-	 *
-	 * @return void
-	 */
-	public function form( $instance ) {
+			// Build the query to get the data from CCB.
+			$ccbpress_data = false;
+			if ( strlen( $group_id ) > 0 ) {
+				$ccbpress_data = CCBPress()->ccb->get_new( array(
+					'service'			=> 'group_profile_from_id',
+					'cache_lifespan'	=> CCBPress()->ccb->cache_lifespan( 'group_profile_from_id' ),
+					'query_string'		=> array(
+						'srv'					=> 'group_profile_from_id',
+						'id'					=> $group_id,
+						'include_image_link'	=> '1',
+					),
+				) );
+			}
 
-		wp_enqueue_script( 'chosen' );
-		wp_enqueue_style( 'chosen' );
+			echo $args['before_widget'];
 
-		$instance = wp_parse_args( $instance, array(
-			'title'								=> '',
-			'group_id'							=> '',
-			'show_group_name'					=> 'true',
-			'show_group_description'			=> 'true',
-			'show_group_image'					=> 'true',
-			'show_group_leader_card'			=> 'true',
-			'show_group_leader_phone_numbers'	=> 'false',
-			'show_group_leader_email'			=> 'false',
-			'show_group_registration_forms'		=> 'true'
-		) );
+			if ( ! empty( $instance['title'] ) ) {
+				echo $args['before_title'] . esc_html( apply_filters( 'widget_title', $instance['title'] ) ) . $args['after_title'];
+			}
 
-		$title = ! empty( $instance['title'] ) ? $instance['title'] : '';
-		?>
-		<div class="widget-content">
+			if ( false !== $ccbpress_data ) {
 
-			<p>
-				<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title: (optional)', 'ccbpress-core' ); ?></label>
-				<input type="text" class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" value="<?php echo $instance['title']; ?>" />
-			</p>
+				// Define the array to hold all found group.
+				$group = array();
+				$group = $ccbpress_data->response->groups->group;
 
-			<p class="ccbpress-select">
-				<label for="<?php echo $this->get_field_id( 'group_id' ); ?>"><?php _e( 'Group Info From:', 'ccbpress-core' ); ?></label>
-				<select name="<?php echo $this->get_field_name( 'group_id' ); ?>" id="<?php echo $this->get_field_id( 'group_id' ); ?>" data-placeholder="Start typing to search..." class="widefat">
-					<option value="none"><?php _e('None', 'ccbpress-core'); ?></option>
-					<?php
-					$ccb_groups = ccbpress()->ccb->group_profiles( array( 'cache_lifespan' => 2880 ) );
+				// Get the cached group image.
+				$group->image = CCBPress()->ccb->get_image( $group_id, 'group' );
 
-					if ( $ccb_groups ) {
-						foreach( $ccb_groups->response->groups->group as $group ) : ?>
-							<option value="<?php esc_attr_e( $group['id'] ); ?>" <?php selected( in_array( $group['id'], explode( ",", $instance['group_id'] ) ), true ); ?>><?php echo $group->name; ?></option>
-						<?php endforeach;
-					}
-					unset( $ccb_groups );
-					?>
-				</select>
-			</p>
-			<script>
-			jQuery( document ).ready(function($) {
-				jQuery('#widgets-right .ccbpress-select select').chosen({width: "100%", disable_search_threshold: 10});
-			});
-			</script>
-			<p>
-				<strong><?php _e( 'What would you like to show?', 'ccbpress-core' ); ?></strong>
-			</p>
+				// Get their profile image from their user profile.
+				$group_main_leader_profile = CCBPress()->ccb->get_new( array(
+					'service'			=> 'individual_profile_from_id',
+					'cache_lifespan'	=> CCBPress()->ccb->cache_lifespan( 'individual_profile_from_id' ),
+					'query_string'		=> array(
+						'srv'				=> 'individual_profile_from_id',
+						'individual_id'		=> (string) $group->main_leader['id'],
+						'include_inactive'	=> 0,
+					),
+				) );
+				$group->main_leader->image	= $group_main_leader_profile->response->individuals->individual->image;
 
-			<table class="ccbpress_widget_table" style="width: 100%;">
-				<tr>
-					<td>
-						<label for="<?php echo $this->get_field_id( 'show_group_image' ); ?>"><?php _e( 'Group Image', 'ccbpress-core' ); ?></label>
-					</td>
-					<td>
-						<select id="<?php echo $this->get_field_id( 'show_group_image' ); ?>" name="<?php echo $this->get_field_name( 'show_group_image' );  ?>">
-							<option <?php selected( $instance['show_group_image'], 'show' ); ?> value="show"><?php _e( 'Show', 'ccbpress-core' ); ?></option>
-							<option <?php selected( $instance['show_group_image'], 'hide' ); ?> value="hide"><?php _e( 'Hide', 'ccbpress-core' ); ?></option>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<label for="<?php echo $this->get_field_id( 'show_group_name' ); ?>"><?php _e( 'Group Name', 'ccbpress-core' ); ?></label>
-					</td>
-					<td>
-						<select id="<?php echo $this->get_field_id( 'show_group_name' ); ?>" name="<?php echo $this->get_field_name( 'show_group_name' );  ?>">
-							<option <?php selected( $instance['show_group_name'], 'show' ); ?> value="show"><?php _e( 'Show', 'ccbpress-core' ); ?></option>
-							<option <?php selected( $instance['show_group_name'], 'hide' ); ?> value="hide"><?php _e( 'Hide', 'ccbpress-core' ); ?></option>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<label for="<?php echo $this->get_field_id( 'show_group_description' ); ?>"><?php _e( 'Group Description', 'ccbpress-core' ); ?></label>
-					</td>
-					<td>
-						<select id="<?php echo $this->get_field_id( 'show_group_description' ); ?>" name="<?php echo $this->get_field_name( 'show_group_description' );  ?>">
-							<option <?php selected( $instance['show_group_description'], 'show' ); ?> value="show"><?php _e( 'Show', 'ccbpress-core' ); ?></option>
-							<option <?php selected( $instance['show_group_description'], 'hide' ); ?> value="hide"><?php _e( 'Hide', 'ccbpress-core' ); ?></option>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="2">
-						<hr />
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<label for="<?php echo $this->get_field_id( 'show_group_leader_card' ); ?>"><?php _e( 'Main Leader', 'ccbpress-core' ); ?></label>
-					</td>
-					<td>
-						<select id="<?php echo $this->get_field_id( 'show_group_leader_card' ); ?>" name="<?php echo $this->get_field_name( 'show_group_leader_card' );  ?>">
-							<option <?php selected( $instance['show_group_leader_card'], 'show' ); ?> value="show"><?php _e( 'Show', 'ccbpress-core' ); ?></option>
-							<option <?php selected( $instance['show_group_leader_card'], 'hide' ); ?> value="hide"><?php _e( 'Hide', 'ccbpress-core' ); ?></option>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<label for="<?php echo $this->get_field_id( 'show_group_leader_email' ); ?>"><?php _e( 'Email Address', 'ccbpress-core' ); ?></label>
-					</td>
-					<td>
-						<select id="<?php echo $this->get_field_id( 'show_group_leader_email' ); ?>" name="<?php echo $this->get_field_name( 'show_group_leader_email' );  ?>">
-							<option <?php selected( $instance['show_group_leader_email'], 'show' ); ?> value="show"><?php _e( 'Show', 'ccbpress-core' ); ?></option>
-							<option <?php selected( $instance['show_group_leader_email'], 'hide' ); ?> value="hide"><?php _e( 'Hide', 'ccbpress-core' ); ?></option>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<label for="<?php echo $this->get_field_id( 'show_group_leader_phone_numbers' ); ?>"><?php _e( 'Phone Numbers', 'ccbpress-core' ); ?></label>
-					</td>
-					<td>
-						<select id="<?php echo $this->get_field_id( 'show_group_leader_phone_numbers' ); ?>" name="<?php echo $this->get_field_name( 'show_group_leader_phone_numbers' );  ?>">
-							<option <?php selected( $instance['show_group_leader_phone_numbers'], 'show' ); ?> value="show"><?php _e( 'Show', 'ccbpress-core' ); ?></option>
-							<option <?php selected( $instance['show_group_leader_phone_numbers'], 'hide' ); ?> value="hide"><?php _e( 'Hide', 'ccbpress-core' ); ?></option>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="2">
-						<hr />
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<label for="<?php echo $this->get_field_id( 'show_group_registration_forms' ); ?>"><?php _e( 'Registration Forms', 'ccbpress-core' ); ?></label>
-					</td>
-					<td>
-						<select id="<?php echo $this->get_field_id( 'show_group_registration_forms' ); ?>" name="<?php echo $this->get_field_name( 'show_group_registration_forms' ); ?>">
-							<option <?php selected( $instance['show_group_registration_forms'], 'show' ); ?> value="show"><?php _e( 'Show', 'ccbpress-core' ); ?></option>
-							<option <?php selected( $instance['show_group_registration_forms'], 'hide' ); ?> value="hide"><?php _e( 'Hide', 'ccbpress-core' ); ?></option>
-						</select>
-					</td>
-				</tr>
-			</table>
+				// Set the values passed from the widget options.
+				$group->widget_options->show_group_name					= $show_group_name;
+				$group->widget_options->show_group_image				= $show_group_image;
+				$group->widget_options->show_group_description			= $show_group_description;
+				$group->widget_options->show_group_leader				= $show_group_leader_card;
+				$group->widget_options->show_group_leader_email			= $show_group_leader_email;
+				$group->widget_options->show_group_leader_phone_numbers	= $show_group_leader_phone_numbers;
+				$group->widget_options->show_group_registration_forms	= $show_group_registration_forms;
 
-		</div>
-		<?php
+				// Echo the group data and apply any filters.
+				echo $this->ccbpress_get_template( $group );
 
-	}
+			}
 
-	/**
-	 * Sanitize widget form values as they are saved.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @see WP_Widget::update()
-	 *
-	 * @param  array $new_instance Values sent to be saved.
-	 * @param  array $old_instance Previously saved values from database.
-	 *
-	 * @return array               Updated safe values to be saved.
-	 */
-	public function update( $new_instance, $old_instance ) {
+			echo $args['after_widget'];
 
-		$instance = $old_instance;
-		$instance['title']								= ( ! empty( $new_instance['title'] ) ) ? strip_tags( $new_instance['title'] ) : '';
-		$instance['group_id']							= strip_tags( stripslashes( $new_instance['group_id'] ) );
-		$instance['show_group_name']					= strip_tags( stripslashes( $new_instance['show_group_name'] ) );
-		$instance['show_group_description']				= strip_tags( stripslashes( $new_instance['show_group_description'] ) );
-		$instance['show_group_image']					= strip_tags( stripslashes( $new_instance['show_group_image'] ) );
-		$instance['show_group_leader_card']				= strip_tags( stripslashes( $new_instance['show_group_leader_card'] ) );
-		$instance['show_group_leader_phone_numbers']	= strip_tags( stripslashes( $new_instance['show_group_leader_phone_numbers'] ) );
-		$instance['show_group_leader_email']			= strip_tags( stripslashes( $new_instance['show_group_leader_email'] ) );
-		$instance['show_group_registration_forms']		= strip_tags( stripslashes( $new_instance['show_group_registration_forms'] ) );
-
-		return $instance;
-
-	}
-
-	public function ccbpress_get_template( $group ) {
-
-		ob_start();
-
-		$template = new CCBPress_Widget_Group_Info_Template( 'group-info.php', CCBPRESS_CORE_PLUGIN_DIR );
-
-		if ( ! false == ( $template_path = $template->path() ) ) {
-			include( $template_path ); // Include the template
-		} else {
-			_e('Template not found. Please reinstall CCBPress.', 'ccbpress-core');
 		}
 
-		// Return the output
-		return ob_get_clean();
+		/**
+		 * Back-end widget form
+		 *
+		 * @since 1.0.0
+		 *
+		 * @see WP_Widget::form()
+		 *
+		 * @param  array $instance Previously saved values from database.
+		 *
+		 * @return void
+		 */
+		public function form( $instance ) {
 
+			wp_enqueue_script( 'chosen' );
+			wp_enqueue_style( 'chosen' );
+
+			$instance = wp_parse_args( $instance, array(
+				'title'								=> '',
+				'group_id'							=> '',
+				'show_group_name'					=> 'true',
+				'show_group_description'			=> 'true',
+				'show_group_image'					=> 'true',
+				'show_group_leader_card'			=> 'true',
+				'show_group_leader_phone_numbers'	=> 'false',
+				'show_group_leader_email'			=> 'false',
+				'show_group_registration_forms'		=> 'true',
+			) );
+
+			$title = ! empty( $instance['title'] ) ? $instance['title'] : '';
+			?>
+			<div class="widget-content">
+
+				<p>
+					<label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php esc_html_e( 'Title: (optional)', 'ccbpress-core' ); ?></label>
+					<input type="text" class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>" value="<?php echo esc_attr( $instance['title'] ); ?>" />
+				</p>
+
+				<p class="ccbpress-select">
+					<label for="<?php echo esc_attr( $this->get_field_id( 'group_id' ) ); ?>"><?php esc_html_e( 'Group Info From:', 'ccbpress-core' ); ?></label>
+					<select name="<?php echo esc_attr( $this->get_field_name( 'group_id' ) ); ?>" id="<?php echo esc_attr( $this->get_field_id( 'group_id' ) ); ?>" class="widefat">
+						<option value="none"><?php esc_html_e( 'None', 'ccbpress-core' ); ?></option>
+						<?php
+						$ccb_groups = CCBPress()->ccb->get_new( array(
+							'service'			=> 'group_profiles',
+							'cache_lifespan'	=> 2880,
+							'query_string'		=> array(
+								'srv'					=> 'group_profiles',
+								'include_participants'	=> '0',
+								'include_image_link'	=> '0',
+								'modified_since'		=> (string) date( 'Y-m-d', strtotime( '-5 months' ) ),
+							),
+						) );
+
+						if ( $ccb_groups ) {
+							foreach ( $ccb_groups->response->groups->group as $group ) : ?>
+								<option value="<?php echo esc_attr( $group['id'] ); ?>" <?php selected( $group['id'], $instance['group_id'] ); ?>><?php echo esc_html( $group->name ); ?></option>
+							<?php endforeach;
+						}
+						unset( $ccb_groups );
+						?>
+					</select>
+				</p>
+				<script>
+				jQuery( document ).ready(function($) {
+					jQuery('#widgets-right .ccbpress-select select').chosen({width: "100%", disable_search_threshold: 10});
+				});
+				</script>
+				<p>
+					<strong><?php esc_html_e( 'What would you like to show?', 'ccbpress-core' ); ?></strong>
+				</p>
+
+				<table class="ccbpress_widget_table" style="width: 100%;">
+					<tr>
+						<td>
+							<label for="<?php echo esc_attr( $this->get_field_id( 'show_group_image' ) ); ?>"><?php esc_html_e( 'Group Image', 'ccbpress-core' ); ?></label>
+						</td>
+						<td>
+							<select id="<?php echo esc_attr( $this->get_field_id( 'show_group_image' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'show_group_image' ) );  ?>">
+								<option <?php selected( $instance['show_group_image'], 'show' ); ?> value="show"><?php esc_html_e( 'Show', 'ccbpress-core' ); ?></option>
+								<option <?php selected( $instance['show_group_image'], 'hide' ); ?> value="hide"><?php esc_html_e( 'Hide', 'ccbpress-core' ); ?></option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="<?php echo esc_attr( $this->get_field_id( 'show_group_name' ) ); ?>"><?php esc_html_e( 'Group Name', 'ccbpress-core' ); ?></label>
+						</td>
+						<td>
+							<select id="<?php echo esc_attr( $this->get_field_id( 'show_group_name' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'show_group_name' ) );  ?>">
+								<option <?php selected( $instance['show_group_name'], 'show' ); ?> value="show"><?php esc_html_e( 'Show', 'ccbpress-core' ); ?></option>
+								<option <?php selected( $instance['show_group_name'], 'hide' ); ?> value="hide"><?php esc_html_e( 'Hide', 'ccbpress-core' ); ?></option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="<?php echo esc_attr( $this->get_field_id( 'show_group_description' ) ); ?>"><?php esc_html_e( 'Group Description', 'ccbpress-core' ); ?></label>
+						</td>
+						<td>
+							<select id="<?php echo esc_attr( $this->get_field_id( 'show_group_description' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'show_group_description' ) );  ?>">
+								<option <?php selected( $instance['show_group_description'], 'show' ); ?> value="show"><?php esc_html_e( 'Show', 'ccbpress-core' ); ?></option>
+								<option <?php selected( $instance['show_group_description'], 'hide' ); ?> value="hide"><?php esc_html_e( 'Hide', 'ccbpress-core' ); ?></option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<hr />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="<?php echo esc_attr( $this->get_field_id( 'show_group_leader_card' ) ); ?>"><?php esc_html_e( 'Main Leader', 'ccbpress-core' ); ?></label>
+						</td>
+						<td>
+							<select id="<?php echo esc_attr( $this->get_field_id( 'show_group_leader_card' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'show_group_leader_card' ) );  ?>">
+								<option <?php selected( $instance['show_group_leader_card'], 'show' ); ?> value="show"><?php esc_html_e( 'Show', 'ccbpress-core' ); ?></option>
+								<option <?php selected( $instance['show_group_leader_card'], 'hide' ); ?> value="hide"><?php esc_html_e( 'Hide', 'ccbpress-core' ); ?></option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="<?php echo esc_attr( $this->get_field_id( 'show_group_leader_email' ) ); ?>"><?php esc_html_e( 'Email Address', 'ccbpress-core' ); ?></label>
+						</td>
+						<td>
+							<select id="<?php echo esc_attr( $this->get_field_id( 'show_group_leader_email' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'show_group_leader_email' ) );  ?>">
+								<option <?php selected( $instance['show_group_leader_email'], 'show' ); ?> value="show"><?php esc_html_e( 'Show', 'ccbpress-core' ); ?></option>
+								<option <?php selected( $instance['show_group_leader_email'], 'hide' ); ?> value="hide"><?php esc_html_e( 'Hide', 'ccbpress-core' ); ?></option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="<?php echo esc_attr( $this->get_field_id( 'show_group_leader_phone_numbers' ) ); ?>"><?php esc_html_e( 'Phone Numbers', 'ccbpress-core' ); ?></label>
+						</td>
+						<td>
+							<select id="<?php echo esc_attr( $this->get_field_id( 'show_group_leader_phone_numbers' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'show_group_leader_phone_numbers' ) );  ?>">
+								<option <?php selected( $instance['show_group_leader_phone_numbers'], 'show' ); ?> value="show"><?php esc_html_e( 'Show', 'ccbpress-core' ); ?></option>
+								<option <?php selected( $instance['show_group_leader_phone_numbers'], 'hide' ); ?> value="hide"><?php esc_html_e( 'Hide', 'ccbpress-core' ); ?></option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<hr />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="<?php echo esc_attr( $this->get_field_id( 'show_group_registration_forms' ) ); ?>"><?php esc_html_e( 'Registration Forms', 'ccbpress-core' ); ?></label>
+						</td>
+						<td>
+							<select id="<?php echo esc_attr( $this->get_field_id( 'show_group_registration_forms' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'show_group_registration_forms' ) ); ?>">
+								<option <?php selected( $instance['show_group_registration_forms'], 'show' ); ?> value="show"><?php esc_html_e( 'Show', 'ccbpress-core' ); ?></option>
+								<option <?php selected( $instance['show_group_registration_forms'], 'hide' ); ?> value="hide"><?php esc_html_e( 'Hide', 'ccbpress-core' ); ?></option>
+							</select>
+						</td>
+					</tr>
+				</table>
+
+			</div>
+			<?php
+
+		}
+
+		/**
+		 * Sanitize widget form values as they are saved.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @see WP_Widget::update()
+		 *
+		 * @param  array $new_instance Values sent to be saved.
+		 * @param  array $old_instance Previously saved values from database.
+		 *
+		 * @return array               Updated safe values to be saved.
+		 */
+		public function update( $new_instance, $old_instance ) {
+
+			$instance = $old_instance;
+			$instance['title']								= ( ! empty( $new_instance['title'] ) ) ? strip_tags( $new_instance['title'] ) : '';
+			$instance['group_id']							= strip_tags( stripslashes( $new_instance['group_id'] ) );
+			$instance['show_group_name']					= strip_tags( stripslashes( $new_instance['show_group_name'] ) );
+			$instance['show_group_description']				= strip_tags( stripslashes( $new_instance['show_group_description'] ) );
+			$instance['show_group_image']					= strip_tags( stripslashes( $new_instance['show_group_image'] ) );
+			$instance['show_group_leader_card']				= strip_tags( stripslashes( $new_instance['show_group_leader_card'] ) );
+			$instance['show_group_leader_phone_numbers']	= strip_tags( stripslashes( $new_instance['show_group_leader_phone_numbers'] ) );
+			$instance['show_group_leader_email']			= strip_tags( stripslashes( $new_instance['show_group_leader_email'] ) );
+			$instance['show_group_registration_forms']		= strip_tags( stripslashes( $new_instance['show_group_registration_forms'] ) );
+
+			return $instance;
+
+		}
+
+		/**
+		 * Get the template
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param  object $group Group object.
+		 *
+		 * @return string
+		 */
+		public function ccbpress_get_template( $group ) {
+
+			ob_start();
+
+			$template = new CCBPress_Widget_Group_Info_Template( 'group-info.php', CCBPRESS_CORE_PLUGIN_DIR );
+
+			if ( false !== ( $template_path = $template->path() ) ) {
+				include( $template_path ); // Include the template.
+			} else {
+				esc_html_e( 'Template not found. Please reinstall CCBPress Core.', 'ccbpress-core' );
+			}
+
+			// Return the output.
+			return ob_get_clean();
+		}
 	}
 
-}
+endif;
 
-// register CCBPress_Widget_Group_Info widget
+/**
+ * Register the Group Info widget
+ *
+ * @since 1.0.0
+ *
+ * @return void
+ */
 function register_ccbpress_widget_group_info() {
 
-    $ccbpress_ccb = get_option( 'ccbpress_ccb' );
-	if ( isset( $ccbpress_ccb['connection_test'] ) && $ccbpress_ccb['connection_test'] === 'success' ) {
-    	register_widget( 'CCBPress_Widget_Group_Info' );
-    }
+	$ccbpress_ccb = get_option( 'ccbpress_ccb' );
+	if ( isset( $ccbpress_ccb['connection_test'] ) && 'success' === $ccbpress_ccb['connection_test'] ) {
+		register_widget( 'CCBPress_Widget_Group_Info' );
+	}
 
 }
 add_action( 'widgets_init', 'register_ccbpress_widget_group_info' );
 
-endif;
-
+/**
+ * Group Info Widget Template
+ *
+ * @since 1.0.0
+ *
+ * @extends CCBPress_Template
+ *
+ * @return void
+ */
 class CCBPress_Widget_Group_Info_Template extends CCBPress_Template {
 
 	/**
@@ -317,17 +375,21 @@ class CCBPress_Widget_Group_Info_Template extends CCBPress_Template {
 	 *
 	 * @since 2.0.0
 	 *
+	 * @param object $group Group object.
+	 *
 	 * @return	boolean
 	 */
 	public function show_group_name( $group ) {
 
-		$group_name = $group->name;
-
-		if ( $group->widget_options->show_group_name == 'show' && strlen( $group_name ) > 0 ) {
-			return true;
+		if ( 'hide' === $group->widget_options->show_group_name ) {
+			return false;
 		}
 
-		return false;
+		if ( strlen( $group->name ) === 0 ) {
+			return false;
+		}
+
+		return true;
 
 	}
 	/**
@@ -335,13 +397,19 @@ class CCBPress_Widget_Group_Info_Template extends CCBPress_Template {
 	 *
 	 * @since 2.0.0
 	 *
+	 * @param object $group Group object.
+	 *
 	 * @return	boolean
 	 */
 	public function show_group_image( $group ) {
 
+		if ( 'hide' === $group->widget_options->show_group_image ) {
+			return false;
+		}
+
 		$upload_dir = wp_upload_dir();
 
-		if ( $group->widget_options->show_group_image != 'show' || false === strpos( $group->image, $upload_dir['baseurl'] ) ) {
+		if ( false === strpos( $group->image, $upload_dir['baseurl'] ) ) {
 			return false;
 		}
 
@@ -354,17 +422,21 @@ class CCBPress_Widget_Group_Info_Template extends CCBPress_Template {
 	 *
 	 * @since 2.0.0
 	 *
+	 * @param object $group Group object.
+	 *
 	 * @return	boolean
 	 */
 	public function show_group_desc( $group ) {
 
-		$group_description = $group->description;
-
-		if ( $group->widget_options->show_group_description == 'show' && strlen( $group_description ) > 0 ) {
-			return true;
+		if ( 'hide' === $group->widget_options->show_group_description ) {
+			return false;
 		}
 
-		return false;
+		if ( strlen( $group->description ) === 0 ) {
+			return false;
+		}
+
+		return true;
 
 	}
 
@@ -373,17 +445,21 @@ class CCBPress_Widget_Group_Info_Template extends CCBPress_Template {
 	 *
 	 * @since 2.0.0
 	 *
+	 * @param object $group Group object.
+	 *
 	 * @return	boolean
 	 */
 	public function show_group_leader( $group ) {
 
-		$group_main_leader_id = (string)$group->main_leader['id'];
-
-		if ( $group->widget_options->show_group_leader == 'show' && strlen( $group_main_leader_id ) > 0 ) {
-			return true;
+		if ( 'hide' === $group->widget_options->show_group_leader ) {
+			return false;
 		}
 
-		return false;
+		if ( strlen( (string) $group->main_leader['id'] ) === 0 ) {
+			return false;
+		}
+
+		return true;
 
 	}
 
@@ -392,17 +468,21 @@ class CCBPress_Widget_Group_Info_Template extends CCBPress_Template {
 	 *
 	 * @since 2.0.0
 	 *
+	 * @param object $group Group object.
+	 *
 	 * @return	boolean
 	 */
 	public function show_group_leader_email( $group ) {
 
-		$group_main_leader_email = $group->main_leader->email;
-
-		if ( $group->widget_options->show_group_leader_email == 'show' && strlen( $group_main_leader_email ) > 0 ) {
-			return true;
+		if ( 'hide' === $group->widget_options->show_group_leader_email ) {
+			return false;
 		}
 
-		return false;
+		if ( strlen( $group->main_leader->email ) === 0 ) {
+			return false;
+		}
+
+		return true;
 
 	}
 
@@ -411,17 +491,21 @@ class CCBPress_Widget_Group_Info_Template extends CCBPress_Template {
 	 *
 	 * @since 2.0.0
 	 *
+	 * @param object $group Group object.
+	 *
 	 * @return	boolean
 	 */
 	public function show_group_leader_phone( $group ) {
 
-		$group_main_leader_phones = $group->main_leader->phones;
-
-		if ( $group->widget_options->show_group_leader_phone_numbers == 'show' && is_object( $group_main_leader_phones ) ) {
-			return true;
+		if ( 'hide' === $group->widget_options->show_group_leader_phone_numbers ) {
+			return false;
 		}
 
-		return false;
+		if ( ! is_object( $group->main_leader->phones ) ) {
+			return false;
+		}
+
+		return true;
 
 	}
 
@@ -430,15 +514,17 @@ class CCBPress_Widget_Group_Info_Template extends CCBPress_Template {
 	 *
 	 * @since 2.0.0
 	 *
+	 * @param object $group Group object.
+	 *
 	 * @return	boolean
 	 */
 	public function show_registration_forms( $group ) {
 
-		if ( $group->widget_options->show_group_registration_forms == 'show' ) {
-			return true;
+		if ( 'hide' === $group->widget_options->show_group_registration_forms ) {
+			return false;
 		}
 
-		return false;
+		return true;
 
 	}
 
@@ -447,32 +533,73 @@ class CCBPress_Widget_Group_Info_Template extends CCBPress_Template {
 	 *
 	 * @since 2.0.0
 	 *
+	 * @param object $registration_form Registration form object.
+	 *
 	 * @return boolean	True/False.
 	 */
 	public function is_form_active( $registration_form ) {
 
-		return ccbpress()->ccb->is_form_active( (string) $registration_form['id'] );
+		return CCBPress()->ccb->is_form_active( (string) $registration_form['id'] );
 
 	}
 
 	/**
 	 * Build the CCB Easy Email URL
 	 *
-	 * @param	string $individual_id			The individual id.
-	 * @param	string $group_id				The group id.
-	 * @param	string $individual_full_name	The individual's full name.
+	 * @param	array $args			Arguments.
 	 *
 	 * @return	string	The URL.
 	 */
-	public function email_url( $individual_id, $group_id, $individual_full_name ) {
+	public function email_link( $args ) {
 
-		$url = str_replace( 'api.php', 'easy_email.php', ccbpress()->ccb->api_url );
-		$url = add_query_arg( 'ax', 'create_new', $url );
-		$url = add_query_arg( 'individual_id', $individual_id, $url );
-		$url = add_query_arg( 'group_id', $group_id, $url );
-		$url = add_query_arg( 'individual_full_name', $individual_full_name, $url );
+		$defaults = array(
+			'individual_id'	=> null,
+			'before'		=> '',
+			'after'			=> '',
+			'class'			=> null,
+			'target'		=> '',
+	        'link_text'     => null,
+		);
 
-		return $url;
+		$args = wp_parse_args( $args, $defaults );
+
+		if ( is_null( $args['individual_id'] ) ) {
+			return;
+		}
+
+		$individual_profile = CCBPress()->ccb->get_new( array(
+			'service'			=> 'individual_profile_from_id',
+			'cache_lifespan'	=> CCBPress()->ccb->cache_lifespan( 'individual_profile_from_id' ),
+			'query_string'		=> array(
+				'srv'				=> 'individual_profile_from_id',
+				'individual_id'		=> $args['individual_id'],
+				'include_inactive'	=> 0,
+			),
+		) );
+
+		$full_name = $individual_profile->response->individuals->individual->full_name;
+
+		if ( ! isset( $individual_profile->response->individuals->individual->email ) ) {
+			return esc_html( $full_name );
+		}
+
+		$email = $individual_profile->response->individuals->individual->email;
+
+		if ( strlen( $email ) === 0 ) {
+			return esc_html( $full_name );
+		}
+
+		$class = '';
+		if ( ! is_null( $args['class'] ) ) {
+			$class = ' class="' . $args['class'] . '"';
+		}
+
+	    $link_text = $full_name;
+	    if ( ! is_null( $args['link_text'] ) ) {
+	        $link_text = $args['link_text'];
+	    }
+
+		return sprintf( '%s<a href="mailto:%s"%s target="%s">%s</a>%s', $args['before'], esc_attr( $email ), $class, $args['target'], esc_html( $link_text ), $args['after'] );
 
 	}
 

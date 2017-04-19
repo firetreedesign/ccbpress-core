@@ -2,8 +2,8 @@
 Contributors: firetree, danielmilner
 Tags: church, ccb, church community builder, chms
 Requires at least: 4.3
-Tested up to: 4.5.3
-Stable tag: 1.0.2
+Tested up to: 4.7.3
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: http://ww.gnu.org/licenses/gpl-2.0.html
 
@@ -35,6 +35,11 @@ Requires a [Church Community Builder](http://churchcommunitybuilder.com/) accoun
 2. Getting Started
 
 == Changelog ==
+
+= 1.1.0 =
+* Consolidated all Data Import jobs into one interface.
+* Reworked the entire import process.
+* Removed the need to create database tables in the Core plugin.
 
 = 1.0.2 =
 * Added more options for purging cache.
