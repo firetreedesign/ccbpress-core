@@ -26,16 +26,32 @@ class CCBPress_Settings_CCBPress extends CCBPress_Settings {
         // The Remove Data field
     	add_settings_field(
     		'remove_data',
-    		'<strong>' . __('Remove Data on Uninstall?', 'ccbpress-core') . '</strong>',
+    		'<strong>' . __('CCBPress Core', 'ccbpress-core') . '</strong>',
     		array( $this, 'checkbox_callback' ),
     		'ccbpress_settings',
     		'ccbpress_settings_uninstall_section',
     		array(
     			'field_id'  => 'remove_data',
     			'page_id'   => 'ccbpress_settings',
-    			'label'     => __('Would you like <strong>CCBPress Core</strong> to completely remove all of its data when the plugin is deleted.', 'ccbpress-core'),
+    			'label'     => __('Remove all of its data when the plugin is deleted.', 'ccbpress-core'),
     		)
     	);
+
+		$uninstall_settings = apply_filters( 'ccbpress_uninstall_settings', array() );
+		foreach ( $uninstall_settings as $setting ) {
+			add_settings_field(
+	    		$setting['id'] . '_remove_data',
+	    		'<strong>' . $setting['name'] . '</strong>',
+	    		array( $this, 'checkbox_callback' ),
+	    		'ccbpress_settings',
+	    		'ccbpress_settings_uninstall_section',
+	    		array(
+	    			'field_id'  => $setting['id'] . '_remove_data',
+	    			'page_id'   => 'ccbpress_settings',
+					'label'		=> __( 'Remove all of its data when the plugin is deleted.', 'ccbpress-core' ),
+	    		)
+	    	);
+		}
 
         // Finally, we register the fields with WordPress
     	register_setting(
@@ -54,6 +70,10 @@ class CCBPress_Settings_CCBPress extends CCBPress_Settings {
 
         // Define all of the variables that we'll be using
     	$output = array();
+
+        if ( ! is_array( $input ) ) {
+            return $output;
+        }
 
     	// Loop through each of the incoming options
     	foreach ( $input as $key => $value ) {
