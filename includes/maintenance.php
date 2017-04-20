@@ -110,6 +110,11 @@ class CCBPress_Maintenance {
 
 			case 'events':
 
+				$include_image_link = '0';
+				if ( isset( $ccbpress_sync_options['event_include_images'] ) ) {
+					$include_image_link = '1';
+				}
+
 				if ( 'Never' === ( $last_sync = get_option( 'ccbpress_last_event_sync', 'Never' ) ) || $sync_all ) {
 					$modified_since = null;
 				} else {
@@ -120,6 +125,7 @@ class CCBPress_Maintenance {
 					'srv' => 'event_profiles',
 					'args' => array(
 						'include_guest_list'	=> '0',
+						'include_image_link'	=> $include_image_link,
 						'page'					=> 1,
 						'per_page'				=> 100,
 						'modified_since'		=> $modified_since,
@@ -141,6 +147,7 @@ class CCBPress_Maintenance {
 
 				$group_profiles_db = new CCBPress_Group_Profiles_DB();
 				$group_profiles_db->purge( strtotime('yesterday', current_time('timestamp') ) );
+				unset( $group_profiles_db );
 
 				break;
 
@@ -148,6 +155,7 @@ class CCBPress_Maintenance {
 
 				$event_profiles_db = new CCBPress_Event_Profiles_DB();
 				$event_profiles_db->purge( strtotime('yesterday', current_time('timestamp') ) );
+				unset( $event_profiles_db );
 
 				break;
 

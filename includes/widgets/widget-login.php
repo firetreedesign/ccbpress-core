@@ -33,7 +33,7 @@ class CCBPress_Widget_Login extends WP_Widget {
 	 */
 	public function widget( $args, $instance ) {
 
-		$ccb_api_url = CCBPress()->ccb->api_url;
+		$ccb_api_url = ccbpress()->ccb->api_url;
 		$ccb_login_url = str_replace( 'api.php', 'login.php', $ccb_api_url );
 		$ccb_password_url = str_replace( 'api.php', 'w_password.php', $ccb_api_url );
 
@@ -114,12 +114,12 @@ class CCBPress_Widget_Login extends WP_Widget {
 
 // register Foo_Widget widget
 function register_ccbpress_widget_login() {
-    
+
     $ccbpress_ccb = get_option( 'ccbpress_ccb' );
 	if ( isset( $ccbpress_ccb['connection_test'] ) && $ccbpress_ccb['connection_test'] === 'success' ) {
     	register_widget( 'CCBPress_Widget_Login' );
     }
-    
+
 }
 add_action( 'widgets_init', 'register_ccbpress_widget_login' );
 
