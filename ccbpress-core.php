@@ -93,6 +93,9 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 	            self::$instance->ccb		= new CCBPress_Connection();
 				self::$instance->get		= new CCBPress_Background_Get();
 
+				self::$instance->transients->init();
+				self::$instance->ccb->init();
+
 	        }
 
 	        return self::$instance;

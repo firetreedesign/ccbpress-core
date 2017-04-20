@@ -63,8 +63,7 @@ if ( ! class_exists( 'CCBPress_Widget_Group_Info' ) ) :
 			// Build the query to get the data from CCB.
 			$ccbpress_data = false;
 			if ( strlen( $group_id ) > 0 ) {
-				$ccbpress_data = CCBPress()->ccb->get_new( array(
-					'service'			=> 'group_profile_from_id',
+				$ccbpress_data = CCBPress()->ccb->get( array(
 					'cache_lifespan'	=> CCBPress()->ccb->cache_lifespan( 'group_profile_from_id' ),
 					'query_string'		=> array(
 						'srv'					=> 'group_profile_from_id',
@@ -90,8 +89,7 @@ if ( ! class_exists( 'CCBPress_Widget_Group_Info' ) ) :
 				$group->image = CCBPress()->ccb->get_image( $group_id, 'group' );
 
 				// Get their profile image from their user profile.
-				$group_main_leader_profile = CCBPress()->ccb->get_new( array(
-					'service'			=> 'individual_profile_from_id',
+				$group_main_leader_profile = CCBPress()->ccb->get( array(
 					'cache_lifespan'	=> CCBPress()->ccb->cache_lifespan( 'individual_profile_from_id' ),
 					'query_string'		=> array(
 						'srv'				=> 'individual_profile_from_id',
@@ -161,8 +159,7 @@ if ( ! class_exists( 'CCBPress_Widget_Group_Info' ) ) :
 					<select name="<?php echo esc_attr( $this->get_field_name( 'group_id' ) ); ?>" id="<?php echo esc_attr( $this->get_field_id( 'group_id' ) ); ?>" class="widefat">
 						<option value="none"><?php esc_html_e( 'None', 'ccbpress-core' ); ?></option>
 						<?php
-						$ccb_groups = CCBPress()->ccb->get_new( array(
-							'service'			=> 'group_profiles',
+						$ccb_groups = CCBPress()->ccb->get( array(
 							'cache_lifespan'	=> 2880,
 							'query_string'		=> array(
 								'srv'					=> 'group_profiles',
@@ -351,10 +348,11 @@ endif;
  */
 function register_ccbpress_widget_group_info() {
 
-	$ccbpress_ccb = get_option( 'ccbpress_ccb' );
-	if ( isset( $ccbpress_ccb['connection_test'] ) && 'success' === $ccbpress_ccb['connection_test'] ) {
-		register_widget( 'CCBPress_Widget_Group_Info' );
+	if ( ! CCBPress()->ccb->is_connected() ) {
+		return;
 	}
+
+	register_widget( 'CCBPress_Widget_Group_Info' );
 
 }
 add_action( 'widgets_init', 'register_ccbpress_widget_group_info' );
@@ -567,7 +565,7 @@ class CCBPress_Widget_Group_Info_Template extends CCBPress_Template {
 			return;
 		}
 
-		$individual_profile = CCBPress()->ccb->get_new( array(
+		$individual_profile = CCBPress()->ccb->get( array(
 			'service'			=> 'individual_profile_from_id',
 			'cache_lifespan'	=> CCBPress()->ccb->cache_lifespan( 'individual_profile_from_id' ),
 			'query_string'		=> array(

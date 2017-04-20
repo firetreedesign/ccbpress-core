@@ -71,6 +71,10 @@ class CCBPress_Settings_CCBPress extends CCBPress_Settings {
         // Define all of the variables that we'll be using
     	$output = array();
 
+        if ( ! is_array( $input ) ) {
+            return $output;
+        }
+
     	// Loop through each of the incoming options
     	foreach ( $input as $key => $value ) {
 

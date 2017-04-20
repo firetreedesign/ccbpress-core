@@ -1,33 +1,48 @@
 <?php
-// Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+/**
+ * CCBPress Core Admin Ajax
+ *
+ * @since 1.0.0
+ *
+ * @package CCBPress Core
+ */
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+/**
+ * CCBPress Admin Ajax
+ */
 class CCBPress_Admin_Ajax {
 
-	public function __construct() {
+	/**
+	 * Initialize the class
+	 *
+	 * @return void
+	 */
+	public function init() {
 		add_action( 'wp_ajax_ccbpress_check_services', array( $this, 'check_services' ) );
 	}
 
+	/**
+	 * Check the services
+	 *
+	 * @return void
+	 */
 	public function check_services() {
 
 		if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'ccbpress-nonce' ) ) {
-			die( esc_html( 'Insufficient Permissions', 'ccbpress-core' ) );
+			die( esc_html__( 'Insufficient Permissions', 'ccbpress-core' ) );
 		}
 
 		$services = apply_filters( 'ccbpress_ccb_services', array() );
 
-		if ( ! in_array( 'group_profiles', $services, true ) ) {
-			$services[] = 'group_profiles';
-		}
-
-		if ( ! in_array( 'group_profile_from_id', $services, true ) ) {
-			$services[] = 'group_profile_from_id';
-		}
-
 		sort( $services );
 
 		if ( 0 === count( $services ) ) {
-			echo '<br /><div class="notice"><p><span class="dashicons dashicons-info"></span> ' . esc_html( 'There are no services registered with CCBPress.', 'ccbpress-core' ) . '</p></div>';
+			echo '<br /><div class="notice"><p><span class="dashicons dashicons-info"></span> ' . esc_html__( 'There are no services registered with CCBPress.', 'ccbpress-core' ) . '</p></div>';
 			wp_die();
 		}
 
@@ -43,9 +58,14 @@ class CCBPress_Admin_Ajax {
 
 		foreach ( $services as $service ) {
 
-			$url = add_query_arg( 'srv', $service, CCBPress()->ccb->api_url );
-			$url = add_query_arg( 'describe_api', '1', $url );
-			$ccb_data = CCBPress()->ccb->get( $url, 0 );
+			$ccb_data = CCBPress()->ccb->get( array(
+				'cache_lifespan'	=> 0,
+				'refresh_cache'		=> 1,
+				'query_string'		=> array(
+					'srv'			=> $service,
+					'describe_api'	=> '1',
+				),
+			) );
 
 			$service_result = array();
 			$service_result[] = CCBPress()->ccb->is_valid_describe( $ccb_data );
@@ -76,4 +96,5 @@ class CCBPress_Admin_Ajax {
 	}
 
 }
-new CCBPress_Admin_Ajax();
+$ccbpress_admin_ajax = new CCBPress_Admin_Ajax();
+$ccbpress_admin_ajax->init();

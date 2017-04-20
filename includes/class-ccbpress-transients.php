@@ -3,9 +3,13 @@
  * Adds a fallback layer to the transient data that allows a background hook
  * to update the transient without the end user having to wait.
  *
- * @package CCBPress_Core
+ * @package CCBPress Core
  * @author Daniel Milner
  * @version 1.0.3
+ */
+
+/**
+ * CCBPress Transients
  */
 class CCBPress_Transients {
 
@@ -30,6 +34,15 @@ class CCBPress_Transients {
 
 		$this->prefix				= 'ccbp_'; // Must be 7 characters or less.
 		$this->fallback_expiration	= 10080;
+
+	}
+
+	/**
+	 * Initialize the class
+	 *
+	 * @return void
+	 */
+	public function init() {
 
 		// Adds a hook to access the cleanup function.
 		add_action( 'ccbpress_transient_cache_cleanup', array( $this, 'cleanup' ) );
@@ -63,13 +76,18 @@ class CCBPress_Transients {
 		$fallback_transient	= $transient . '_';
 
 		if ( is_multisite() ) {
-			if ( false === ( $data = get_site_transient( $transient ) ) ) {
+			$data = get_site_transient( $transient );
+			if ( false === $data ) {
 
 				$data = get_site_transient( $fallback_transient );
 
-				if ( ! wp_get_schedule( $hook, $args ) ) {
+				if ( false === $data ) {
+					return false;
+				}
+
+				if ( false === wp_next_scheduled( $hook, $args ) ) {
 					wp_clear_scheduled_hook( $hook, $args );
-					wp_schedule_single_event( time(), $hook, $args );
+					wp_schedule_single_event( time(), $hook, array( $args ) );
 				}
 
 				return $data;
@@ -78,13 +96,18 @@ class CCBPress_Transients {
 				return $data;
 			}
 		} else {
-			if ( false === ( $data = get_transient( $transient ) ) ) {
+			$data = get_transient( $transient );
+			if ( false === $data ) {
 
 				$data = get_transient( $fallback_transient );
 
-				if ( ! wp_get_schedule( $hook, $args ) ) {
+				if ( false === $data ) {
+					return false;
+				}
+
+				if ( false === wp_next_scheduled( $hook, $args ) ) {
 					wp_clear_scheduled_hook( $hook, $args );
-					wp_schedule_single_event( time(), $hook, $args );
+					wp_schedule_single_event( time(), $hook, array( $args ) );
 				}
 
 				return $data;
@@ -190,7 +213,6 @@ class CCBPress_Transients {
 			} else {
 				delete_transient( $name );
 			}
-
 		}
 
 		return true;

@@ -114,9 +114,6 @@ jQuery( document ).ready(function($) {
 				nonce: ccbpress_vars.nonce
 			};
 			jQuery.post( ajaxurl, data,  function( response ) {
-				if ( 'Never' != response ) {
-					jQuery('.quicklinks .ccbpress-import-notice').slideUp();
-				}
 				jQuery('.ccbpress-last-import').text( response ).css( 'font-weight', 'bold' );
 				setTimeout(function(){
 	                jQuery('.ccbpress-last-import').css( 'font-weight', 'normal' );;

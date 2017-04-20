@@ -15,7 +15,7 @@ if ( ! class_exists( 'CCBPress_Widget_Login' ) ) :
 
 			parent::__construct(
 				'ccbpress_widget_login',
-				__('CCB Login (CCBPress)', 'ccbpress-core'),
+				__( 'CCB Login (CCBPress)', 'ccbpress-core' ),
 				array( 'description' => __('Displays a login form for CCB.', 'ccbpress-core' ), )
 			);
 
@@ -110,13 +110,13 @@ if ( ! class_exists( 'CCBPress_Widget_Login' ) ) :
 
 	}
 
-	// register Foo_Widget widget
 	function register_ccbpress_widget_login() {
 
-	    $ccbpress_ccb = get_option( 'ccbpress_ccb' );
-		if ( isset( $ccbpress_ccb['connection_test'] ) && $ccbpress_ccb['connection_test'] === 'success' ) {
-	    	register_widget( 'CCBPress_Widget_Login' );
-	    }
+		if ( ! CCBPress()->ccb->is_connected() ) {
+			return;
+		}
+
+		register_widget( 'CCBPress_Widget_Login' );
 
 	}
 	add_action( 'widgets_init', 'register_ccbpress_widget_login' );

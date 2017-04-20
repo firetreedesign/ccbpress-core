@@ -39,32 +39,26 @@ class CCBPress_Template {
 
 		try {
 
-			// Look for the template in the child theme directory
+			// Look for the template in the child theme directory.
 			if ( file_exists( trailingslashit( get_stylesheet_directory() . $override_path ) . $this->template ) ) {
-
 				return trailingslashit( get_stylesheet_directory() . $override_path ) . $this->template;
-
 			}
 
-			// Look for the template in the parent theme directory
+			// Look for the template in the parent theme directory.
 			if ( file_exists( trailingslashit( get_template_directory() . $override_path ) . $this->template ) ) {
-
 				return trailingslashit( get_template_directory() . $override_path ) . $this->template;
-
 			}
 
-			// Look for the template in the plugin directory
+			// Look for the template in the plugin directory.
 			if ( file_exists( trailingslashit( $template_path ) . $this->template ) ) {
-
 				return trailingslashit( $template_path ) . $this->template;
-
 			}
 
 			return false;
 
 		} catch ( Exception $e ) {
 
-			// Return the data
+			// Return the data.
 			return false;
 
 		}

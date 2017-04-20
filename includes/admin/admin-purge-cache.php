@@ -35,7 +35,7 @@ class CCBPress_Purge_Cache {
 
 		if ( isset( $_GET['_wpnonce'] ) && wp_verify_nonce( $_GET['_wpnonce'], 'ccbpress-purge-all-cache' ) ) {
 			CCBPress_Purge_Cache::purge_transients();
-			CCBPress_Purge_Cache::purge_image_cache();
+			CCBPress_Purge_Cache::purge_images();
 		}
 
 		wp_redirect( wp_get_referer() );

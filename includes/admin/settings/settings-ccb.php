@@ -170,23 +170,16 @@ class CCBPress_Settings_CCB extends CCBPress_Settings {
 	public function help_tabs( $help_tabs ) {
 
 		$services = apply_filters( 'ccbpress_ccb_services', array() );
-
-		if ( ! in_array( 'group_profiles', $services ) ) {
-			$services[] = 'group_profiles';
-		}
-		if ( ! in_array( 'group_profile_from_id', $services ) ) {
-			$services[] = 'group_profile_from_id';
-		}
-
 		sort( $services );
+
 		ob_start();
 		?>
 		<p>Your API User must have permission to use the following services:
 		<ul>
-		<?php foreach( $services as $service ) : ?>
+		<?php foreach ( $services as $service ) : ?>
 		    <li><?php echo $service; ?></li>
 		<?php endforeach; ?>
-		<?php if ( count( $services ) == 0 ) : ?>
+		<?php if ( count( $services ) === 0 ) : ?>
 			<li><?php _e('There are no services registered with CCBPress.', 'ccbpress-core'); ?></li>
 		<?php endif; ?>
 		</ul></p>
