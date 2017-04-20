@@ -27,12 +27,20 @@ class CCBPress_Services {
      */
     public function setup_services( $services ) {
 
-		if ( ! in_array( 'individual_profile_from_id', $services ) ) {
+		if ( ! in_array( 'individual_profile_from_id', $services, true ) ) {
 			$services[] = 'individual_profile_from_id';
 		}
 
-		if ( ! in_array( 'form_list', $services ) ) {
+		if ( ! in_array( 'form_list', $services, true ) ) {
 			$services[] = 'form_list';
+		}
+
+        if ( ! in_array( 'group_profiles', $services, true ) ) {
+			$services[] = 'group_profiles';
+		}
+
+		if ( ! in_array( 'group_profile_from_id', $services, true ) ) {
+			$services[] = 'group_profile_from_id';
 		}
 
         return $services;
