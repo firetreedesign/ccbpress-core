@@ -379,7 +379,7 @@ class CCBPress_Widget_Group_Info_Template extends CCBPress_Template {
 	 */
 	public function show_group_name( $group ) {
 
-		if ( 'hide' === $group->widget_options->show_group_name ) {
+		if ( 'hide' === (string) $group->widget_options->show_group_name ) {
 			return false;
 		}
 
@@ -401,7 +401,7 @@ class CCBPress_Widget_Group_Info_Template extends CCBPress_Template {
 	 */
 	public function show_group_image( $group ) {
 
-		if ( 'hide' === $group->widget_options->show_group_image ) {
+		if ( 'hide' === (string) $group->widget_options->show_group_image ) {
 			return false;
 		}
 
@@ -426,7 +426,7 @@ class CCBPress_Widget_Group_Info_Template extends CCBPress_Template {
 	 */
 	public function show_group_desc( $group ) {
 
-		if ( 'hide' === $group->widget_options->show_group_description ) {
+		if ( 'hide' === (string) $group->widget_options->show_group_description ) {
 			return false;
 		}
 
@@ -449,7 +449,7 @@ class CCBPress_Widget_Group_Info_Template extends CCBPress_Template {
 	 */
 	public function show_group_leader( $group ) {
 
-		if ( 'hide' === $group->widget_options->show_group_leader ) {
+		if ( 'hide' === (string) $group->widget_options->show_group_leader ) {
 			return false;
 		}
 
@@ -472,7 +472,7 @@ class CCBPress_Widget_Group_Info_Template extends CCBPress_Template {
 	 */
 	public function show_group_leader_email( $group ) {
 
-		if ( 'hide' === $group->widget_options->show_group_leader_email ) {
+		if ( 'hide' === (string) $group->widget_options->show_group_leader_email ) {
 			return false;
 		}
 
@@ -495,7 +495,7 @@ class CCBPress_Widget_Group_Info_Template extends CCBPress_Template {
 	 */
 	public function show_group_leader_phone( $group ) {
 
-		if ( 'hide' === $group->widget_options->show_group_leader_phone_numbers ) {
+		if ( 'hide' === (string) $group->widget_options->show_group_leader_phone_numbers ) {
 			return false;
 		}
 
@@ -518,7 +518,7 @@ class CCBPress_Widget_Group_Info_Template extends CCBPress_Template {
 	 */
 	public function show_registration_forms( $group ) {
 
-		if ( 'hide' === $group->widget_options->show_group_registration_forms ) {
+		if ( 'hide' === (string) $group->widget_options->show_group_registration_forms ) {
 			return false;
 		}
 
