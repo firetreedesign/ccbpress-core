@@ -522,6 +522,16 @@ class CCBPress_Widget_Group_Info_Template extends CCBPress_Template {
 			return false;
 		}
 
+		if ( ! isset( $group->registration_forms->form ) ) {
+			return false;
+		}
+
+		foreach ( $group->registration_forms->form as $registration_form ) {
+			if ( ! $this->is_form_active( $registration_form ) ) {
+				return false;
+			}
+		}
+
 		return true;
 
 	}

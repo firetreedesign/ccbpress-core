@@ -66,7 +66,7 @@
 	/**
 	 * Check the widget settings to see if it should be displayed.
 	 */
-	if ( $template->show_registration_forms( $group ) && isset( $group->registration_forms->form ) ) : ?>
+	if ( $template->show_registration_forms( $group ) ) : ?>
 		<div class="ccbpress-core-group-registration-forms">
 			<div class="ccbpress-core-group-registration-forms-title"><?php _e( 'Registration Form(s):', 'ccbpress' ); ?></div>
 			<?php
