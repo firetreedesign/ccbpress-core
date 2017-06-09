@@ -3,7 +3,7 @@
  * Plugin Name: CCBPress Core
  * Plugin URI: http://ccbpress.com/
  * Description: Display information from Church Community Builder on your WordPress site.
- * Version: 1.1.0
+ * Version: 1.1.1
  * Author: CCBPress <info@ccbpress.com>
  * Author URI: https://ccbpress.com/
  * Text Domain: ccbpress-core

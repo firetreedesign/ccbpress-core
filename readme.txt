@@ -2,8 +2,8 @@
 Contributors: firetree, danielmilner
 Tags: church, ccb, church community builder, chms
 Requires at least: 4.3
-Tested up to: 4.7.4
-Stable tag: 1.1.0
+Tested up to: 4.8
+Stable tag: 1.1.1
 License: GPLv2 or later
 License URI: http://ww.gnu.org/licenses/gpl-2.0.html
 
@@ -35,6 +35,10 @@ Requires a [Church Community Builder](http://churchcommunitybuilder.com/) accoun
 2. Getting Started
 
 == Changelog ==
+
+= 1.1.1 =
+* Fixed the Group Info widget - show/hide options were not working.
+* Purging the Image Cache now resets the Last Import date.
 
 = 1.1.0 =
 * Consolidated all Data Import jobs into one interface.
