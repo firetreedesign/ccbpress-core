@@ -100,6 +100,7 @@ class CCBPress_Purge_Cache {
 	 */
 	public static function purge_images() {
 		CCBPress()->ccb->purge_image_cache();
+		delete_option( 'ccbpress_last_import' );
 	}
 
 
