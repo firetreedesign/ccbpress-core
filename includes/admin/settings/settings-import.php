@@ -136,7 +136,7 @@ class CCBPress_Settings_Import extends CCBPress_Settings {
     }
 
 	public function data_import_section_callback() {
-        echo '<p>' . __( 'Here you can manage the import settings for you Church Community Builder data. If you have add-ons that need data, we will automatically import the data from Church Community Builder for you every night.', 'ccbpress-core' ) . '</p>';
+        echo '<p>' . __( 'Here you can manage the import settings for your Church Community Builder data. If you have add-ons that need data, we will automatically import the data from Church Community Builder on a regular schedule.', 'ccbpress-core' ) . '</p>';
 	}
 
 	public function sanitize_callback( $input ) {
