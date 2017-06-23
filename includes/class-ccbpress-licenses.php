@@ -100,7 +100,9 @@ if ( ! class_exists( 'CCBPress_License' ) ) :
 		 */
 		public function auto_updater() {
 
-			if ( 'valid' !== get_option( $this->item_shortname . '_license_key_active' ) ) {
+			$license_data = json_decode( get_option( $this->item_shortname . '_license_key_active', '' ) );
+
+			if ( ! isset( $license_data->license ) || 'valid' !== $license_data->license ) {
 			 	return;
 			}
 
@@ -147,8 +149,10 @@ if ( ! class_exists( 'CCBPress_License' ) ) :
 				wp_die( esc_html__( 'Nonce verification failed', 'ccbpress-core' ), esc_html__( 'Error', 'ccbpress-core' ), array( 'response' => 403 ) );
 			}
 
-			if ( 'valid' === get_option( $this->item_shortname . '_license_key_active' ) ) {
-				return;
+			$license_data = json_decode( get_option( $this->item_shortname . '_license_key_active', '' ) );
+
+			if ( isset( $license_data->license ) && 'valid' === $license_data->license ) {
+			 	return;
 			}
 
 			$license = sanitize_text_field( $_POST['ccbpress_licenses'][ $this->item_shortname . '_license_key' ] );
