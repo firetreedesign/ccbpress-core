@@ -189,14 +189,7 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 		public static function schedule_cron() {
 
 			if ( false === wp_next_scheduled( 'ccbpress_maintenance' ) ) {
-
-				// $timestamp = strtotime( 'midnight ' . get_option( 'timezone_string' ) );
-				// if ( $timestamp < current_time( 'timestamp' ) ) {
-				// 	$timestamp = strtotime( '+1 day', $timestamp );
-				// }
-
 				wp_schedule_event( current_time( 'timestamp' ), 'hourly', 'ccbpress_maintenance' );
-
 			}
 
 		}
