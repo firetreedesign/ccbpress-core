@@ -17,14 +17,15 @@ table.ccbpress-dash-widget-api-status td:first-of-type { border-right: 1px solid
 .ccbpress-radio-list { margin: 0; padding-top: 4px; }
 .ccbpress-radio-list li { display: inline-block; padding-right: 15px; }
 
-.about-wrap.ccbpress .feature-section .svg-container { text-align: center; }
-.about-wrap.ccbpress .feature-section .svg-container .dashicons { font-size: 150px; margin: 0; max-width: 100%; width: 150px; height: 150px; vertical-align: middle; text-align: center; color: #ff5555; }
-.about-wrap.ccbpress .feature-section:not(.three-col) { margin-top: 20px; }
+.about-wrap.ccbpress .feature-section ul { font-size: 0.85em; list-style: disc inside; padding-left: 20px; }
 
-.about-wrap.ccbpress .feature-section-media { float: right; text-align: right; margin-bottom: 20px; width: 50%; box-sizing: border-box; }
-.about-wrap.ccbpress .feature-section-content { float: left; width: 50%; padding-right: 50px; box-sizing: border-box; }
-.about-wrap.ccbpress .feature-section-content ul { font-size: 0.85em; list-style: disc inside; }
-.about-wrap.ccbpress .feature-section-content .notes { font-style: italic; font-size: 0.85em; }
+.ccbpress-addons .ccbpress-addon { box-sizing: border-box; background: #fff; border: 1px solid #ccc; float: left; padding: 15px 15px 45px 15px; position: relative; margin: 0 15px 15px 0; width: 350px; min-height: 350px; }
+.ccbpress-addons .ccbpress-addon .ccbpress-addon-title { margin-top: 0; }
+.ccbpress-addons .ccbpress-addon > a > img { width: 100%; height: auto; }
+.ccbpress-addons .ccbpress-addon .button-secondary { position: absolute; bottom: 15px; left: 15px; }
+@media screen and (max-width:720px) {
+	.ccbpress-addons .ccbpress-addon { width: 100%; margin: 0 0 15px 0; }
+}
 
 @media screen and (max-width:1000px) {
 	.wp-filter .ccbpress_tab_actions { float: none; position: relative; max-width: 100%; }

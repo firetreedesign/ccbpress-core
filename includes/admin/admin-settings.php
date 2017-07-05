@@ -17,25 +17,25 @@ class CCBPress_Settings {
      */
     public function input_callback( $args ) {
 
-        // Set the defaults
+        // Set the defaults.
 		$defaults = array(
-			'field_id'		=> NULL,
-			'page_id'		=> NULL,
-			'label'      	=> NULL,
+			'field_id'		=> null,
+			'page_id'		=> null,
+			'label'      	=> null,
             'type'          => 'text',
 			'size'          => 'regular',
-            'before'        => NULL,
-            'after'         => NULL,
+            'before'        => null,
+            'after'         => null,
 		);
 
-		// Parse the arguments
+		// Parse the arguments.
 		$args = wp_parse_args( $args, $defaults );
 
-        // Get the saved values from WordPress
+        // Get the saved values from WordPress.
     	$options = get_option( $args['page_id'] );
 
 
-        // Start the output buffer
+        // Start the output buffer.
         ob_start();
         ?>
         <?php echo $args['before']; ?>
@@ -80,16 +80,23 @@ class CCBPress_Settings {
         // Get the saved values from WordPress
     	$options = get_option( $args['page_id'] );
 
+		$license_data = get_option( $args['field_id'] . '_active', '' );
+		$license_data = json_decode( $license_data );
 
         // Start the output buffer
         ob_start();
         ?>
 		<?php wp_nonce_field( $args['field_id'] . '-nonce', $args['field_id'] . '-nonce' ); ?>
 		<input type="text" id="<?php echo esc_attr( $args['field_id'] ); ?>" name="<?php echo esc_attr( $args['page_id'] ); ?>[<?php echo esc_attr( $args['field_id'] ); ?>]" value="<?php echo ( isset( $options[ $args['field_id'] ] ) ? $options[ $args['field_id'] ] : '' ); ?>" class="regular-text" />
-		<?php if ( 'valid' == get_option( $args['field_id'] . '_active' ) ) : ?>
+		<?php if ( isset( $license_data->license ) && 'valid' === $license_data->license ) : ?>
 			<input type="submit" class="button-secondary" name="<?php echo esc_attr( $args['field_id'] . '_deactivate' ); ?>" value="<?php echo esc_attr( __('Deactivate License', 'ccbpress-core') ); ?>">
+			<?php if ( isset( $license_data->expires ) && 'lifetime' === $license_data->expires ) : ?>
+				<p class="description"><?php esc_html_e( 'Your license key never expires.', 'ccbpress-core' ); ?></p>
+			<?php else : ?>
+				<p class="description"><?php echo esc_html( sprintf( __( 'Your license key expires on %s.', 'ccbpress-core' ), $license_data->expires ) ); ?></p>
+			<?php endif; ?>
 		<?php endif; ?>
-        <?php if ( $args['label'] != '' ) : ?>
+        <?php if ( '' !== $args['label'] ) : ?>
             <p class="description"><?php echo $args['label']; ?></p>
         <?php endif; ?>
 
