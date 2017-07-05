@@ -100,7 +100,9 @@ if ( ! class_exists( 'CCBPress_License' ) ) :
 		 */
 		public function auto_updater() {
 
-			if ( 'valid' !== get_option( $this->item_shortname . '_license_key_active' ) ) {
+			$license_data = json_decode( get_option( $this->item_shortname . '_license_key_active', '' ) );
+
+			if ( ! isset( $license_data->license ) || 'valid' !== $license_data->license ) {
 			 	return;
 			}
 
@@ -112,7 +114,7 @@ if ( ! class_exists( 'CCBPress_License' ) ) :
 					'license'	=> $this->license,
 					'item_name'	=> $this->item_name,
 					'author'	=> $this->author,
-					'url'		=> home_url()
+					'url'		=> home_url(),
 				)
 			);
 
@@ -143,12 +145,14 @@ if ( ! class_exists( 'CCBPress_License' ) ) :
 				}
 			}
 
-			if ( ! wp_verify_nonce( $_REQUEST[ $this->item_shortname . '_license_key-nonce'], $this->item_shortname . '_license_key-nonce' ) ) {
-				wp_die( __('Nonce verification failed', 'ccbpress-core'), __('Error', 'ccbpress-core'), array( 'response' => 403 ) );
+			if ( ! wp_verify_nonce( $_REQUEST[ $this->item_shortname . '_license_key-nonce' ], $this->item_shortname . '_license_key-nonce' ) ) {
+				wp_die( esc_html__( 'Nonce verification failed', 'ccbpress-core' ), esc_html__( 'Error', 'ccbpress-core' ), array( 'response' => 403 ) );
 			}
 
-			if ( 'valid' === get_option( $this->item_shortname . '_license_key_active' ) ) {
-				return;
+			$license_data = json_decode( get_option( $this->item_shortname . '_license_key_active', '' ) );
+
+			if ( isset( $license_data->license ) && 'valid' === $license_data->license ) {
+			 	return;
 			}
 
 			$license = sanitize_text_field( $_POST['ccbpress_licenses'][ $this->item_shortname . '_license_key' ] );
@@ -161,7 +165,7 @@ if ( ! class_exists( 'CCBPress_License' ) ) :
 				'edd_action'	=> 'activate_license',
 				'license'		=> $license,
 				'item_name'		=> urlencode( $this->item_name ),
-				'url'			=> home_url()
+				'url'			=> home_url(),
 			);
 
 			$response = wp_remote_post(
@@ -169,21 +173,21 @@ if ( ! class_exists( 'CCBPress_License' ) ) :
 				array(
 					'timeout'	=> 15,
 					'sslverify'	=> false,
-					'body'		=> $api_params
+					'body'		=> $api_params,
 				)
 			);
 
-			// Check for errors
+			// Check for errors.
 			if ( is_wp_error( $response ) ) {
 				return;
 			}
 
-			// Make WordPress look for updates
+			// Make WordPress look for updates.
 			set_site_transient( 'update_plugins', null );
 
-			$license_data = json_decode( wp_remote_retrieve_body( $response ) );
+			$license_data = wp_remote_retrieve_body( $response );
 
-			update_option( $this->item_shortname . '_license_key_active', $license_data->license );
+			update_option( $this->item_shortname . '_license_key_active', $license_data );
 
 		}
 
@@ -206,8 +210,8 @@ if ( ! class_exists( 'CCBPress_License' ) ) :
 				return;
 			}
 
-			if ( ! wp_verify_nonce( $_REQUEST[ $this->item_shortname . '_license_key-nonce'], $this->item_shortname . '_license_key-nonce' ) ) {
-				wp_die( __('Nonce verification failed', 'ccbpress-core'), __('Error', 'ccbpress-core'), array( 'response' => 403 ) );
+			if ( ! wp_verify_nonce( $_REQUEST[ $this->item_shortname . '_license_key-nonce' ], $this->item_shortname . '_license_key-nonce' ) ) {
+				wp_die( esc_html__( 'Nonce verification failed', 'ccbpress-core' ), esc_html__( 'Error', 'ccbpress-core' ), array( 'response' => 403 ) );
 			}
 
 			if ( isset( $_POST[ $this->item_shortname . '_license_key_deactivate' ] ) ) {
@@ -216,7 +220,7 @@ if ( ! class_exists( 'CCBPress_License' ) ) :
 					'edd_action'	=> 'deactivate_license',
 					'license'		=> $this->license,
 					'item_name'		=> urlencode( $this->item_name ),
-					'url'			=> home_url()
+					'url'			=> home_url(),
 				);
 
 				$response = wp_remote_post(
@@ -224,11 +228,11 @@ if ( ! class_exists( 'CCBPress_License' ) ) :
 					array(
 						'timeout'	=> 15,
 						'sslverify'	=> false,
-						'body'		=> $api_params
+						'body'		=> $api_params,
 					)
 				);
 
-				// Check for errors
+				// Check for errors.
 				if ( is_wp_error( $response ) ) {
 					return;
 				}

@@ -69,6 +69,15 @@ class CCBPress_Admin_Pages {
 	    );
 		add_action( 'load-' . $ccbpress_settings_help_page, array( $this, 'settings_page_help' ) );
 
+		add_submenu_page(
+			'ccbpress',
+			__( 'Add-ons', 'ccbpress-core' ),
+			__( 'Add-ons', 'ccbpress-core' ),
+			'administrator',
+			'ccbpress-addons',
+			array( $this, 'addons_page' )
+		);
+
 	}
 
 	/**
@@ -148,8 +157,10 @@ class CCBPress_Admin_Pages {
 	private function welcome_content() {
 		?>
 		<div class="feature-section one-col">
-			<h2><?php esc_html_e( 'Dashboard Widget', 'ccbpress-core' ); ?></h2>
-			<p class="lead-description"><?php esc_html_e( 'At a glance, you can keep tabs on CCBPress.', 'ccbpress-core' ); ?></p>
+			<div class="col">
+				<h2><?php esc_html_e( 'Dashboard Widget', 'ccbpress-core' ); ?></h2>
+				<p class="lead-description"><?php esc_html_e( 'At a glance, you can keep tabs on CCBPress.', 'ccbpress-core' ); ?></p>
+			</div>
 		</div>
 		<div class="feature-section two-col">
 			<div class="col">
@@ -162,8 +173,10 @@ class CCBPress_Admin_Pages {
 		</div>
 		<hr />
 		<div class="feature-section one-col">
-			<h2><?php esc_html_e( 'Widgets', 'ccbpress-core' ); ?></h2>
-			<p class="lead-description"><?php esc_html_e( 'We have widgets to display a variety of information.', 'ccbpress-core' ); ?></p>
+			<div class="col">
+				<h2><?php esc_html_e( 'Widgets', 'ccbpress-core' ); ?></h2>
+				<p class="lead-description"><?php esc_html_e( 'We have widgets to display a variety of information.', 'ccbpress-core' ); ?></p>
+			</div>
 		</div>
 		<div class="feature-section two-col">
 			<div class="col">
@@ -197,8 +210,10 @@ class CCBPress_Admin_Pages {
 		sort( $services );
 		?>
 		<div class="feature-section one-col">
-			<h2><?php esc_html_e( 'Connecting to Church Community Builder', 'ccbpress-core' ); ?></h2>
-			<p class="lead-description"><?php esc_html_e( 'Before you can use the plugin, you need to provide it with information needed to connect to your Church Community Builder account.', 'ccbpress-core' ); ?></p>
+			<div class="col">
+				<h2><?php esc_html_e( 'Connecting Church Community Builder', 'ccbpress-core' ); ?></h2>
+				<p class="lead-description"><?php esc_html_e( 'Before you can use the plugin, you need to provide it with information needed to connect to your Church Community Builder account.', 'ccbpress-core' ); ?></p>
+			</div>
 		</div>
 		<div class="feature-section two-col">
 			<div class="col">
@@ -238,7 +253,7 @@ class CCBPress_Admin_Pages {
 			</div>
 		</div>
 		<hr />
-		<div class="feature-section one-col">
+		<div class="feature-section two-col">
 			<div class="col">
 				<h3><?php esc_html_e( '3. Add Some Widgets', 'ccbpress-core' ); ?></h3>
 				<p><?php esc_html_e( 'You are now ready to use any of the widgets that come with CCBPress.', 'ccbpress-core' ); ?></p>
@@ -246,11 +261,11 @@ class CCBPress_Admin_Pages {
 			</div>
 		</div>
 		<hr />
-		<div class="feature-section one-col">
+		<div class="feature-section two-col">
 			<div class="col">
 				<h3><?php esc_html_e( '4. Browse Our Add-ons', 'ccbpress-core' ); ?></h3>
 				<p><?php esc_html_e( 'Feel free to browse our add-ons to add additional functionality to CCBPress.', 'ccbpress-core' ); ?></p>
-				<p><strong><?php esc_html_e( 'Coming Soon!', 'ccbpress-core' ); ?></strong></p>
+				<p><a class="button button-primary" href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'ccbpress-addons' ), 'admin.php' ) ) ); ?>"><?php esc_html_e( 'Browse Add-ons', 'ccbpress-core' ); ?></a></p>
 			</div>
 		</div>
 		<?php
@@ -352,6 +367,81 @@ class CCBPress_Admin_Pages {
 			}
 		}
 
+	}
+
+	/**
+	 * Render Getting Started Page
+	 *
+	 * @access public
+	 * @since 1.0.0
+	 * @return void
+	 */
+	public function addons_page() {
+		if ( has_filter( 'ccbpress_enable_beacon' ) ) {
+			wp_enqueue_script( 'ccbpress-core-beacon' );
+		}
+		?>
+	    <div class="wrap ccbpress-addons">
+			<h2><?php esc_html_e( 'CCBPress Add-ons', 'ccbpress-core' ); ?></h2>
+			<p>
+				The following are available add-ons to extend CCBPress Core functionality.
+			</p>
+			<div id="tab_container">
+				<?php
+				$addons = $this->get_addons_data();
+				if ( false !== $addons ) {
+					// $addons = json_decode( $addons );
+					foreach ( $addons as $addon ) :
+					?>
+						<div class="ccbpress-addon">
+							<h3 class="ccbpress-addon-title"><?php echo esc_html( $addon->title ); ?></h3>
+							<a href="<?php echo esc_attr( $addon->link ); ?>" target="_blank"><img src="<?php echo esc_attr( $addon->thumbnail ); ?>" /></a>
+							<p><?php echo esc_html( $addon->excerpt ); ?></p>
+							<a href="<?php echo esc_attr( $addon->link ); ?>" target="_blank" class="button-secondary">Get this add-on</a>
+						</div>
+					<?php
+					endforeach;
+				}
+				?>
+			</div><!-- #tab_container-->
+		</div>
+		<?php
+	}
+
+	private function get_addons_data() {
+
+		$data = get_transient( 'ccbpress-addons' );
+
+		if ( false !== $data ) {
+			$data = json_decode( $data );
+			usort( $data, array( $this, 'sort_addons_data' ) );
+			return $data;
+		}
+
+		$response = wp_remote_get( 'https://ccbpress.com/wp-json/wp/v2/edd-addons' );
+
+		// Return false if there was an error.
+		if ( is_wp_error( $response ) ) {
+			return false;
+		}
+
+		// Grab the body from the response.
+		$data = wp_remote_retrieve_body( $response );
+
+		// Free up the memory.
+		unset( $response );
+
+		set_transient( 'ccbpress-addons', $data, 900 );
+
+		$data = json_decode( $data );
+		usort( $data, array( $this, 'sort_addons_data' ) );
+
+		return $data;
+
+	}
+
+	private function sort_addons_data( $a, $b ) {
+		return strcmp( $a->title, $b->title );
 	}
 
 }
