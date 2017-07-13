@@ -26,6 +26,7 @@ class CCBPress_Settings {
 			'size'          => 'regular',
             'before'        => null,
             'after'         => null,
+			'autocomplete'	=> null,
 		);
 
 		// Parse the arguments.
@@ -39,7 +40,7 @@ class CCBPress_Settings {
         ob_start();
         ?>
         <?php echo $args['before']; ?>
-        <input type="<?php echo esc_attr( $args['type'] ); ?>" id="<?php echo esc_attr( $args['field_id'] ); ?>" name="<?php echo esc_attr( $args['page_id'] ); ?>[<?php echo esc_attr( $args['field_id'] ); ?>]" value="<?php echo ( isset( $options[ $args['field_id'] ] ) ? $options[ $args['field_id'] ] : '' ); ?>" class="<?php esc_attr_e( $args['size'] ); ?>-text" />
+        <input type="<?php echo esc_attr( $args['type'] ); ?>" id="<?php echo esc_attr( $args['field_id'] ); ?>" name="<?php echo esc_attr( $args['page_id'] ); ?>[<?php echo esc_attr( $args['field_id'] ); ?>]" value="<?php echo ( isset( $options[ $args['field_id'] ] ) ? $options[ $args['field_id'] ] : '' ); ?>" class="<?php esc_attr_e( $args['size'] ); ?>-text"<?php echo ( 'off' === $args['autocomplete'] ) ? ' autocomplete="off"' : ''; ?> />
         <?php echo $args['after']; ?>
         <?php if ( $args['label'] != '' ) : ?>
             <p class="description"><?php echo $args['label']; ?></p>
@@ -93,7 +94,7 @@ class CCBPress_Settings {
 			<?php if ( isset( $license_data->expires ) && 'lifetime' === $license_data->expires ) : ?>
 				<p class="description"><?php esc_html_e( 'Your license key never expires.', 'ccbpress-core' ); ?></p>
 			<?php else : ?>
-				<p class="description"><?php echo esc_html( sprintf( __( 'Your license key expires on %s.', 'ccbpress-core' ), $license_data->expires ) ); ?></p>
+				<p class="description"><?php echo esc_html( sprintf( __( 'Your license key expires on %s.', 'ccbpress-core' ), (string) date( 'F jS, Y', strtotime( $license_data->expires ) ) ) ); ?></p>
 			<?php endif; ?>
 		<?php endif; ?>
         <?php if ( '' !== $args['label'] ) : ?>

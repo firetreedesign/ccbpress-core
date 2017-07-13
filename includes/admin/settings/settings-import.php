@@ -110,15 +110,15 @@ class CCBPress_Settings_Import extends CCBPress_Settings {
 			}
 
 			add_settings_field(
-				'manual_import',
-				'<strong>' . __( 'Manual Import', 'ccbpress-core' ) . '</strong>',
+				'import_actions',
+				'<strong>' . __( 'Actions', 'ccbpress-core' ) . '</strong>',
 				array( $this, 'text_callback' ),
 				'ccbpress_settings_import',
 				'ccbpress_settings_import_section',
 				array(
 					'header'	=> null,
 					'title'		=> null,
-					'content'	=> '<button class="button button-secondary" id="ccbpress-manual-import-button" data-ccbpress-status="' . $import_status . '">Run Import Now</button><div id="ccbpress-import-status"></div>',
+					'content'	=> '<a class="button button-primary" id="ccbpress-manual-import-button" data-ccbpress-status="' . $import_status . '">Import Now</a> <a class="button button-secondary" id="ccbpress-reset-import-button">Reset</a><div id="ccbpress-import-status"></div>',
 				)
 			);
 

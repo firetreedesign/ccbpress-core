@@ -391,6 +391,17 @@ class CCBPress_Connection {
 	 */
 	public function test_connection( $api_prefix, $api_user, $api_pass ) {
 
+		if ( '' === trim( $api_prefix ) ) {
+			$message = esc_html__( 'Your CCB Website must not be blank.', 'ccbpress-core' );
+			add_settings_error(
+				'api_url',
+				esc_attr( 'settings_updated' ),
+				$message,
+				'error'
+			);
+			return $message;
+		}
+
 		// Save the real settings.
 		$real_api_url	= $this->api_url;
 		$real_api_user	= $this->api_user;
@@ -410,7 +421,7 @@ class CCBPress_Connection {
 
 		switch ( $message ) {
 			case 'success':
-				$new_message = esc_html__( 'Successfully connected to Church Community Builder', 'ccbpress-core' );
+				$new_message = esc_html__( 'Successfully connected to Church Community Builder. Please check your API Services below.', 'ccbpress-core' );
 				$type = 'updated';
 				break;
 			default:

@@ -43,6 +43,11 @@ class CCBPress_Import {
 	 */
 	public static function run() {
 
+		if ( ! CCBPress()->ccb->is_connected() ) {
+			delete_option( 'ccbpress_last_import' );
+			return;
+		}
+
 		$jobs = apply_filters( 'ccbpress_import_jobs', array() );
 
 		if ( ! is_array( $jobs ) ) {
