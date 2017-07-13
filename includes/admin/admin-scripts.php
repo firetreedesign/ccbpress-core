@@ -81,6 +81,7 @@ class CCBPress_Admin_Scripts {
 	private function localize() {
 		wp_localize_script( 'ccbpress-core-admin', 'ccbpress_vars', array(
 			'nonce' => wp_create_nonce( 'ccbpress-nonce' ),
+			'reset_import_dialog' => __( 'Are you sure that you want to reset the last import time?', 'ccbpress-core' ),
 		) );
 
 		$current_user = wp_get_current_user();
