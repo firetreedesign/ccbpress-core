@@ -44,41 +44,43 @@ class CCBPress_Settings_CCB extends CCBPress_Settings {
     		)
     	);
 
-    	/**
-    	 * The API username field
-    	 */
+		/**
+		 * The API username field
+		 */
 
-    	add_settings_field(
-    		'api_user',
-    		'<strong>' . __('API Username', 'ccbpress-core') . '</strong>',
-    		array( $this, 'input_callback' ),
-    		'ccbpress_settings_ccb',
-    		'ccbpress_settings_ccb_connection_settings_section',
-    		array(
-    			'field_id'  => 'api_user',
-    			'page_id'   => 'ccbpress_ccb',
-                'size'      => 'medium',
-				'label'		=> __('This is different from the login you use for Church Community Builder.', 'ccbpress-core'),
-    		)
-    	);
+		add_settings_field(
+			'api_user',
+			'<strong>' . __( 'API Username', 'ccbpress-core' ) . '</strong>',
+			array( $this, 'input_callback' ),
+			'ccbpress_settings_ccb',
+			'ccbpress_settings_ccb_connection_settings_section',
+			array(
+				'field_id'  	=> 'api_user',
+				'page_id'   	=> 'ccbpress_ccb',
+				'size'      	=> 'medium',
+				'autocomplete'	=> 'off',
+				'label'			=> __( 'This is different from the login you use for Church Community Builder.', 'ccbpress-core' ),
+			)
+		);
 
-    	/**
-    	 * The API password field
-    	 */
+		/**
+		 * The API password field
+		 */
 
-    	add_settings_field(
-    		'api_pass',
-    		'<strong>' . __('API Password', 'ccbpress-core') . '</strong>',
-    		array( $this, 'input_callback' ),
-    		'ccbpress_settings_ccb',
-    		'ccbpress_settings_ccb_connection_settings_section',
-    		array(
-    			'field_id'  => 'api_pass',
-    			'page_id'   => 'ccbpress_ccb',
-                'type'      => 'password',
-                'size'      => 'medium',
-    		)
-    	);
+		add_settings_field(
+			'api_pass',
+			'<strong>' . __( 'API Password', 'ccbpress-core' ) . '</strong>',
+			array( $this, 'input_callback' ),
+			'ccbpress_settings_ccb',
+			'ccbpress_settings_ccb_connection_settings_section',
+			array(
+				'field_id'  	=> 'api_pass',
+				'page_id'   	=> 'ccbpress_ccb',
+				'type'      	=> 'password',
+				'size'      	=> 'medium',
+				'autocomplete'	=> 'off',
+			)
+		);
 
 		if ( CCBPress()->ccb->is_connected() ) {
 
@@ -99,7 +101,7 @@ class CCBPress_Settings_CCB extends CCBPress_Settings {
 	            array(
 	                'header' => NULL,
 	                'title' => NULL,
-	                'content' => '<button class="button button-secondary" id="ccbpress-ccb-service-check-button">Check Services Now</button> <img src="' . admin_url('/images/spinner-2x.gif') . '" width="16" height="16" class="waiting" id="ccbpress-ccb-service-check-loading" style="display: none;" /><div id="ccbpress-ccb-service-check-results"></div>',
+	                'content' => '<a class="button button-secondary" id="ccbpress-ccb-service-check-button">Check Services Now</a> <img src="' . admin_url('/images/spinner-2x.gif') . '" width="16" height="16" class="waiting" id="ccbpress-ccb-service-check-loading" style="display: none;" /><div id="ccbpress-ccb-service-check-results"></div>',
 	            )
 	        );
 

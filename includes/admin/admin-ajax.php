@@ -24,6 +24,7 @@ class CCBPress_Admin_Ajax {
 	 */
 	public function init() {
 		add_action( 'wp_ajax_ccbpress_check_services', array( $this, 'check_services' ) );
+		add_action( 'wp_ajax_ccbpress_reset_import', array( $this, 'reset_import' ) );
 	}
 
 	/**
@@ -93,6 +94,17 @@ class CCBPress_Admin_Ajax {
 
 		wp_die();
 
+	}
+
+	/**
+	 * Reset last import date
+	 *
+	 * @return void
+	 */
+	public function reset_import() {
+		delete_option( 'ccbpress_last_import' );
+		esc_html_e( 'Never', 'ccbpress-core' );
+		wp_die();
 	}
 
 }

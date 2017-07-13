@@ -124,4 +124,41 @@ jQuery( document ).ready(function($) {
 	}
 	CCBPress_Import.init();
 
+	/**
+	 * CCBPress Import
+	 */
+	var CCBPress_Import_Reset = new function() {
+
+		this.init = function() {
+			var self = this;
+			jQuery( '#ccbpress-reset-import-button' ).on( 'click', { self: self }, self.confirm );
+		};
+
+		this.confirm = function( event ) {
+			var self = event.data.self;
+			if ( confirm( ccbpress_vars.reset_import_dialog ) == true) {
+		        self.startReset();
+		    }
+		}
+
+		this.startReset = function() {
+			jQuery( '#ccbpress-reset-import-button' ).attr('disabled', true);
+			data = {
+				action: 'ccbpress_reset_import',
+				nonce: ccbpress_vars.nonce
+			};
+
+			jQuery.post( ajaxurl, data,  function( response ) {
+				jQuery('.ccbpress-last-import').text( response ).css( 'font-weight', 'bold' );
+				setTimeout(function(){
+	                jQuery('.ccbpress-last-import').css( 'font-weight', 'normal' );;
+	            }, 3000);
+				jQuery( '#ccbpress-reset-import-button' ).attr('disabled', false);
+			});
+			return false;
+		}
+
+	}
+	CCBPress_Import_Reset.init();
+
 });

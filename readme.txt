@@ -3,7 +3,7 @@ Contributors: firetree, danielmilner
 Tags: church, ccb, church community builder, chms
 Requires at least: 4.3
 Tested up to: 4.8
-Stable tag: 1.1.2
+Stable tag: 1.1.3
 License: GPLv2 or later
 License URI: http://ww.gnu.org/licenses/gpl-2.0.html
 
@@ -35,6 +35,11 @@ Requires a [Church Community Builder](http://churchcommunitybuilder.com/) accoun
 2. Getting Started
 
 == Changelog ==
+
+= 1.1.3 =
+* Disabled autocomplete on the Church Community Builder username and password fields.
+* Added a button to reset the last import status.
+* Fixed the date formatting for license key expiration dates.
 
 = 1.1.2 =
 * Add-ons page is now available.
