@@ -3,7 +3,7 @@ Contributors: firetree, danielmilner
 Tags: church, ccb, church community builder, chms
 Requires at least: 4.3
 Tested up to: 4.8
-Stable tag: 1.1.3
+Stable tag: 1.1.4
 License: GPLv2 or later
 License URI: http://ww.gnu.org/licenses/gpl-2.0.html
 
@@ -23,6 +23,12 @@ Requires a [Church Community Builder](http://churchcommunitybuilder.com/) accoun
 * CCB Login Widget
 * Online Giving Widget
 
+= Do More With Add-ons =
+
+Extend the capabilities of CCBPress with these add-ons:
+* [Events](https://ccbpress.com/downloads/events/) - Display event data from Church Community Builder.
+* [Groups](https://ccbpress.com/downloads/groups/) - Display group data from Church Community Builder.
+
 == Installation ==
 
 1. Upload the ccbpress-core folder to the /wp-content/plugins/ directory.
@@ -35,6 +41,10 @@ Requires a [Church Community Builder](http://churchcommunitybuilder.com/) accoun
 2. Getting Started
 
 == Changelog ==
+
+= 1.1.4 =
+* Import progress is also reset upon resetting the import status.
+* Admin Bar link has been fixed.
 
 = 1.1.3 =
 * Disabled autocomplete on the Church Community Builder username and password fields.
