@@ -22,7 +22,7 @@ class CCBPress_Admin_Bar {
                 array(
                     'id'    => 'ccbpress',
                     'title' => '<span class="ab-icon"></span><span class="ab-label">' . __( 'CCBPress', 'ccbpress' ) . '</span>',
-                    'href'  => admin_url( 'admin.php?page=ccbpress_welcome' ),
+                    'href'  => admin_url( 'admin.php?page=ccbpress' ),
             ) );
 
 			$wp_admin_bar->add_node(

@@ -45,6 +45,7 @@ class CCBPress_Import {
 
 		if ( ! CCBPress()->ccb->is_connected() ) {
 			delete_option( 'ccbpress_last_import' );
+			delete_option( 'ccbpress_import_in_progress' );
 			return;
 		}
 
