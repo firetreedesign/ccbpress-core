@@ -3,7 +3,7 @@ Contributors: firetree, danielmilner
 Tags: church, ccb, church community builder, chms
 Requires at least: 4.3
 Tested up to: 4.8
-Stable tag: 1.1.4
+Stable tag: 1.1.5
 License: GPLv2 or later
 License URI: http://ww.gnu.org/licenses/gpl-2.0.html
 
@@ -31,7 +31,7 @@ Extend the capabilities of CCBPress with these add-ons:
 
 == Installation ==
 
-1. Upload the ccbpress-core folder to the /wp-content/plugins/ directory.
+1. Upload the `ccbpress-core` folder to the `/wp-content/plugins/`` directory.
 2. Activate the CCBPress Core plugin through the 'Plugins' menu in WordPress.
 3. Configure the plugin by going to the CCBPress menu that appears in your WordPress Admin.
 
@@ -41,6 +41,10 @@ Extend the capabilities of CCBPress with these add-ons:
 2. Getting Started
 
 == Changelog ==
+
+= 1.1.5 =
+* Changed the role required to see the CCBPress menu to `manage_options`.
+* Added the `ccbpress-core.pot` file for translations.
 
 = 1.1.4 =
 * Import progress is also reset upon resetting the import status.
