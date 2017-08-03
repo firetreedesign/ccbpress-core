@@ -692,14 +692,14 @@ class CCBPress_Connection {
 
 		foreach ( $ccb_data->response->items->form as $form ) {
 
-			if ( $form['id'] === $form_id ) {
+			if ( (string) $form['id'] === $form_id ) {
 
 				// Check the form date.
-				$form_start	= strtotime( $form->start );
-				if ( '' === $form->end ) {
+				$form_start	= strtotime( (string) $form->start );
+				if ( '' === (string) $form->end ) {
 					$form_end = $current_date;
 				} else {
-					$form_end = strtotime( $form->end );
+					$form_end = strtotime( (string) $form->end );
 				}
 
 				if ( $current_date < $form_start || $current_date > $form_end ) {
@@ -707,19 +707,19 @@ class CCBPress_Connection {
 				}
 
 				// Is the form not public?
-				if ( 'false' === $form->public ) {
+				if ( 'false' === (string) $form->public ) {
 					$is_valid = false;
 					break;
 				}
 
 				// Has the form been published?
-				if ( 'false' === $form->published ) {
+				if ( 'false' === (string) $form->published ) {
 					$is_valid = false;
 					break;
 				}
 
 				// Has the form expired?
-				if ( 'Expired' === $form->status ) {
+				if ( 'Expired' === (string) $form->status ) {
 					$is_valid = false;
 					break;
 				}
