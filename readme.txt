@@ -2,8 +2,8 @@
 Contributors: firetree, danielmilner
 Tags: church, ccb, church community builder, chms
 Requires at least: 4.3
-Tested up to: 4.8
-Stable tag: 1.1.5
+Tested up to: 4.8.1
+Stable tag: 1.1.6
 License: GPLv2 or later
 License URI: http://ww.gnu.org/licenses/gpl-2.0.html
 
@@ -41,6 +41,9 @@ Extend the capabilities of CCBPress with these add-ons:
 2. Getting Started
 
 == Changelog ==
+
+= 1.1.6 =
+* Fixed an issue with the `is_form_valid()` function not working properly.
 
 = 1.1.5 =
 * Changed the role required to see the CCBPress menu to `manage_options`.
