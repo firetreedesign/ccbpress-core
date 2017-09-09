@@ -40,8 +40,6 @@ jQuery( document ).ready(function($) {
 			var check		= jQuery('<span />');
 
 			notice.attr('class', 'notice notice-info');
-			spinner.attr('class', 'spinner is-active');
-			check.attr('class', 'dashicons dashicons-yes');
 
 			for ( var key in content ) {
 				if ( content.hasOwnProperty(key) ) {
@@ -58,14 +56,6 @@ jQuery( document ).ready(function($) {
 				}
 			}
 
-			switch( status ) {
-				case 'running':
-					p.prepend(spinner);
-					break;
-				case 'done':
-					p.prepend(check);
-					break;
-			}
 			notice.append(p);
 			container.html('');
 			container.append(notice);
@@ -77,12 +67,12 @@ jQuery( document ).ready(function($) {
 
 		this.enableButton = function() {
 			jQuery( '#ccbpress-manual-import-button' ).attr('disabled', false);
-			jQuery( '#ccbpress-manual-import-button' ).attr('disabled', false);
+			jQuery( '#ccbpress-manual-import-button' ).removeClass('updating-message').addClass('updated-message');
 		}
 
 		this.disableButton = function() {
 			jQuery( '#ccbpress-manual-import-button' ).attr('disabled', true);
-			jQuery( '#ccbpress-manual-import-button' ).attr('disabled', true);
+			jQuery( '#ccbpress-manual-import-button' ).addClass('updating-message');
 		}
 
 		this.checkProgress = function( self ) {
@@ -116,7 +106,8 @@ jQuery( document ).ready(function($) {
 			jQuery.post( ajaxurl, data,  function( response ) {
 				jQuery('.ccbpress-last-import').text( response ).css( 'font-weight', 'bold' );
 				setTimeout(function(){
-	                jQuery('.ccbpress-last-import').css( 'font-weight', 'normal' );;
+	                jQuery('.ccbpress-last-import').css( 'font-weight', 'normal' );
+					jQuery( '#ccbpress-manual-import-button' ).removeClass('updated-message');
 	            }, 3000);
 			});
 		}
@@ -143,6 +134,7 @@ jQuery( document ).ready(function($) {
 
 		this.startReset = function() {
 			jQuery( '#ccbpress-reset-import-button' ).attr('disabled', true);
+			jQuery( '#ccbpress-reset-import-button' ).addClass('updating-message');
 			data = {
 				action: 'ccbpress_reset_import',
 				nonce: ccbpress_vars.nonce
@@ -152,8 +144,10 @@ jQuery( document ).ready(function($) {
 				jQuery('.ccbpress-last-import').text( response ).css( 'font-weight', 'bold' );
 				setTimeout(function(){
 	                jQuery('.ccbpress-last-import').css( 'font-weight', 'normal' );;
+					jQuery( '#ccbpress-reset-import-button' ).removeClass('updated-message')
 	            }, 3000);
 				jQuery( '#ccbpress-reset-import-button' ).attr('disabled', false);
+				jQuery( '#ccbpress-reset-import-button' ).removeClass('updating-message').addClass('updated-message');
 			});
 			return false;
 		}

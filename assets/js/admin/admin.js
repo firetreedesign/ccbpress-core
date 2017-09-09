@@ -6,7 +6,7 @@ jQuery( document ).ready(function($) {
 	});
 
 	jQuery( '#ccbpress-ccb-service-check-button' ).click( function() {
-		jQuery( '#ccbpress-ccb-service-check-loading' ).show();
+		jQuery( '#ccbpress-ccb-service-check-button' ).addClass('updating-message');
 		jQuery( '#ccbpress-ccb-service-check-button' ).attr('disabled', true);
 		data = {
 			action: 'ccbpress_check_services',
@@ -15,8 +15,11 @@ jQuery( document ).ready(function($) {
 
 		jQuery.post( ajaxurl, data,  function( response ) {
 			jQuery( '#ccbpress-ccb-service-check-results' ).html( response );
-			jQuery( '#ccbpress-ccb-service-check-loading' ).hide();
+			jQuery( '#ccbpress-ccb-service-check-button' ).removeClass('updating-message').addClass('updated-message');
 			jQuery( '#ccbpress-ccb-service-check-button' ).attr('disabled', false);
+			setTimeout(function(){
+				jQuery( '#ccbpress-ccb-service-check-button' ).removeClass('updated-message');
+			}, 3000);
 		});
 		return false;
 	});

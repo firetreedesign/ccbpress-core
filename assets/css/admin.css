@@ -22,7 +22,7 @@ table.ccbpress-dash-widget-api-status td:first-of-type { border-right: 1px solid
 .ccbpress-addons .ccbpress-addon { box-sizing: border-box; background: #fff; border: 1px solid #ccc; float: left; padding: 15px 15px 45px 15px; position: relative; margin: 0 15px 15px 0; width: 350px; min-height: 350px; }
 .ccbpress-addons .ccbpress-addon .ccbpress-addon-title { margin-top: 0; }
 .ccbpress-addons .ccbpress-addon > a > img { width: 100%; height: auto; }
-.ccbpress-addons .ccbpress-addon .button-secondary { position: absolute; bottom: 15px; left: 15px; }
+.ccbpress-addons .ccbpress-addon .button { position: absolute; bottom: 15px; left: 15px; }
 @media screen and (max-width:720px) {
 	.ccbpress-addons .ccbpress-addon { width: 100%; margin: 0 0 15px 0; }
 }

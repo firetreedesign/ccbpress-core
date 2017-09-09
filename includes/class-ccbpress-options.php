@@ -83,18 +83,16 @@ class CCBPress_Options {
 		if ( isset( $this->options['settings'] ) && is_array( $this->options['settings'] ) && isset( $this->options['settings']['actions'] ) && is_array( $this->options['settings']['actions'] ) ) {
 
 			$defaults = array(
-				'type'		=> 'secondary',
-				'class'		=> NULL,
-				'target'	=> NULL
+				'class'		=> null,
+				'target'	=> null,
 			);
 
-			foreach( $this->options['settings']['actions'] as $action ) {
+			foreach ( $this->options['settings']['actions'] as $action ) {
 
 				$new_action = wp_parse_args( $action, $defaults );
 
 				$actions[] = array(
 					'tab_id'	=> $new_action['tab_id'],
-					'type'		=> $new_action['type'],
 					'class'		=> $new_action['class'],
 					'link'		=> $new_action['link'],
 					'target'	=> $new_action['target'],
