@@ -118,7 +118,7 @@ class CCBPress_Settings_Import extends CCBPress_Settings {
 				array(
 					'header'	=> null,
 					'title'		=> null,
-					'content'	=> '<a class="button button-primary" id="ccbpress-manual-import-button" data-ccbpress-status="' . $import_status . '">Import Now</a> <a class="button button-secondary" id="ccbpress-reset-import-button">Reset</a><div id="ccbpress-import-status"></div>',
+					'content'	=> '<a class="button button-primary" id="ccbpress-manual-import-button" data-ccbpress-status="' . $import_status . '">Import Now</a> <a class="button" id="ccbpress-reset-import-button">Reset</a><div id="ccbpress-import-status"></div>',
 				)
 			);
 

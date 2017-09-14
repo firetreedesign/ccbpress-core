@@ -15,15 +15,15 @@ class CCBPress_Admin_Page_Tabs {
 		$tabs[] = array(
 			'tab_id'		=> 'ccb',
 			'settings_id'	=> 'ccbpress_settings_ccb',
-			'title'			=> __('Church Community Builder', 'ccbpress-core'),
-			'submit'		=> TRUE,
+			'title'			=> __( 'Church Community Builder', 'ccbpress-core' ),
+			'submit'		=> true,
 		);
 
 		$tabs[] = array(
 			'tab_id'		=> 'ccbpress',
 			'settings_id'	=> 'ccbpress_settings',
-			'title'			=> __('CCBPress', 'ccbpress-core'),
-			'submit'		=> TRUE,
+			'title'			=> __( 'CCBPress', 'ccbpress-core' ),
+			'submit'		=> true,
 		);
 
 
@@ -32,7 +32,7 @@ class CCBPress_Admin_Page_Tabs {
 			$tabs[] = array(
 				'tab_id'		=> 'import',
 				'settings_id'	=> 'ccbpress_settings_import',
-				'title'			=> __('Data Import', 'ccbpress-core'),
+				'title'			=> __( 'Data Import', 'ccbpress-core' ),
 				'submit'		=> false,
 			);
 
@@ -44,12 +44,12 @@ class CCBPress_Admin_Page_Tabs {
 
 	public function settings_page_tabs_late( $tabs ) {
 
-		if ( has_filter('ccbpress_license_keys') ) {
+		if ( has_filter( 'ccbpress_license_keys' ) ) {
 			$tabs[] = array(
 				'tab_id'		=> 'licenses',
 				'settings_id'	=> 'ccbpress_settings_licenses',
-				'title'			=> __('Licenses', 'ccbpress-core'),
-				'submit'		=> TRUE,
+				'title'			=> __( 'Licenses', 'ccbpress-core' ),
+				'submit'		=> true,
 			);
 		}
 
@@ -61,20 +61,18 @@ class CCBPress_Admin_Page_Tabs {
 
 		$actions[] = array(
 			'tab_id'	=> 'ccb',
-			'type'		=> 'primary',
-			'class'		=> NULL,
+			'class'		=> null,
 			'link'		=> 'http://support.churchcommunitybuilder.com/customer/portal/articles/640595',
 			'target'	=> '_blank',
-			'title'		=> __('How to create an API user', 'ccbpress-core') . ' <span class="dashicons dashicons-external" style="vertical-align: text-bottom;"></span>',
+			'title'		=> __( 'How to create an API user', 'ccbpress-core' ),
 		);
 
 		$actions[] = array(
 			'tab_id'	=> 'ccb',
-			'type'		=> 'secondary',
 			'class'		=> 'ccbpress-required-services',
 			'link'		=> '#',
-			'target'	=> NULL,
-			'title'		=> '<span class="dashicons dashicons-info" style="vertical-align: text-bottom;"></span> ' . __('Required services', 'ccbpress-core'),
+			'target'	=> null,
+			'title'		=> __( 'Required services', 'ccbpress-core' ),
 		);
 
 		return $actions;

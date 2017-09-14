@@ -3,7 +3,8 @@ Contributors: firetree, danielmilner
 Tags: church, ccb, church community builder, chms
 Requires at least: 4.3
 Tested up to: 4.8.1
-Stable tag: 1.1.6
+Requires PHP: 5.3
+Stable tag: 1.1.7
 License: GPLv2 or later
 License URI: http://ww.gnu.org/licenses/gpl-2.0.html
 
@@ -26,12 +27,13 @@ Requires a [Church Community Builder](http://churchcommunitybuilder.com/) accoun
 = Do More With Add-ons =
 
 Extend the capabilities of CCBPress with these add-ons:
+
 * [Events](https://ccbpress.com/downloads/events/) - Display event data from Church Community Builder.
 * [Groups](https://ccbpress.com/downloads/groups/) - Display group data from Church Community Builder.
 
 == Installation ==
 
-1. Upload the `ccbpress-core` folder to the `/wp-content/plugins/`` directory.
+1. Upload the `ccbpress-core` folder to the `/wp-content/plugins/` directory.
 2. Activate the CCBPress Core plugin through the 'Plugins' menu in WordPress.
 3. Configure the plugin by going to the CCBPress menu that appears in your WordPress Admin.
 
@@ -41,6 +43,10 @@ Extend the capabilities of CCBPress with these add-ons:
 2. Getting Started
 
 == Changelog ==
+
+= 1.1.7 =
+* Improved some backend interface elements.
+* Added more translatable strings to the `.pot` file.
 
 = 1.1.6 =
 * Fixed an issue with the `is_form_valid()` function not working properly.

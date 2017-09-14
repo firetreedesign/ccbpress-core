@@ -101,7 +101,7 @@ class CCBPress_Settings_CCB extends CCBPress_Settings {
 	            array(
 	                'header' => NULL,
 	                'title' => NULL,
-	                'content' => '<a class="button button-secondary" id="ccbpress-ccb-service-check-button">Check Services Now</a> <img src="' . admin_url('/images/spinner-2x.gif') . '" width="16" height="16" class="waiting" id="ccbpress-ccb-service-check-loading" style="display: none;" /><div id="ccbpress-ccb-service-check-results"></div>',
+	                'content' => '<a class="button" id="ccbpress-ccb-service-check-button">Check Services Now</a><div id="ccbpress-ccb-service-check-results"></div>',
 	            )
 	        );
 
