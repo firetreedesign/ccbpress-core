@@ -52,10 +52,14 @@ class CCBPress_Import {
 		$jobs = apply_filters( 'ccbpress_import_jobs', array() );
 
 		if ( ! is_array( $jobs ) ) {
+			delete_option( 'ccbpress_last_import' );
+			delete_option( 'ccbpress_import_in_progress' );
 			return;
 		}
 
 		if ( 0 === count( $jobs ) ) {
+			delete_option( 'ccbpress_last_import' );
+			delete_option( 'ccbpress_import_in_progress' );
 			return;
 		}
 

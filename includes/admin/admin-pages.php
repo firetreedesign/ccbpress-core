@@ -229,7 +229,7 @@ class CCBPress_Admin_Pages {
 				<?php endif; ?>
 				</ul>
 				<p><?php esc_html_e( 'This list is automatically updated based on the add-ons that are installed and the services that they require.', 'ccbpress-core' ); ?></p>
-				<p><a class="button button-secondary" href="http://support.churchcommunitybuilder.com/customer/portal/articles/640595" target="_blank"><?php esc_html_e( 'Creating an API User and Assigning Services', 'ccbpress-core' ); ?> <span class="dashicons dashicons-external"></span></a></p>
+				<p><a class="button" href="http://support.churchcommunitybuilder.com/customer/portal/articles/640595" target="_blank"><?php esc_html_e( 'Creating an API User and Assigning Services', 'ccbpress-core' ); ?></a></p>
 			</div>
 			<div class="col">
 				<img src="<?php echo esc_attr( CCBPRESS_CORE_PLUGIN_URL ) . '/assets/images/getting_started_api_user.png'; ?>" />
@@ -246,7 +246,7 @@ class CCBPress_Admin_Pages {
 					<li><?php esc_html_e( 'The API Username that you created.', 'ccbpress-core' ); ?></li>
 					<li><?php esc_html_e( 'The Password for your API User.', 'ccbpress-core' ); ?></li>
 				</ul>
-				<p><a class="button button-secondary" href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'ccbpress-settings' ), 'admin.php' ) ) ); ?>"><?php esc_html_e( 'Enter Your Connection Settings', 'ccbpress-core' ); ?></a></p>
+				<p><a class="button" href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'ccbpress-settings' ), 'admin.php' ) ) ); ?>"><?php esc_html_e( 'Enter Your Connection Settings', 'ccbpress-core' ); ?></a></p>
 			</div>
 			<div class="col">
 				<img src="<?php echo esc_attr( CCBPRESS_CORE_PLUGIN_URL ) . '/assets/images/getting_started_connection_settings.png'; ?>" />
@@ -257,7 +257,7 @@ class CCBPress_Admin_Pages {
 			<div class="col">
 				<h3><?php esc_html_e( '3. Add Some Widgets', 'ccbpress-core' ); ?></h3>
 				<p><?php esc_html_e( 'You are now ready to use any of the widgets that come with CCBPress.', 'ccbpress-core' ); ?></p>
-				<p><a class="button button-secondary" href="<?php echo esc_url( admin_url( 'widgets.php' ) ); ?>"><?php esc_html_e( 'Manage Widgets', 'ccbpress-core' ); ?></a></p>
+				<p><a class="button" href="<?php echo esc_url( admin_url( 'widgets.php' ) ); ?>"><?php esc_html_e( 'Manage Widgets', 'ccbpress-core' ); ?></a></p>
 			</div>
 		</div>
 		<hr />
@@ -306,7 +306,7 @@ class CCBPress_Admin_Pages {
 	            <div class="ccbpress_tab_actions">
 	            <?php foreach ( $all_tab_actions as $tab_action ) : ?>
 	                <?php if ( isset( $tab_action['tab_id'] ) && $tab_action['tab_id'] === $active_tab ) : ?>
-	                    <a class="button button-<?php echo esc_attr( $tab_action['type'] ); ?><?php echo esc_attr( is_null( $tab_action['class'] ) ) ? '' : ' ' . esc_attr( $tab_action['class'] ); ?>" href="<?php echo esc_url( $tab_action['link'] ); ?>"<?php echo ( is_null( $tab_action['target'] ) ) ? '' : ' target="' . esc_attr( $tab_action['target'] ) . '"'; ?>><?php echo $tab_action['title']; ?></a>
+	                    <a class="button<?php echo esc_attr( is_null( $tab_action['class'] ) ) ? '' : ' ' . esc_attr( $tab_action['class'] ); ?>" href="<?php echo esc_url( $tab_action['link'] ); ?>"<?php echo ( is_null( $tab_action['target'] ) ) ? '' : ' target="' . esc_attr( $tab_action['target'] ) . '"'; ?>><?php echo $tab_action['title']; ?></a>
 	                <?php endif; ?>
 	            <?php endforeach; ?>
 	            </div>
@@ -397,7 +397,7 @@ class CCBPress_Admin_Pages {
 							<h3 class="ccbpress-addon-title"><?php echo esc_html( $addon->title ); ?></h3>
 							<a href="<?php echo esc_attr( $addon->link ); ?>" target="_blank"><img src="<?php echo esc_attr( $addon->thumbnail ); ?>" /></a>
 							<p><?php echo esc_html( $addon->excerpt ); ?></p>
-							<a href="<?php echo esc_attr( $addon->link ); ?>" target="_blank" class="button-secondary">Get this add-on</a>
+							<a href="<?php echo esc_attr( $addon->link ); ?>" target="_blank" class="button"><?php esc_html_e( 'Get this add-on', 'ccbpress-core' ); ?></a>
 						</div>
 					<?php
 					endforeach;

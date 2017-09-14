@@ -23,7 +23,7 @@ jQuery( document ).ready(function($) {
 			};
 			jQuery.post( ajaxurl, data,  function( response ) {
 				if ( 'started' === response ) {
-					self.updateProgress( [{'text':'Process is running...'}], 'running');
+					self.updateProgress( [{'text':ccbpress_vars.messages.process_running}], 'running');
 					self.checkProgress( self );
 				} else {
 					self.enableButton();
@@ -36,12 +36,8 @@ jQuery( document ).ready(function($) {
 			var container	= jQuery('#ccbpress-import-status');
 			var notice		= jQuery('<div />');
 			var p			= jQuery('<p />');
-			var spinner		= jQuery('<span />');
-			var check		= jQuery('<span />');
 
 			notice.attr('class', 'notice notice-info');
-			spinner.attr('class', 'spinner is-active');
-			check.attr('class', 'dashicons dashicons-yes');
 
 			for ( var key in content ) {
 				if ( content.hasOwnProperty(key) ) {
@@ -58,14 +54,6 @@ jQuery( document ).ready(function($) {
 				}
 			}
 
-			switch( status ) {
-				case 'running':
-					p.prepend(spinner);
-					break;
-				case 'done':
-					p.prepend(check);
-					break;
-			}
 			notice.append(p);
 			container.html('');
 			container.append(notice);
@@ -76,13 +64,23 @@ jQuery( document ).ready(function($) {
 		}
 
 		this.enableButton = function() {
-			jQuery( '#ccbpress-manual-import-button' ).attr('disabled', false);
-			jQuery( '#ccbpress-manual-import-button' ).attr('disabled', false);
+			jQuery( '#ccbpress-manual-import-button' )
+				.text(ccbpress_vars.messages.done)
+				.removeClass('updating-message')
+				.addClass('updated-message');
+			setTimeout(function(){
+				jQuery( '#ccbpress-manual-import-button' )
+					.text(ccbpress_vars.messages.manual_import_button)
+					.attr('disabled', false)
+					.removeClass('updated-message');
+			}, 3000);
 		}
 
 		this.disableButton = function() {
-			jQuery( '#ccbpress-manual-import-button' ).attr('disabled', true);
-			jQuery( '#ccbpress-manual-import-button' ).attr('disabled', true);
+			jQuery( '#ccbpress-manual-import-button' )
+				.text(ccbpress_vars.messages.running)
+				.attr('disabled', true)
+				.addClass('updating-message');
 		}
 
 		this.checkProgress = function( self ) {
@@ -97,7 +95,7 @@ jQuery( document ).ready(function($) {
 						clearInterval( checkProgressHandle );
 						self.getLastImport();
 						self.enableButton();
-						self.updateProgress( [{'text':' Done'}], 'done');
+						self.updateProgress( [{'text':ccbpress_vars.messages.done}], 'done');
 						setTimeout(function(){
 							self.progress('');
 						}, 3000);
@@ -114,9 +112,11 @@ jQuery( document ).ready(function($) {
 				nonce: ccbpress_vars.nonce
 			};
 			jQuery.post( ajaxurl, data,  function( response ) {
-				jQuery('.ccbpress-last-import').text( response ).css( 'font-weight', 'bold' );
+				jQuery('.ccbpress-last-import')
+					.text( response )
+					.css( 'font-weight', 'bold' );
 				setTimeout(function(){
-	                jQuery('.ccbpress-last-import').css( 'font-weight', 'normal' );;
+	                jQuery('.ccbpress-last-import').css( 'font-weight', 'normal' );
 	            }, 3000);
 			});
 		}
@@ -136,24 +136,36 @@ jQuery( document ).ready(function($) {
 
 		this.confirm = function( event ) {
 			var self = event.data.self;
-			if ( confirm( ccbpress_vars.reset_import_dialog ) == true) {
+			if ( confirm( ccbpress_vars.messages.reset_import_confirmation ) == true) {
 		        self.startReset();
 		    }
 		}
 
 		this.startReset = function() {
-			jQuery( '#ccbpress-reset-import-button' ).attr('disabled', true);
+			jQuery( '#ccbpress-reset-import-button' )
+				.text(ccbpress_vars.messages.running)
+				.attr('disabled', true)
+				.addClass('updating-message');
 			data = {
 				action: 'ccbpress_reset_import',
 				nonce: ccbpress_vars.nonce
 			};
 
 			jQuery.post( ajaxurl, data,  function( response ) {
-				jQuery('.ccbpress-last-import').text( response ).css( 'font-weight', 'bold' );
+				jQuery('.ccbpress-last-import')
+					.text( response )
+					.css( 'font-weight', 'bold' );
+				jQuery( '#ccbpress-reset-import-button' )
+					.text(ccbpress_vars.messages.done)
+					.removeClass('updating-message')
+					.addClass('updated-message');
 				setTimeout(function(){
-	                jQuery('.ccbpress-last-import').css( 'font-weight', 'normal' );;
+	                jQuery('.ccbpress-last-import').css( 'font-weight', 'normal' );
+					jQuery( '#ccbpress-reset-import-button' )
+						.text(ccbpress_vars.messages.reset_import_button)
+						.attr('disabled', false)
+						.removeClass('updated-message');
 	            }, 3000);
-				jQuery( '#ccbpress-reset-import-button' ).attr('disabled', false);
 			});
 			return false;
 		}
