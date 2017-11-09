@@ -273,22 +273,34 @@ class CCBPress_Connection {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param	string $post_url	The API URL to request the data from.
-	 * @param	array  $body		The array of data to send to the service.
+	 * @param array $args Arguments.
 	 *
 	 * @return	string	An XML string containing the data.
 	 */
-	public function post( $post_url, $body ) {
+	public function post( $args = array() ) {
 
-		$args = array(
+		$defaults = array(
+			'query_string'	=> array(),
+			'body'					=> array(),
+		);
+		$args = wp_parse_args( $args, $defaults );
+
+		// Construct the URL.
+		$post_url = $this->build_url( $args['query_string'] );
+
+		if ( false === $post_url ) {
+			return false;
+		}
+
+		$post_args = array(
 			'headers'	=> array(
 				'Authorization' => 'Basic ' . base64_encode( $this->api_user . ':' . $this->api_pass ),
 				),
 			'timeout'	=> 300,
-			'body'		=> $body,
+			'body'		=> $args['body'],
 			);
 
-		$response = wp_remote_post( $post_url, $args );
+		$response = wp_remote_post( $post_url, $post_args );
 
 		if ( ! is_wp_error( $response ) ) {
 
@@ -299,13 +311,20 @@ class CCBPress_Connection {
 			unset( $response );
 
 			// Convert the XML into an Object.
-			$ccb_data = simplexml_load_string( $ccb_data );
+			$ccb_data = @simplexml_load_string( $ccb_data );
+
+			if ( ! $this->is_valid( $ccb_data ) ) {
+				return false;
+			}
+
+			$srv = strtolower( $args['query_string']['srv'] );
+			do_action( "ccbpress_after_post_{$srv}", $ccb_data, $args );
 
 			return $ccb_data;
 
 		} else {
 
-			return '';
+			return false;
 
 		}
 
@@ -505,7 +524,7 @@ class CCBPress_Connection {
 				if ( 'count' !== (string) $attr_key ) {
 					continue;
 				}
-				if ( '0' === (string) $attr_value ) {
+				if ( '0' === (string) $attr_value && 'individual_search' !== (string) $ccb_data->response->service ) {
 					return false;
 				}
 			}
