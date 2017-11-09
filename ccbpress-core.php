@@ -3,7 +3,7 @@
  * Plugin Name: CCBPress Core
  * Plugin URI: https://ccbpress.com/
  * Description: Display information from Church Community Builder on your WordPress site.
- * Version: 1.1.7
+ * Version: 1.1.8
  * Author: CCBPress <info@ccbpress.com>
  * Author URI: https://ccbpress.com/
  * Text Domain: ccbpress-core
@@ -66,7 +66,7 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 	     * @var string
 	     * @since 1.0.0
 	     */
-	    public $version = '1.1.7';
+	    public $version = '1.1.8';
 
 		/**
 	     * Main CCBPress_Core Instance
@@ -91,11 +91,11 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 
 	            self::$instance->transients	= new CCBPress_Transients();
 	            self::$instance->ccb		= new CCBPress_Connection();
-				self::$instance->get		= new CCBPress_Background_Get();
+							self::$instance->get		= new CCBPress_Background_Get();
 
-				self::$instance->init();
-				self::$instance->transients->init();
-				self::$instance->ccb->init();
+							self::$instance->init();
+							self::$instance->transients->init();
+							self::$instance->ccb->init();
 
 	        }
 
@@ -112,22 +112,22 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 		 */
 		private function setup_constants() {
 
-	        // Plugin Database Version.
-	        if ( ! defined( 'CCBPRESS_CORE_DB_VERSION' ) ) {
-	            define( 'CCBPRESS_CORE_DB_VERSION', '1.0.0' );
-	        }
+			// Plugin Database Version.
+			if ( ! defined( 'CCBPRESS_CORE_DB_VERSION' ) ) {
+				define( 'CCBPRESS_CORE_DB_VERSION', '1.0.0' );
+			}
 
 			// Plugin File.
-	        if ( ! defined( 'CCBPRESS_CORE_PLUGIN_FILE' ) ) {
-	            define( 'CCBPRESS_CORE_PLUGIN_FILE', __FILE__ );
-	        }
+			if ( ! defined( 'CCBPRESS_CORE_PLUGIN_FILE' ) ) {
+				define( 'CCBPRESS_CORE_PLUGIN_FILE', __FILE__ );
+			}
 
-	        // Plugin Folder Path.
-	        if ( ! defined( 'CCBPRESS_CORE_PLUGIN_DIR' ) ) {
-	            define( 'CCBPRESS_CORE_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
-	        }
+			// Plugin Folder Path.
+			if ( ! defined( 'CCBPRESS_CORE_PLUGIN_DIR' ) ) {
+				define( 'CCBPRESS_CORE_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+			}
 
-	        // Plugin Folder URL.
+			// Plugin Folder URL.
 			if ( ! defined( 'CCBPRESS_CORE_PLUGIN_URL' ) ) {
 				define( 'CCBPRESS_CORE_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 			}
@@ -143,24 +143,24 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 		 */
 		private function includes() {
 
-	        require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/class-ccbpress-transients.php';
-	        require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/class-ccbpress-connection.php';
+			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/class-ccbpress-transients.php';
+			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/class-ccbpress-connection.php';
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/class-ccbpress-licenses.php';
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/class-ccbpress-addon.php';
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/class-ccbpress-options.php';
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/class-ccbpress-template.php';
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/class-ccbpress-customizer.php';
-	        require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/ccb-services.php';
-	        require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/schedule-get.php';
-	        require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/styles.php';
+			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/ccb-services.php';
+			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/schedule-get.php';
+			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/styles.php';
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/helpers.php';
-	        require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/admin-settings.php';
-	        require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/settings/settings-ccb.php';
+			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/admin-settings.php';
+			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/settings/settings-ccb.php';
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/settings/settings-import.php';
-	        require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/settings/settings-ccbpress.php';
+			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/settings/settings-ccbpress.php';
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/settings/settings-licenses.php';
-	        require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/admin-bar-menu.php';
-	        require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/admin-purge-cache.php';
+			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/admin-bar-menu.php';
+			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/admin-purge-cache.php';
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/admin-ajax.php';
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/widgets/widget-login.php';
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/widgets/widget-online-giving.php';
@@ -170,15 +170,15 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/class-ccbpress-background-get.php';
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/import.php';
 
-	        if ( is_admin() ) {
+			if ( is_admin() ) {
 				require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/admin-page-tabs.php';
 				require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/admin-pages.php';
-	            require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/admin-scripts.php';
-	            require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/admin-styles.php';
+				require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/admin-scripts.php';
+				require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/admin-styles.php';
 				require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/admin-dashboard.php';
-	        }
+			}
 
-	    }
+		}
 
 		/**
 		 * Initialize the class

@@ -2,9 +2,9 @@
 Contributors: firetree, danielmilner
 Tags: church, ccb, church community builder, chms
 Requires at least: 4.3
-Tested up to: 4.8.1
+Tested up to: 4.9
 Requires PHP: 5.3
-Stable tag: 1.1.7
+Stable tag: 1.1.8
 License: GPLv2 or later
 License URI: http://ww.gnu.org/licenses/gpl-2.0.html
 
@@ -29,6 +29,7 @@ Requires a [Church Community Builder](http://churchcommunitybuilder.com/) accoun
 Extend the capabilities of CCBPress with these add-ons:
 
 * [Events](https://ccbpress.com/downloads/events/) - Display event data from Church Community Builder.
+* [Gravity Forms](https://ccbpress.com/downloads/gravityforms/) - Add people to group, events, and process queues.
 * [Groups](https://ccbpress.com/downloads/groups/) - Display group data from Church Community Builder.
 
 == Installation ==
@@ -43,6 +44,9 @@ Extend the capabilities of CCBPress with these add-ons:
 2. Getting Started
 
 == Changelog ==
+
+= 1.1.8 =
+* Fixed an issue with a currently unused function in preparation for an upcoming add-on.
 
 = 1.1.7 =
 * Improved some backend interface elements.
