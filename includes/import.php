@@ -68,6 +68,9 @@ class CCBPress_Import {
 			CCBPress()->get->push_to_queue( $job );
 		}
 
+		// Unschedule the job until it completes.
+		wp_clear_scheduled_hook( 'ccbpress_maintenance' );
+
 		do_action( 'ccbpress_import_jobs_dispatched' );
 		CCBPress()->get->save()->dispatch();
 
@@ -111,6 +114,13 @@ class CCBPress_Import {
 		 */
 		delete_option( 'ccbpress_import_in_progress' );
 		update_option( 'ccbpress_last_import', date( 'Y-m-d H:i:s', current_time( 'timestamp' ) ) );
+
+		/**
+		 * Re-schedule the import job
+		 */
+		if ( false === wp_next_scheduled( 'ccbpress_maintenance' ) ) {
+			wp_schedule_event( time() + 3600, 'hourly', 'ccbpress_maintenance' );
+		}
 
 	}
 

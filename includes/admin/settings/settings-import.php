@@ -57,7 +57,7 @@ class CCBPress_Settings_Import extends CCBPress_Settings {
 		$import_active = false;
 
 		$import_jobs = apply_filters( 'ccbpress_import_jobs', array() );
-		if ( 0 < count( $import_jobs ) ) {
+		if ( 0 < count( $import_jobs ) && false !== wp_next_scheduled( 'ccbpress_maintenance' ) ) {
 			$import_schedule = __( 'Scheduled to run in approximately ', 'ccbpress-core' ) . human_time_diff( strtotime( 'now' ), wp_next_scheduled( 'ccbpress_maintenance' ) );
 			$import_active = true;
 		}
@@ -78,7 +78,7 @@ class CCBPress_Settings_Import extends CCBPress_Settings {
 			)
 		);
 
-		if ( true === $import_active ) {
+		if ( true === $import_active || false !== get_option( 'ccbpress_import_in_progress', false ) ) {
 
 			/**
 			 * Last Import

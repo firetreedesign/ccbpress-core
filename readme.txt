@@ -4,7 +4,7 @@ Tags: church, ccb, church community builder, chms
 Requires at least: 4.3
 Tested up to: 4.9
 Requires PHP: 5.3
-Stable tag: 1.1.8
+Stable tag: 1.1.9
 License: GPLv2 or later
 License URI: http://ww.gnu.org/licenses/gpl-2.0.html
 
@@ -44,6 +44,9 @@ Extend the capabilities of CCBPress with these add-ons:
 2. Getting Started
 
 == Changelog ==
+
+= 1.1.9 =
+* Reworked the import process to unschedule itself until it has completed.
 
 = 1.1.8 =
 * Fixed an issue with a currently unused function in preparation for an upcoming add-on.
