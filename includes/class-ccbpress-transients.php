@@ -199,7 +199,7 @@ class CCBPress_Transients {
 
 		global $wpdb;
 
-		$expired  = $wpdb->get_col( $wpdb->prepare( "SELECT option_name FROM $wpdb->options where option_name LIKE _transient_timeout_$this->prefix% AND option_value+0 < %s", time() ) );
+		$expired  = $wpdb->get_col( "SELECT option_name FROM " . $wpdb->options . " where option_name LIKE '_transient_timeout_" . $this->prefix . "%' AND option_value+0 < " . (string) time() );
 
 		if ( empty( $expired ) ) {
 			return false;
