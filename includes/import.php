@@ -139,8 +139,7 @@ class CCBPress_Import {
 
 		self::run();
 
-		echo 'started';
-		wp_die();
+		wp_send_json( 'started' );
 
 	}
 
@@ -174,7 +173,6 @@ class CCBPress_Import {
 		) );
 
 		wp_send_json( $status );
-
 	}
 
 	/**
@@ -192,13 +190,12 @@ class CCBPress_Import {
 
 		$last_import = get_option( 'ccbpress_last_import', 'Never' );
 		if ( 'Never' === $last_import ) {
-			echo esc_html( $last_import );
+			// echo esc_html( $last_import );
+			wp_send_json( $last_import );
 		} else {
-			echo esc_html( human_time_diff( strtotime( 'now', current_time( 'timestamp' ) ), strtotime( $last_import, current_time( 'timestamp' ) ) ) . ' ago' );
+			// echo esc_html( human_time_diff( strtotime( 'now', current_time( 'timestamp' ) ), strtotime( $last_import, current_time( 'timestamp' ) ) ) . ' ago' );
+			wp_send_json( esc_html( human_time_diff( strtotime( 'now', current_time( 'timestamp' ) ), strtotime( $last_import, current_time( 'timestamp' ) ) ) . ' ago' ) );
 		}
-
-		wp_die();
-
 	}
 
 }
