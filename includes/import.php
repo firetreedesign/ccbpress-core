@@ -24,7 +24,7 @@ class CCBPress_Import {
 	 * @return void
 	 */
 	public static function init() {
-		add_action( 'ccbpress_maintenance',				__CLASS__ . '::run' );
+		add_action( 'ccbpress_import',					__CLASS__ . '::run' );
 		add_action( 'ccbpress_import_job_queued',		__CLASS__ . '::import_job_queued' );
 		add_action( 'ccbpress_import_jobs_dispatched',	__CLASS__ . '::import_jobs_dispatched' );
 		add_action( 'ccbpress_background_get_complete', __CLASS__ . '::import_complete' );
@@ -68,8 +68,7 @@ class CCBPress_Import {
 			CCBPress()->get->push_to_queue( $job );
 		}
 
-		// Unschedule the job until it completes.
-		wp_clear_scheduled_hook( 'ccbpress_maintenance' );
+		wp_clear_scheduled_hook( 'ccbpress_import' );
 
 		do_action( 'ccbpress_import_jobs_dispatched' );
 		CCBPress()->get->save()->dispatch();
@@ -118,9 +117,7 @@ class CCBPress_Import {
 		/**
 		 * Re-schedule the import job
 		 */
-		if ( false === wp_next_scheduled( 'ccbpress_maintenance' ) ) {
-			wp_schedule_event( time() + 3600, 'hourly', 'ccbpress_maintenance' );
-		}
+		wp_schedule_single_event( time() + 3600, 'ccbpress_import' );
 
 	}
 
