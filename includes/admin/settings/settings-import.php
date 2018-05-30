@@ -57,8 +57,8 @@ class CCBPress_Settings_Import extends CCBPress_Settings {
 		$import_active = false;
 
 		$import_jobs = apply_filters( 'ccbpress_import_jobs', array() );
-		if ( 0 < count( $import_jobs ) && false !== wp_next_scheduled( 'ccbpress_maintenance' ) ) {
-			$import_schedule = __( 'Scheduled to run in approximately ', 'ccbpress-core' ) . human_time_diff( strtotime( 'now' ), wp_next_scheduled( 'ccbpress_maintenance' ) );
+		if ( 0 < count( $import_jobs ) && false !== wp_next_scheduled( 'ccbpress_import' ) ) {
+			$import_schedule = __( 'Scheduled to run in approximately ', 'ccbpress-core' ) . human_time_diff( strtotime( 'now' ), wp_next_scheduled( 'ccbpress_import' ) );
 			$import_active = true;
 		}
 

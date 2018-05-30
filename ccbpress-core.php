@@ -3,7 +3,7 @@
  * Plugin Name: CCBPress Core
  * Plugin URI: https://ccbpress.com/
  * Description: Display information from Church Community Builder on your WordPress site.
- * Version: 1.1.10
+ * Version: 1.1.11
  * Author: CCBPress <info@ccbpress.com>
  * Author URI: https://ccbpress.com/
  * Text Domain: ccbpress-core
@@ -66,7 +66,7 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 	     * @var string
 	     * @since 1.0.0
 	     */
-	    public $version = '1.1.10';
+	    public $version = '1.1.11';
 
 		/**
 	     * Main CCBPress_Core Instance
@@ -114,7 +114,7 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 
 			// Plugin Database Version.
 			if ( ! defined( 'CCBPRESS_CORE_DB_VERSION' ) ) {
-				define( 'CCBPRESS_CORE_DB_VERSION', '1.0.0' );
+				define( 'CCBPRESS_CORE_DB_VERSION', '1.0.1' );
 			}
 
 			// Plugin File.
@@ -169,6 +169,7 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'lib/wp-background-processing/wp-background-process.php';
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/class-ccbpress-background-get.php';
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/import.php';
+			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/upgrades.php';
 
 			if ( is_admin() ) {
 				require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/admin-page-tabs.php';
@@ -190,6 +191,10 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 		public static function init() {
 			// Load plugin text domain.
 			add_action( 'plugins_loaded', array( 'CCBPress_Core', 'plugin_textdomain' ) );
+
+			if ( false === get_option( 'ccbpress_import_in_progress', false ) ) {
+				add_action( 'ccbpress_maintenance', array( 'CCBPress_Core', 'schedule_cron' ) );
+			}
 		}
 
 		/**
@@ -202,7 +207,11 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 		public static function schedule_cron() {
 
 			if ( false === wp_next_scheduled( 'ccbpress_maintenance' ) ) {
-				wp_schedule_event( current_time( 'timestamp' ), 'hourly', 'ccbpress_maintenance' );
+				wp_schedule_event( current_time( 'timestamp' ) + 1800, 'hourly', 'ccbpress_maintenance' );
+			}
+
+			if ( false === wp_next_scheduled( 'ccbpress_import' ) ) {
+				wp_schedule_single_event( current_time( 'timestamp' ), 'ccbpress_import' );
 			}
 
 		}
@@ -216,6 +225,7 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 		 */
 		public static function unschedule_cron() {
 			wp_clear_scheduled_hook( 'ccbpress_maintenance' );
+			wp_clear_scheduled_hook( 'ccbpress_import' );
 			wp_clear_scheduled_hook( 'ccbpress_transient_cache_cleanup' );
 		}
 
