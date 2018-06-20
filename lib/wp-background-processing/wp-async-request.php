@@ -56,6 +56,10 @@ if ( ! class_exists( 'WP_Async_Request' ) ) {
 		 * Initiate new async request
 		 */
 		public function __construct() {
+			if ( is_multisite() ) {
+				$this->action = $this->action . '_' . get_current_blog_id();
+			}
+
 			$this->identifier = $this->prefix . '_' . $this->action;
 
 			add_action( 'wp_ajax_' . $this->identifier, array( $this, 'maybe_handle' ) );
