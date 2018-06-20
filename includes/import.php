@@ -31,7 +31,31 @@ class CCBPress_Import {
 		add_action( 'wp_ajax_ccbpress_import',			__CLASS__ . '::ajax_run' );
 		add_action( 'wp_ajax_ccbpress_import_status',	__CLASS__ . '::ajax_status' );
 		add_action( 'wp_ajax_ccbpress_last_import',		__CLASS__ . '::ajax_last_import' );
+	}
 
+	/**
+	 * Reset the impor status
+	 * 
+	 * @since 1.1.12
+	 * 
+	 * @return void
+	 */
+	public static function reset() {
+		delete_option( 'ccbpress_last_import' );
+		delete_option( 'ccbpress_import_in_progress' );
+	}
+
+	/**
+	 * Reschedule the import job
+	 * 
+	 * @since 1.1.12
+	 * 
+	 * @return void
+	 */
+	public static function reschedule() {
+		if ( false === wp_next_scheduled( 'ccbpress_import' ) ) {
+			wp_schedule_single_event( time() + 3600, 'ccbpress_import' );
+		}
 	}
 
 	/**
@@ -44,22 +68,22 @@ class CCBPress_Import {
 	public static function run() {
 
 		if ( ! CCBPress()->ccb->is_connected() ) {
-			delete_option( 'ccbpress_last_import' );
-			delete_option( 'ccbpress_import_in_progress' );
+			self::reset();
+			self::reschedule();
 			return;
 		}
 
 		$jobs = apply_filters( 'ccbpress_import_jobs', array() );
 
 		if ( ! is_array( $jobs ) ) {
-			delete_option( 'ccbpress_last_import' );
-			delete_option( 'ccbpress_import_in_progress' );
+			self::reset();
+			self::reschedule();
 			return;
 		}
 
 		if ( 0 === count( $jobs ) ) {
-			delete_option( 'ccbpress_last_import' );
-			delete_option( 'ccbpress_import_in_progress' );
+			self::reset();
+			self::reschedule();
 			return;
 		}
 
@@ -117,7 +141,7 @@ class CCBPress_Import {
 		/**
 		 * Re-schedule the import job
 		 */
-		wp_schedule_single_event( time() + 3600, 'ccbpress_import' );
+		self::reschedule();
 
 	}
 
