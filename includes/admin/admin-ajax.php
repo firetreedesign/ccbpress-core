@@ -80,7 +80,7 @@ class CCBPress_Admin_Ajax {
 			} else {
 				echo '		<tr>';
 				echo '			<td>' . esc_html( $service ) . '</td>';
-				echo '			<td><div class="dashicons dashicons-no"></div> ' . esc_html( $service_result[1]->response->errors->error['type'] ) . ' - ' . esc_html( $service_result[1]->response->errors->error ) . '</td>';
+				echo '			<td><div class="dashicons dashicons-no"></div>' . esc_html__( 'There was an error with this service', 'ccbpress-core' ) . '</td>';
 				echo '		</tr>';
 			}
 
@@ -102,7 +102,8 @@ class CCBPress_Admin_Ajax {
 	 * @return void
 	 */
 	public function reset_import() {
-		delete_option( 'ccbpress_last_import' );
+		CCBPress_Import::reset();
+		CCBPress_Import::reschedule();
 		esc_html_e( 'Never', 'ccbpress-core' );
 		wp_die();
 	}
