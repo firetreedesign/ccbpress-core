@@ -235,6 +235,10 @@ class CCBPress_Connection {
 		);
 		$response = wp_remote_get( $get_url, $get_args );
 
+		
+
+
+
 		// Return false if there was an error.
 		if ( is_wp_error( $response ) ) {
 			return false;
@@ -328,6 +332,48 @@ class CCBPress_Connection {
 
 		}
 
+	}
+
+	/**
+	 * Check the rate limit
+	 * 
+	 * @return boolean
+	 */
+	public function rate_limit_ok( $srv ) {
+		$ccbpress_rate_limits = get_option( 'ccbpress_rate_limits', array() );
+
+		// Return true if the service has not been requested before
+		if ( ! isset( $ccbpress_rate_limits[ $srv ] ) ) {
+			return true;
+		}
+		// 
+		if ( isset( $ccbpress_rate_limits[ $srv ]['reset'] ) ) {
+			
+		}
+	}
+
+	/**
+	 * Update rate limit option values
+	 * 
+	 * @return void
+	 */
+	public function update_rate_limit( $response, $srv ) {
+		// Get rate-limit headers
+		$ratelimit_limit     = wp_remote_retrieve_header( $response, 'x-ratelimit-limit' );
+		$ratelimit_remaining = wp_remote_retrieve_header( $response, 'x-ratelimit-remaining' );
+		$ratelimit_reset     = wp_remote_retrieve_header( $response, 'x-ratelimit-reset' );
+		$retry_after         = wp_remote_retrieve_header( $response, 'retry-after' );
+
+		$ccbpress_rate_limits = get_option( 'ccbpress_rate_limits', array() );
+
+		$ccbpress_rate_limits[ $srv ] = array(
+			'limit'	=> $ratelimit_limit,
+			'remaining' => $ratelimit_remaining,
+			'reset' => $ratelimit_reset,
+			'retry_after' => $retry_after
+		);
+
+		update_option( 'ccbpress_rate_limits', $ccbpress_rate_limits );
 	}
 
 	/**
