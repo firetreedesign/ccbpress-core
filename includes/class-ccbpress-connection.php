@@ -196,21 +196,23 @@ class CCBPress_Connection {
 			'cache_lifespan'	=> 60,
 			'refresh_cache'		=> 0,
 		);
-		$args = wp_parse_args( $args, $defaults );
+		$new_args = wp_parse_args( $args, $defaults );
 
 		// Construct the URL.
-		$get_url = $this->build_url( $args['query_string'] );
+		$get_url = $this->build_url( $new_args['query_string'] );
 
 		if ( false === $get_url ) {
 			return false;
 		}
 
+		$srv = strtolower( $new_args['query_string']['srv'] );
+
 		$transient_name = md5( $get_url );
 		$ccb_data = false;
 
 		// Check the transient cache if the cache is not set to 0.
-		if ( $args['cache_lifespan'] > 0 && 0 === $args['refresh_cache'] ) {
-			$ccb_data = $this->transient_fallback->get_transient( $transient_name, 'ccbpress_schedule_get', $args );
+		if ( $new_args['cache_lifespan'] > 0 && 0 === $new_args['refresh_cache'] ) {
+			$ccb_data = $this->transient_fallback->get_transient( $transient_name, 'ccbpress_schedule_get', $new_args );
 		}
 
 		// Check for a cached copy in the transient data.
@@ -227,6 +229,10 @@ class CCBPress_Connection {
 			return $ccb_data;
 		}
 
+		if ( false === $this->rate_limit_ok( $srv ) ) {
+			return false;
+		}
+
 		$get_args = array(
 			'headers' => array(
 				'Authorization' => 'Basic ' . base64_encode( $this->api_user . ':' . $this->api_pass ),
@@ -235,14 +241,12 @@ class CCBPress_Connection {
 		);
 		$response = wp_remote_get( $get_url, $get_args );
 
-		
-
-
-
 		// Return false if there was an error.
 		if ( is_wp_error( $response ) ) {
 			return false;
 		}
+
+		$this->update_rate_limit( $response, $srv );
 
 		// Grab the body from the response.
 		$ccb_data_raw = wp_remote_retrieve_body( $response );
@@ -257,16 +261,14 @@ class CCBPress_Connection {
 		}
 
 		// Save the transient data according to the cache_lifespan.
-		if ( $args['cache_lifespan'] > 0 ) {
-			$this->transient_fallback->set_transient( $transient_name, $ccb_data_raw, $args['cache_lifespan'] );
+		if ( $new_args['cache_lifespan'] > 0 ) {
+			$this->transient_fallback->set_transient( $transient_name, $ccb_data_raw, $new_args['cache_lifespan'] );
 		}
 
 		// Free up the memory.
 		unset( $ccb_data_raw );
 
-		// $this->find_images( $ccb_data );.
-		$srv = strtolower( $args['query_string']['srv'] );
-		do_action( "ccbpress_after_get_{$srv}", $ccb_data, $args );
+		do_action( "ccbpress_after_get_{$srv}", $ccb_data, $new_args );
 
 		return $ccb_data;
 
@@ -346,9 +348,14 @@ class CCBPress_Connection {
 		if ( ! isset( $ccbpress_rate_limits[ $srv ] ) ) {
 			return true;
 		}
-		// 
+		
 		if ( isset( $ccbpress_rate_limits[ $srv ]['reset'] ) ) {
-			
+			$reset = $ccbpress_rate_limits[ $srv ]['reset'];
+			if ( time() >= $reset ) {
+				return true;
+			} else {
+				return false;
+			}
 		}
 	}
 

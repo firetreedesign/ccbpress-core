@@ -55,6 +55,23 @@ class CCBPress_Background_Get extends WP_Background_Process {
 			update_option( 'ccbpress_import_in_progress', 'Processing ' . $item['query_string']['srv'] . '...' );
 		}
 
+		/**
+		 * Check if we have reached the rate limit for this srv.
+		 * If true, wait 1 second, then push the job to the end of the queue
+		 * and return false to proceed to the next job.
+		 */
+		$rate_limit_ok = CCBPress()->ccb->rate_limit_ok( $item['query_string']['srv'] );
+
+		if ( false === $rate_limit_ok ) {
+			update_option( 'ccbpress_import_in_progress', 'Rate metering ' . $item['query_string']['srv'] . '. Pushing to end of queue...' );
+			sleep( 1 );
+			CCBPress()->get->push_to_queue( $item )->save()->dispatch();
+			return false;
+		}
+
+		/**
+		 * Retrieve the data from Church Community Builder
+		 */
 		$response = CCBPress()->ccb->get( $item );
 
 		$srv = strtolower( $item['query_string']['srv'] );
@@ -76,6 +93,12 @@ class CCBPress_Background_Get extends WP_Background_Process {
 		 */
 		return false;
 
+	}
+
+	public function save() {
+		parent::save();
+		$this->data = [];
+		return $this;
 	}
 
 	/**
