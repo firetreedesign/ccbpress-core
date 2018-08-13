@@ -759,6 +759,10 @@ class CCBPress_Connection {
 			),
 		) );
 
+		if ( ! $this->is_valid( $ccb_data ) ) {
+			return false;
+		}
+
 		$current_date = strtotime( (string) date( 'Y-m-d' ) );
 		$is_valid = false;
 
