@@ -180,7 +180,9 @@ if ( ! class_exists( 'CCBPress_Widget_Group_Info' ) ) :
 				</p>
 				<script>
 				jQuery( document ).ready(function($) {
-					jQuery('#widgets-right .ccbpress-select select').chosen({width: "100%", disable_search_threshold: 10});
+					if (typeof jQuery('#widgets-right .ccbpress-select select').chosen === "function") {
+						jQuery('#widgets-right .ccbpress-select select').chosen({width: "100%", disable_search_threshold: 10});
+					}
 				});
 				</script>
 				<p>
