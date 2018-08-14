@@ -31,5 +31,6 @@ if ( isset( $ccbpress_settings['remove_data'] ) ) {
 	delete_option( 'ccbpress_last_event_sync' );
 	delete_option( 'ccbpress_event_sync_in_progress' );
 	delete_option( 'ccbpress_rate_limit' );
+	delete_option( 'ccbpress_cancel_import' );
 
 }
