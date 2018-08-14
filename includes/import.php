@@ -41,6 +41,20 @@ class CCBPress_Import {
 	 * @return void
 	 */
 	public static function reset() {
+		global $wpdb;
+
+		if ( false !== get_option( 'ccbpress_import_in_progress', false ) ) {
+			// $plugin_options = $wpdb->get_results( "SELECT option_name FROM $wpdb->options WHERE option_name LIKE '%_ccbpress_get_process_lock'" );
+			// foreach( $plugin_options as $option ) {
+			// 	delete_option( $option->option_name );
+			// }
+			
+			// $plugin_options = $wpdb->get_results( "SELECT option_name FROM $wpdb->options WHERE option_name LIKE 'wp_ccbpress_get_batch_%'" );
+			// foreach( $plugin_options as $option ) {
+			// 	delete_option( $option->option_name );
+			// }
+		}
+
 		delete_option( 'ccbpress_last_import' );
 		delete_option( 'ccbpress_import_in_progress' );
 	}
@@ -66,6 +80,9 @@ class CCBPress_Import {
 	 * @return void
 	 */
 	public static function run() {
+
+		error_log( 'Delete ccbpress_cancel_import' );
+		delete_option( 'ccbpress_cancel_import' );
 
 		if ( ! CCBPress()->ccb->is_connected() ) {
 			self::reset();
@@ -136,7 +153,11 @@ class CCBPress_Import {
 		 * Update our import status
 		 */
 		delete_option( 'ccbpress_import_in_progress' );
-		update_option( 'ccbpress_last_import', date( 'Y-m-d H:i:s', current_time( 'timestamp' ) ) );
+
+		if ( 'yes' !== get_option( 'ccbpress_cancel_import', 'no' ) ) {
+			error_log( json_encode( get_option( 'ccbpress_cancel_import', 'no' ) ) );
+			update_option( 'ccbpress_last_import', date( 'Y-m-d H:i:s', current_time( 'timestamp' ) ) );
+		}
 
 		/**
 		 * Re-schedule the import job

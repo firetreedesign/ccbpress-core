@@ -142,7 +142,11 @@ class CCBPress_Settings_Import extends CCBPress_Settings {
 	public function sanitize_callback( $input ) {
 
         // Define all of the variables that we'll be using
-    	$output = array();
+		$output = array();
+		
+		if ( ! is_array( $input ) ) {
+			return $output;
+		}
 
     	// Loop through each of the incoming options
     	foreach ( $input as $key => $value ) {

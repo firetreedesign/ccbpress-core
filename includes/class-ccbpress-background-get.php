@@ -33,6 +33,15 @@ class CCBPress_Background_Get extends WP_Background_Process {
 	protected function task( $item ) {
 
 		/**
+		 * Check if the import has been canceled
+		 */
+		if ( 'yes' === get_option( 'ccbpress_cancel_import', 'no' ) ) {
+			parent::cancel_process();
+			CCBPress_Import::reset();
+			return false;
+		}
+
+		/**
 		 * Remove if no task is set
 		 */
 		if ( ! isset( $item ) || ! is_array( $item ) || ! isset( $item['query_string']['srv'] ) ) {
@@ -76,6 +85,15 @@ class CCBPress_Background_Get extends WP_Background_Process {
 
 		$srv = strtolower( $item['query_string']['srv'] );
 		$response = apply_filters( "ccbpress_background_get_{$srv}", $response, $item );
+
+		/**
+		 * Check if the import has been canceled
+		 */
+		if ( 'yes' === get_option( 'ccbpress_cancel_import', 'no' ) ) {
+			parent::cancel_process();
+			CCBPress_Import::reset();
+			return false;
+		}
 
 		/**
 		 * Check if we are paging through multiple queries
