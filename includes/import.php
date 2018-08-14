@@ -67,6 +67,8 @@ class CCBPress_Import {
 	 */
 	public static function run() {
 
+		delete_option( 'ccbpress_cancel_import' );
+
 		if ( ! CCBPress()->ccb->is_connected() ) {
 			self::reset();
 			self::reschedule();
@@ -86,6 +88,8 @@ class CCBPress_Import {
 			self::reschedule();
 			return;
 		}
+
+		update_option( 'ccbpress_current_import', date( 'Y-m-d H:i:s', current_time( 'timestamp' ) ) );
 
 		foreach ( $jobs as $job ) {
 			do_action( 'ccbpress_import_job_queued', $job );
@@ -136,7 +140,12 @@ class CCBPress_Import {
 		 * Update our import status
 		 */
 		delete_option( 'ccbpress_import_in_progress' );
-		update_option( 'ccbpress_last_import', date( 'Y-m-d H:i:s', current_time( 'timestamp' ) ) );
+
+		if ( 'yes' !== get_option( 'ccbpress_cancel_import', 'no' ) ) {
+			update_option( 'ccbpress_last_import', get_option( 'ccbpress_current_import' ) );
+		}
+
+		delete_option( 'ccbpress_current_import' );
 
 		/**
 		 * Re-schedule the import job
