@@ -102,7 +102,6 @@ class CCBPress_Admin_Ajax {
 	 * @return void
 	 */
 	public function reset_import() {
-		error_log( 'Set ccbpress_cancel_import' );
 		update_option( 'ccbpress_cancel_import', 'yes' );
 		CCBPress_Import::reset();
 		CCBPress_Import::reschedule();
