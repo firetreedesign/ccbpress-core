@@ -763,7 +763,7 @@ class CCBPress_Connection {
 			return false;
 		}
 
-		$current_date = strtotime( (string) date( 'Y-m-d' ) );
+		$current_date = strtotime( (string) date( 'Y-m-d', current_time( 'timestamp' ) ), current_time( 'timestamp' ) );
 		$is_valid = false;
 
 		foreach ( $ccb_data->response->items->form as $form ) {
@@ -771,15 +771,22 @@ class CCBPress_Connection {
 			if ( (string) $form['id'] === $form_id ) {
 
 				// Check the form date.
-				$form_start	= strtotime( (string) $form->start );
-				if ( '' === (string) $form->end ) {
-					$form_end = $current_date;
-				} else {
-					$form_end = strtotime( (string) $form->end );
+				$form_start	= strtotime( (string) $form->start, current_time( 'timestamp' ) );
+				$form_end = false;
+				if ( '' !== (string) $form->end ) {
+					$form_end = strtotime( (string) $form->end, current_time( 'timestamp' ) );
 				}
 
-				if ( $current_date < $form_start || $current_date > $form_end ) {
-					return false;
+				// Is it before the start date?
+				if ( $current_date < $form_start ) {
+					$is_valid = false;
+					break;
+				}
+				
+				// Is there and end date and is it after that end date?
+				if ( false !== $form_end && $current_date > $form_end ) {
+					$is_valid = false;
+					break;
 				}
 
 				// Is the form not public?
@@ -790,6 +797,12 @@ class CCBPress_Connection {
 
 				// Has the form been published?
 				if ( 'false' === (string) $form->published ) {
+					$is_valid = false;
+					break;
+				}
+
+				// Has the form been archived?
+				if ( 'true' === (string) $form->archived ) {
 					$is_valid = false;
 					break;
 				}
