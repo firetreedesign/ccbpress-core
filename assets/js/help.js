@@ -1,21 +1,34 @@
-!function(e,o,n){window.HSCW=o,window.HS=n,n.beacon=n.beacon||{};var t=n.beacon;t.userConfig={},t.readyQueue=[],t.config=function(e){this.userConfig=e},t.ready=function(e){this.readyQueue.push(e)},o.config={docs:{enabled:!1,baseUrl:""},contact:{enabled:!0,formId:"99bb41a1-8c9f-11e5-9e75-0a7d6919297d"}};var r=e.getElementsByTagName("script")[0],c=e.createElement("script");c.type="text/javascript",c.async=!0,c.src="https://djtflbt20bdde.cloudfront.net/",r.parentNode.insertBefore(c,r)}(document,window.HSCW||{},window.HS||{});
+!(function(e, t, n) {
+  function a() {
+    var e = t.getElementsByTagName("script")[0],
+      n = t.createElement("script");
+    (n.type = "text/javascript"),
+      (n.async = !0),
+      (n.src = "https://beacon-v2.helpscout.net"),
+      e.parentNode.insertBefore(n, e);
+  }
+  if (
+    ((e.Beacon = n = function(t, n, a) {
+      e.Beacon.readyQueue.push({ method: t, options: n, data: a });
+    }),
+    (n.readyQueue = []),
+    "complete" === t.readyState)
+  )
+    return a();
+  e.attachEvent
+    ? e.attachEvent("onload", a)
+    : e.addEventListener("load", a, !1);
+})(window, document, window.Beacon || function() {});
+window.Beacon("init", "b8d98d10-d03b-4c26-80fa-babc4e7840c8");
 
-HS.beacon.config({
-  modal: false,
-  color: '#ff5555',
-  topics: ccbpress_core_beacon_vars.topics,
-  instructions: 'Please fill out this form and CCBPress Support will get back to you as soon as possible.',
-  attachment: false,
-  poweredBy: false,
-  icon: 'message',
-});
-
-HS.beacon.ready(function() {
-  HS.beacon.identify({
-    name: ccbpress_core_beacon_vars.customer_name,
-    email: ccbpress_core_beacon_vars.customer_email,
-    'CCBPress Version' : ccbpress_core_beacon_vars.ccbpress_ver,
-    'WordPress Version' : ccbpress_core_beacon_vars.wp_ver,
-    'PHP Version' : ccbpress_core_beacon_vars.php_ver,
-  });
+Beacon("prefill", {
+  name: ccbpress_core_beacon_vars.customer_name,
+  email: ccbpress_core_beacon_vars.customer_email,
+  fields: [
+    {
+      "CCBPress Version": ccbpress_core_beacon_vars.ccbpress_ver,
+      "WordPress Version": ccbpress_core_beacon_vars.wp_ver,
+      "PHP Version": ccbpress_core_beacon_vars.php_ver
+    }
+  ]
 });
