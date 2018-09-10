@@ -99,20 +99,20 @@ class CCBPress_Admin_Scripts {
 			'ccbpress_ver'		=> CCBPress()->version,
 			'wp_ver'			=> get_bloginfo( 'version' ),
 			'php_ver'			=> phpversion(),
-			'topics'			=> apply_filters( 'ccbpress_support_topics', array(
-				array(
-				   'val'	=> 'general',
-				   'label'	=> __( 'General question', 'ccbpress-core' ),
-				),
-				array(
-				   'val'	=> 'ccb-credentials',
-				   'label'	=> __( 'Help connecting to Church Community Builder', 'ccbpress-core' ),
-				),
-				array(
-				   'val'	=> 'bug',
-				   'label'	=> __( 'I think I found a bug', 'ccbpress-core' ),
-				),
-		   	) ),
+			// 'topics'			=> apply_filters( 'ccbpress_support_topics', array(
+			// 	array(
+			// 	   'val'	=> 'general',
+			// 	   'label'	=> __( 'General question', 'ccbpress-core' ),
+			// 	),
+			// 	array(
+			// 	   'val'	=> 'ccb-credentials',
+			// 	   'label'	=> __( 'Help connecting to Church Community Builder', 'ccbpress-core' ),
+			// 	),
+			// 	array(
+			// 	   'val'	=> 'bug',
+			// 	   'label'	=> __( 'I think I found a bug', 'ccbpress-core' ),
+			// 	),
+		   	// ) ),
 	   	) );
 	}
 
