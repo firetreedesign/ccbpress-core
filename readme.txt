@@ -48,6 +48,8 @@ Extend the capabilities of CCBPress with these add-ons:
 = 1.2.1 =
 * Improved the reliability of the function that determines when a form is active.
 * Increased the import status ajax call from every 3 seconds to every 5 seconds.
+* Fixed a bug where Connection Settings would state that they were successful when they failed.
+* More descriptive error messages when an API service fails while checking services.
 
 = 1.2.0 =
 * Modified the import process to respect Church Community Builder's new API rate limits.
