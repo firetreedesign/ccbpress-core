@@ -62,6 +62,7 @@ class CCBPress_Admin_Ajax {
 			$ccb_data = CCBPress()->ccb->get( array(
 				'cache_lifespan'	=> 0,
 				'refresh_cache'		=> 1,
+				'validate_data'     => false,
 				'query_string'		=> array(
 					'srv'			=> $service,
 					'describe_api'	=> '1',
@@ -80,7 +81,12 @@ class CCBPress_Admin_Ajax {
 			} else {
 				echo '		<tr>';
 				echo '			<td>' . esc_html( $service ) . '</td>';
-				echo '			<td><div class="dashicons dashicons-no"></div>' . esc_html__( 'There was an error with this service', 'ccbpress-core' ) . '</td>';
+				if ( isset( $ccb_data->response->errors->error ) ) {
+					echo '<td><div class="dashicons dashicons-no"></div>' . (string) $ccb_data->response->errors->error . '</td>';
+				} else {
+					echo '<td><div class="dashicons dashicons-no"></div>' . esc_html__( 'There was an error with this service', 'ccbpress-core' ) . '</td>';
+
+				}
 				echo '		</tr>';
 			}
 

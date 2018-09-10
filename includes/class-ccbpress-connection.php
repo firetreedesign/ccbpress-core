@@ -195,6 +195,7 @@ class CCBPress_Connection {
 			'query_string'		=> array(),
 			'cache_lifespan'	=> 60,
 			'refresh_cache'		=> 0,
+			'validate_data'     => true,
 		);
 		$new_args = wp_parse_args( $args, $defaults );
 
@@ -256,7 +257,7 @@ class CCBPress_Connection {
 
 		$ccb_data = @simplexml_load_string( $ccb_data_raw );
 
-		if ( ! $this->is_valid( $ccb_data ) ) {
+		if ( true === $new_args['validate_data'] && ! $this->is_valid( $ccb_data ) ) {
 			return false;
 		}
 
@@ -268,7 +269,9 @@ class CCBPress_Connection {
 		// Free up the memory.
 		unset( $ccb_data_raw );
 
-		do_action( "ccbpress_after_get_{$srv}", $ccb_data, $new_args );
+		if ( true === $new_args['validate_data'] ) {
+			do_action( "ccbpress_after_get_{$srv}", $ccb_data, $new_args );
+		}
 
 		return $ccb_data;
 
@@ -425,15 +428,17 @@ class CCBPress_Connection {
 				// Convert the xml into an object.
 				$ccb_data = simplexml_load_string( $ccb_data );
 
-				// Check if the response is successful.
-				if ( '' !== $ccb_data->response->daily_limit ) {
-					// The response was successful.
-					$the_response = 'success';
-				} elseif ( '' !== $ccb_data->response->errors->error ) {
-					// Return the error message.
+				// Check for an error message.
+				if ( 'not_set' === $the_response && ! is_null( $ccb_data->response->errors->error ) ) {
 					$the_response = $ccb_data->response->errors->error;
-				} else {
-					// If no error message, then the URL may be bad.
+				}
+
+				// Check if the response is successful.
+				if ( 'not_set' === $the_response && ! is_null( $ccb_data->response->daily_limit ) ) {
+					$the_response = 'success';
+				}
+
+				if ( 'not_set' === $the_response ) {
 					$the_response = esc_html__( 'The API URL appears to be incorrect', 'ccbpress-core' );
 				}
 
@@ -566,7 +571,7 @@ class CCBPress_Connection {
 		}
 
 		// Make sure that there are no errors.
-		if ( ! is_null( $ccb_data->response->errors->error ) ) {
+		if ( isset( $ccb_data->response->errors->error ) ) {
 			return false;
 		}
 
@@ -608,7 +613,7 @@ class CCBPress_Connection {
 			return false;
 		}
 
-		if ( '' !== (string) $data->response->errors->error ) {
+		if ( isset( $data->response->errors->error ) ) {
 			return false;
 		}
 
@@ -763,7 +768,7 @@ class CCBPress_Connection {
 			return false;
 		}
 
-		$current_date = strtotime( (string) date( 'Y-m-d' ) );
+		$current_date = strtotime( (string) date( 'Y-m-d', current_time( 'timestamp' ) ), current_time( 'timestamp' ) );
 		$is_valid = false;
 
 		foreach ( $ccb_data->response->items->form as $form ) {
@@ -771,15 +776,22 @@ class CCBPress_Connection {
 			if ( (string) $form['id'] === $form_id ) {
 
 				// Check the form date.
-				$form_start	= strtotime( (string) $form->start );
-				if ( '' === (string) $form->end ) {
-					$form_end = $current_date;
-				} else {
-					$form_end = strtotime( (string) $form->end );
+				$form_start	= strtotime( (string) $form->start, current_time( 'timestamp' ) );
+				$form_end = false;
+				if ( '' !== (string) $form->end ) {
+					$form_end = strtotime( (string) $form->end, current_time( 'timestamp' ) );
 				}
 
-				if ( $current_date < $form_start || $current_date > $form_end ) {
-					return false;
+				// Is it before the start date?
+				if ( $current_date < $form_start ) {
+					$is_valid = false;
+					break;
+				}
+				
+				// Is there and end date and is it after that end date?
+				if ( false !== $form_end && $current_date > $form_end ) {
+					$is_valid = false;
+					break;
 				}
 
 				// Is the form not public?
@@ -790,6 +802,12 @@ class CCBPress_Connection {
 
 				// Has the form been published?
 				if ( 'false' === (string) $form->published ) {
+					$is_valid = false;
+					break;
+				}
+
+				// Has the form been archived?
+				if ( 'true' === (string) $form->archived ) {
 					$is_valid = false;
 					break;
 				}

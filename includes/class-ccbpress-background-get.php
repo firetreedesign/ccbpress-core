@@ -51,7 +51,7 @@ class CCBPress_Background_Get extends WP_Background_Process {
 		$defaults = array(
 			'cache_lifespan'	=> 0,
 			'addon'				=> null,
-			'refresh_cache'		=> 0,
+			'refresh_cache'		=> 1,
 		);
 		$item = wp_parse_args( $item, $defaults );
 
