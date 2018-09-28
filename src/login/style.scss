@@ -1,0 +1,14 @@
+/**
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
+ */
+
+.wp-block-ccbpress-login {
+  label,
+  input:not([type=submit]) {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+}
