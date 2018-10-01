@@ -794,11 +794,11 @@ class CCBPress_Connection {
 					break;
 				}
 
-				// Is the form not public?
-				if ( 'false' === (string) $form->public ) {
-					$is_valid = false;
-					break;
-				}
+				// // Is the form not public?
+				// if ( 'false' === (string) $form->public ) {
+				// 	$is_valid = false;
+				// 	break;
+				// }
 
 				// Has the form been published?
 				if ( 'false' === (string) $form->published ) {
