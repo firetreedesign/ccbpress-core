@@ -108,8 +108,10 @@ if ( ! class_exists( 'CCBPress_Widget_Group_Info' ) ) :
 				$group->widget_options->show_group_leader_phone_numbers	= $show_group_leader_phone_numbers;
 				$group->widget_options->show_group_registration_forms	= $show_group_registration_forms;
 
+				echo '<div class="wp-block-ccbpress-group-info">';
 				// Echo the group data and apply any filters.
 				echo $this->ccbpress_get_template( $group );
+				echo '</div>';
 
 			}
 
@@ -528,10 +530,15 @@ class CCBPress_Widget_Group_Info_Template extends CCBPress_Template {
 			return false;
 		}
 
+		$any_active = false;
 		foreach ( $group->registration_forms->form as $registration_form ) {
-			if ( ! $this->is_form_active( $registration_form ) ) {
-				return false;
+			if ( $this->is_form_active( $registration_form ) ) {
+				$any_active = true;
 			}
+		}
+
+		if ( ! $any_active ) {
+			return false;
 		}
 
 		return true;
@@ -548,7 +555,6 @@ class CCBPress_Widget_Group_Info_Template extends CCBPress_Template {
 	 * @return boolean	True/False.
 	 */
 	public function is_form_active( $registration_form ) {
-
 		return CCBPress()->ccb->is_form_active( (string) $registration_form['id'] );
 
 	}
