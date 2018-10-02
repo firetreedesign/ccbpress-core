@@ -22,7 +22,6 @@ export function getGroup(groupId) {
   if (groupId === null) {
     return;
   }
-  console.log(groupId);
   return fetch(
     ccbpress_core_blocks.api_url + "ccbpress/v1/admin/group/" + groupId,
     {
@@ -36,4 +35,31 @@ export function getGroup(groupId) {
       })
     }
   );
+}
+
+export function isFormActive(formId) {
+  if (formId === null) {
+    return false;
+  }
+
+  let result = fetch(
+    ccbpress_core_blocks.api_url + "ccbpress/v1/admin/is_form_active/" + formId,
+    {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        _wpnonce: ccbpress_core_blocks.api_nonce
+      })
+    }
+  );
+
+  console.log(result);
+  if (result === true) {
+    return true;
+  } else {
+    return false;
+  }
 }
