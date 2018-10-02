@@ -174,7 +174,7 @@ class CCBPress_Core_Group_Info_Block {
 		}
 
 		if ( has_filter( 'ccbpress_rest_api_admin_group' ) ) {
-			$$data = apply_filters( 'ccbpress_rest_api_admin_group', null, $id );
+			$data = apply_filters( 'ccbpress_rest_api_admin_group', null, $id );
 		} else {
 			$data = CCBPress()->ccb->get( array(
 				'cache_lifespan'	=> CCBPress()->ccb->cache_lifespan( 'group_profile_from_id' ),
@@ -188,50 +188,99 @@ class CCBPress_Core_Group_Info_Block {
 
 		if ( ! $data ) {
 			return __( 'Group not found.', 'ccbpress-core' );
-        }
-        
-        $show_group_image = true;
+		}
+		
+		// Define the array to hold all found group.
+		$group = array();
+		$group = $data->response->groups->group;
+
+		// Get the cached group image.
+		$group->image = CCBPress()->ccb->get_image( $group_id, 'group' );
+
+		// Get their profile image from their user profile.
+		$group_main_leader_profile = CCBPress()->ccb->get( array(
+			'cache_lifespan'	=> CCBPress()->ccb->cache_lifespan( 'individual_profile_from_id' ),
+			'query_string'		=> array(
+				'srv'				=> 'individual_profile_from_id',
+				'individual_id'		=> (string) $group->main_leader['id'],
+				'include_inactive'	=> 0,
+			),
+		) );
+		$group->main_leader->image	= $group_main_leader_profile->response->individuals->individual->image;
+
+		// Set the values passed from the widget/block options.
+		$show_group_image = 'show';
         if ( isset( $attributes['showGroupImage'] ) && false === $attributes['showGroupImage'] ) {
-            $show_group_image = false;
-        }
+			$show_group_image = 'hide';
+		}
+		$group->widget_options->show_group_image = $show_group_image;
 
-        $show_group_name = true;
+        $show_group_name = 'show';
         if ( isset( $attributes['showGroupName'] ) && false === $attributes['showGroupName'] ) {
-            $show_group_name = false;
-        }
+            $show_group_name = 'hide';
+		}
+		$group->widget_options->show_group_name = $show_group_name;
 
-        $show_group_desc = true;
+        $show_group_description = 'show';
         if ( isset( $attributes['showGroupDesc'] ) && false === $attributes['showGroupDesc'] ) {
-            $show_group_desc = false;
-        }
+            $show_group_description = 'hide';
+		}
+		$group->widget_options->show_group_description = $show_group_description;
 
-        $show_main_leader = true;
+        $show_main_leader = 'show';
         if ( isset( $attributes['showMainLeader'] ) && false === $attributes['showMainLeader'] ) {
-            $show_main_leader = false;
-        }
+            $show_main_leader = 'hide';
+		}
+		$group->widget_options->show_group_leader = $show_main_leader;
 
-        $show_main_leader_email = true;
+        $show_main_leader_email = 'show';
         if ( isset( $attributes['showMainLeaderEmail'] ) && false === $attributes['showMainLeaderEmail'] ) {
-            $show_main_leader_email = false;
-        }
+            $show_main_leader_email = 'hide';
+		}
+		$group->widget_options->show_group_leader_email = $show_main_leader_email;
 
-        $show_main_leader_phone = true;
+        $show_main_leader_phone = 'show';
         if ( isset( $attributes['showMainLeaderPhone'] ) && false === $attributes['showMainLeaderPhone'] ) {
-            $show_main_leader_phone = false;
-        }
+            $show_main_leader_phone = 'hide';
+		}
+		$group->widget_options->show_group_leader_phone_numbers	= $show_main_leader_phone;
 
-        $show_registration_forms = true;
+        $show_registration_forms = 'show';
         if ( isset( $attributes['showRegistrationForms'] ) && false === $attributes['showRegistrationForms'] ) {
-            $show_registration_forms = false;
-        }
+            $show_registration_forms = 'hide';
+		}
+		$group->widget_options->show_group_registration_forms = $show_registration_forms;
 
 		ob_start();
-		?>
-		<div class="wp-block-ccbpress-group-info">
-			Group Information
-			<?php var_dump( $attributes ); ?>
-		</div>
-		<?php
+		echo '<div class="wp-block-ccbpress-group-info">';
+		// Echo the group data and apply any filters.
+		echo self::get_template( $group );
+		echo '</div>';
+		return ob_get_clean();
+	}
+
+	/**
+	 * Get the template
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param  object $group Group object.
+	 *
+	 * @return string
+	 */
+	private static function get_template( $group ) {
+
+		ob_start();
+
+		$template = new CCBPress_Widget_Group_Info_Template( 'group-info.php', CCBPRESS_CORE_PLUGIN_DIR );
+
+		if ( false !== ( $template_path = $template->path() ) ) {
+			include( $template_path ); // Include the template.
+		} else {
+			esc_html_e( 'Template not found. Please reinstall CCBPress Core.', 'ccbpress-core' );
+		}
+
+		// Return the output.
 		return ob_get_clean();
 	}
 

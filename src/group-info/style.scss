@@ -5,6 +5,10 @@
  */
 
 .wp-block-ccbpress-group-info {
+  .ccbpress-group-info-image {
+    width: 100%;
+    height: auto;
+  }
   .ccbpress-group-info-name {
     font-size: 1.3em;
     font-weight: bold;
@@ -12,11 +16,11 @@
   .ccbpress-group-info-details {
     margin-top: 10px;
     padding: 10px;
-    font-size: 0.9em;
+    font-size: 0.8em;
     background-color: rgba(0, 0, 0, 0.03);
     border: 1px solid rgba(0, 0, 0, 0.08);
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     grid-gap: 20px;
     &:empty {
       display: none;

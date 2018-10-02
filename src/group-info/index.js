@@ -11,7 +11,7 @@ import "./editor.scss";
 
 import blockIcons from "../icons.js";
 import CCBPressGroupSelect from "../components/ccbpress-group-select.js";
-import { getGroup } from "../utils/data.js";
+import { getGroup, isFormActive } from "../utils/data.js";
 
 const { Component, Fragment } = wp.element;
 const { __ } = wp.i18n;
@@ -133,28 +133,28 @@ class CCBPressGroupInfoBlock extends Component {
             onChange={value => setAttributes({ groupId: value })}
           />
           <ToggleControl
-            label={__("Display Image")}
+            label={__("Show Image")}
             checked={showGroupImage}
             onChange={() => setAttributes({ showGroupImage: !showGroupImage })}
           />
           <ToggleControl
-            label={__("Display Name")}
+            label={__("Show Name")}
             checked={showGroupName}
             onChange={checked => setAttributes({ showGroupName: checked })}
           />
           <ToggleControl
-            label={__("Display Description")}
+            label={__("Show Description")}
             checked={showGroupDesc}
             onChange={checked => setAttributes({ showGroupDesc: checked })}
           />
           <ToggleControl
-            label={__("Display Main Leader")}
+            label={__("Show Main Leader")}
             checked={showMainLeader}
             onChange={checked => setAttributes({ showMainLeader: checked })}
           />
           {showMainLeader && (
             <ToggleControl
-              label={__("Display Email Address")}
+              label={__("Show Email Address")}
               checked={showMainLeaderEmail}
               onChange={checked =>
                 setAttributes({ showMainLeaderEmail: checked })
@@ -163,7 +163,7 @@ class CCBPressGroupInfoBlock extends Component {
           )}
           {showMainLeader && (
             <ToggleControl
-              label={__("Display Phone Numbers")}
+              label={__("Show Phone Numbers")}
               checked={showMainLeaderPhone}
               onChange={checked =>
                 setAttributes({ showMainLeaderPhone: checked })
@@ -171,7 +171,7 @@ class CCBPressGroupInfoBlock extends Component {
             />
           )}
           <ToggleControl
-            label={__("Display Registration Forms")}
+            label={__("Show Registration Forms")}
             checked={showRegistrationForms}
             onChange={checked =>
               setAttributes({ showRegistrationForms: checked })
