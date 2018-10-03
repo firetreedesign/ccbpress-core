@@ -50,13 +50,19 @@ class CCBPressGroupInfoBlock extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.state.group === null) {
+    const { groupId } = this.props.attributes;
+    if (this.state.group === null && groupId !== null) {
       this._getGroupInfo();
     }
   }
 
   _getGroupInfo() {
     const { groupId } = this.props.attributes;
+
+    if (groupId === null) {
+      this.setState({ isLoading: false });
+      return;
+    }
 
     getGroup(groupId)
       .then(response => response.json())
@@ -99,11 +105,19 @@ class CCBPressGroupInfoBlock extends Component {
       return forms_array;
     }
 
-    for (const prop in forms) {
+    for (var key in forms) {
+      if (!forms.hasOwnProperty(key)) {
+        continue;
+      }
+
+      if (!isFormActive(forms[key]["@attributes"]["id"])) {
+        continue;
+      }
+
       forms_array.push(
         <div class="ccbpress-group-info-registration-form">
-          <a href={forms[prop]["url"].toString()}>
-            {forms[prop]["name"].toString()}
+          <a href={forms[key]["url"].toString()}>
+            {forms[key]["name"].toString()}
           </a>
         </div>
       );
