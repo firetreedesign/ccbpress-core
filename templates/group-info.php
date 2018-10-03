@@ -36,24 +36,28 @@
 				<div class="ccbpress-group-info-leader-title">
 					<?php _e('Group Leader:', 'ccbpress-core'); ?>
 				</div>
-				<div class="ccbpress-group-info-leader-name">
-					<?php echo $group->main_leader->full_name; ?>
-				</div>
-				<?php
-				/**
-				 * Check the widget settings to see if it should be displayed.
-				 */
-				if ( $template->show_group_leader_email( $group ) ) : ?>
-					<div class="ccbpress-group-info-leader-email">
+				<div class="ccbpress-group-info-leader-container">
+					<?php if ( isset( $group->main_leader->image ) && '' !== $group->main_leader->image ) : ?>
+						<img class="ccbpress-group-info-leader-image" src="<?php esc_attr_e( $group->main_leader->image ); ?>" />
+					<?php endif; ?>
+					<div class="ccbpress-group-info-leader-name">
 						<?php
-						echo $template->email_link( array(
-							'individual_id' => (string) $group->main_leader['id'],
-							'class' => $template->lightbox_class(),
-							'link_text' => esc_html( 'Send email', 'ccbpress-core' )
-						) );
-						?>
+						/**
+						 * Check the widget settings to see if it should be displayed.
+						 */
+						if ( $template->show_group_leader_email( $group ) ) : ?>
+							<?php
+							echo $template->email_link( array(
+								'individual_id' => (string) $group->main_leader['id'],
+								'class' => $template->lightbox_class(),
+								'link_text' => $group->main_leader->full_name
+							) );
+							?>
+						<?php else: ?>
+							<?php echo $group->main_leader->full_name; ?>
+						<?php endif; ?>
 					</div>
-				<?php endif; ?>
+							</div>
 				<?php
 				/**
 				 * Check the widget settings to see if it should be displayed.

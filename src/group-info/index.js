@@ -251,18 +251,28 @@ class CCBPressGroupInfoBlock extends Component {
                       <div class="ccbpress-group-info-leader-title">
                         {__("Group Leader")}
                       </div>
-                      <div class="ccbpress-group-info-leader-name">
-                        {this.state.group.data.main_leader.full_name.toString()}
-                      </div>
-                      {showMainLeaderEmail && (
-                        <div class="ccbpress-group-info-leader-email">
-                          <a
-                            href={`mailto:${this.state.group.data.main_leader.email.toString()}`}
-                          >
-                            {__("Send email")}
-                          </a>
+                      <div className="ccbpress-group-info-leader-container">
+                        {this.state.group.data.main_leader.image && (
+                          <img
+                            className="ccbpress-group-info-leader-image"
+                            src={this.state.group.data.main_leader.image}
+                          />
+                        )}
+                        <div class="ccbpress-group-info-leader-name">
+                          {showMainLeaderEmail && (
+                            <a
+                              href={`mailto:${this.state.group.data.main_leader.email.toString()}`}
+                            >
+                              {this.state.group.data.main_leader.full_name.toString()}
+                            </a>
+                          )}
+                          {!showMainLeaderEmail && (
+                            <Fragment>
+                              {this.state.group.data.main_leader.full_name.toString()}
+                            </Fragment>
+                          )}
                         </div>
-                      )}
+                      </div>
                       {showMainLeaderPhone &&
                         this._renderPhoneNumbers(
                           this.state.group.data.main_leader.phones

@@ -122,7 +122,7 @@ class CCBPress_Core_Group_Info_Block {
 		}
 
 		if ( has_filter( 'ccbpress_rest_api_admin_group' ) ) {
-			$$data = apply_filters( 'ccbpress_rest_api_admin_group', null, $id );
+			$data = apply_filters( 'ccbpress_rest_api_admin_group', null, $id );
 		} else {
 			$data = CCBPress()->ccb->get( array(
 				'cache_lifespan'	=> CCBPress()->ccb->cache_lifespan( 'group_profile_from_id' ),
@@ -143,6 +143,18 @@ class CCBPress_Core_Group_Info_Block {
 
 		// Get the cached group image.
 		$new_data->image = CCBPress()->ccb->get_image( $id, 'group' );
+
+		// Get their profile image from their user profile.
+		$group_main_leader_profile = CCBPress()->ccb->get( array(
+			'cache_lifespan'	=> CCBPress()->ccb->cache_lifespan( 'individual_profile_from_id' ),
+			'query_string'		=> array(
+				'srv'				=> 'individual_profile_from_id',
+				'individual_id'		=> (string) $new_data->data->main_leader['id'],
+				'include_inactive'	=> 0,
+			),
+		) );
+		
+		$new_data->data->main_leader->image	= CCBPress()->ccb->get_image( $new_data->data->main_leader['id'], 'individual' );
 
 		return new WP_REST_Response( $new_data, 200 );
 	}
@@ -208,7 +220,7 @@ class CCBPress_Core_Group_Info_Block {
 				'include_inactive'	=> 0,
 			),
 		) );
-		$group->main_leader->image	= $group_main_leader_profile->response->individuals->individual->image;
+		$group->main_leader->image	= CCBPress()->ccb->get_image( $group->main_leader['id'], 'individual' );
 
 		// Set the values passed from the widget/block options.
 		$show_group_image = 'show';
