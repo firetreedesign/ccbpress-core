@@ -11,8 +11,47 @@ import "./editor.scss";
 
 import blockIcons from "../icons.js";
 
+const { Component, Fragment } = wp.element;
 const { __ } = wp.i18n; // Import __() from wp.i18n
 const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
+const { InspectorControls } = wp.editor;
+const { PanelBody, TextControl } = wp.components;
+
+class CCBPressOnlineGivingBlock extends Component {
+  constructor() {
+    super(...arguments);
+  }
+
+  render() {
+    const { attributes, setAttributes, className } = this.props;
+    const { buttonText } = attributes;
+
+    const inspectorControls = (
+      <InspectorControls key="inspector">
+        <PanelBody title={__("Settings")}>
+          <TextControl
+            label={__("Button Text")}
+            value={buttonText}
+            onChange={buttonText => setAttributes({ buttonText })}
+          />
+        </PanelBody>
+      </InspectorControls>
+    );
+
+    return (
+      <Fragment>
+        {inspectorControls}
+        <div className={className}>
+          <form className="ccbpress-core-online-giving" target="_blank">
+            <fieldset disabled="true">
+              <input type="submit" value={buttonText} />
+            </fieldset>
+          </form>
+        </div>
+      </Fragment>
+    );
+  }
+}
 
 /**
  * Register: aa Gutenberg Block.
@@ -36,6 +75,12 @@ registerBlockType("ccbpress/online-giving", {
   supports: {
     html: false
   },
+  attributes: {
+    buttonText: {
+      type: "string",
+      default: __("Give Now")
+    }
+  },
 
   /**
    * The edit function describes the structure of your block in the context of the editor.
@@ -45,17 +90,7 @@ registerBlockType("ccbpress/online-giving", {
    *
    * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
    */
-  edit({ className }) {
-    return (
-      <div className={className}>
-        <form>
-          <fieldset disabled="true">
-            <input type="submit" value={__("Give Now")} />
-          </fieldset>
-        </form>
-      </div>
-    );
-  },
+  edit: CCBPressOnlineGivingBlock,
 
   /**
    * The save function defines the way in which the different attributes should be combined
