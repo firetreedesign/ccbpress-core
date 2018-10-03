@@ -26,9 +26,8 @@ class CCBPress_Core_Group_Info_Block {
 	 * @return void
 	 */
 	public static function init() {
-		add_action( 'rest_api_init',                __CLASS__ . '::rest_api_init' );
-		add_action( 'enqueue_block_editor_assets',  __CLASS__ . '::enqueue_block_editor_assets' );
-		add_action( 'init',                         __CLASS__ . '::block_init' );
+		add_action( 'rest_api_init', __CLASS__ . '::rest_api_init' );
+		add_action( 'init', __CLASS__ . '::block_init' );
     }
     
     public static function block_init() {
@@ -58,6 +57,11 @@ class CCBPress_Core_Group_Info_Block {
 		register_rest_route( 'ccbpress/v1', '/admin/group/(?P<id>\d+)', array(
 			'methods' => 'POST',
 			'callback' => __CLASS__ . '::rest_api_group',
+		) );
+
+		register_rest_route( 'ccbpress/v1', '/admin/is-form-active/(?P<id>\d+)', array(
+			'methods' => 'POST',
+			'callback' => __CLASS__ . '::rest_api_is_form_active',
 		) );
 		
     }
@@ -105,7 +109,7 @@ class CCBPress_Core_Group_Info_Block {
 	/**
 	 * Return group from CCB
 	 *
-	 * @since 1.2.0
+	 * @since 1.3.0
 	 * @param  WP_REST_Request $request Request object.
 	 * @return array
 	 */
@@ -141,26 +145,24 @@ class CCBPress_Core_Group_Info_Block {
 		$new_data->image = CCBPress()->ccb->get_image( $id, 'group' );
 
 		return new WP_REST_Response( $new_data, 200 );
-    }
-    
-    /**
-	 * Enqueue Gutenberg block assets for both frontend + backend.
-	 *
-	 * @since 1.2.0
-	 *
-	 * @return void
+	}
+	
+	/**
+	 * Return if form is active
+	 * 
+	 * @since 1.3.0
+	 * @param  WP_REST_Request $request Request object.
+	 * @return boolean
 	 */
-	public static function enqueue_block_editor_assets() {
+	public static function rest_api_is_form_active( WP_REST_Request $request ) {
+		$id = $request->get_param( 'id' );
 
-		// Scripts.
-		wp_localize_script(
-			'ccbpress-core-block-js',
-			'ccbpress_core_blocks',
-			array(
-			  'api_url' => site_url( '/wp-json/' ),
-			  'api_nonce' => wp_create_nonce( 'wp_rest' ),
-			));
-    }
+		if ( is_null( $id ) ) {
+			return new WP_Error( 'ccbpress-core', 'No form ID.' );
+		}
+
+		return new WP_REST_Response( CCBPress()->ccb->is_form_active( (string) $id ), 200 );
+	}
     
     public static function render( $attributes ) {
 		if ( ! isset( $attributes['groupId'] ) ) {

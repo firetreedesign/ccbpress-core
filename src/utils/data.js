@@ -42,8 +42,9 @@ export function isFormActive(formId) {
     return false;
   }
 
-  let result = fetch(
-    ccbpress_core_blocks.api_url + "ccbpress/v1/admin/is_form_active/" + formId,
+  // let result = fetch(
+  return fetch(
+    ccbpress_core_blocks.api_url + "ccbpress/v1/admin/is-form-active/" + formId,
     {
       method: "POST",
       headers: {
@@ -55,11 +56,4 @@ export function isFormActive(formId) {
       })
     }
   );
-
-  console.log(result);
-  if (result === true) {
-    return true;
-  } else {
-    return false;
-  }
 }
