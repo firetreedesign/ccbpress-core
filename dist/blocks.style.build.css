@@ -45,7 +45,7 @@
   font-weight: bold; }
 
 .wp-block-ccbpress-group-info .ccbpress-group-info-details {
-  margin-top: 10px;
+  margin-top: 20px;
   padding: 10px;
   font-size: 0.8em;
   background-color: rgba(0, 0, 0, 0.03);
@@ -55,7 +55,28 @@
   grid-gap: 20px; }
   .wp-block-ccbpress-group-info .ccbpress-group-info-details:empty {
     display: none; }
-  .wp-block-ccbpress-group-info .ccbpress-group-info-details .ccbpress-group-info-leader-title,
-  .wp-block-ccbpress-group-info .ccbpress-group-info-details .ccbpress-group-info-registration-forms-title {
-    font-weight: bold;
-    font-size: 1.1em; }
+
+.wp-block-ccbpress-group-info .ccbpress-group-info-leader-title,
+.wp-block-ccbpress-group-info .ccbpress-group-info-registration-forms-title {
+  font-weight: bold;
+  font-size: 1.1em;
+  margin-bottom: 2px; }
+
+.wp-block-ccbpress-group-info .ccbpress-group-info-leader-container {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: nowrap;
+      flex-wrap: nowrap;
+  -ms-flex-pack: start;
+      justify-content: flex-start;
+  -ms-flex-align: center;
+      align-items: center; }
+  .wp-block-ccbpress-group-info .ccbpress-group-info-leader-container > img {
+    margin-right: 5px; }
+
+.wp-block-ccbpress-group-info .ccbpress-group-info-leader-image {
+  width: 30px;
+  height: 30px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 50%; }
