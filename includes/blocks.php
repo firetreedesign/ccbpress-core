@@ -28,21 +28,11 @@ class CCBPress_Core_Blocks {
 	public static function init() {
 		add_action( 'enqueue_block_assets', 'CCBPress_Core_Blocks::enqueue_block_assets' );
 		add_action( 'enqueue_block_editor_assets', 'CCBPress_Core_Blocks::enqueue_block_editor_assets' );
-		add_action( 'init', 'CCBPress_Core_Blocks::block_init' );
 
 		require_once CCBPRESS_CORE_PLUGIN_DIR . 'src/group-info/index.php';
 		require_once CCBPRESS_CORE_PLUGIN_DIR . 'src/login/index.php';
-	}
-
-	public static function block_init() {
-		if ( function_exists( 'register_block_type' ) ) {
-            register_block_type( 'ccbpress/online-giving', array(
-				'render_callback' => 'CCBPress_Core_Blocks::render_online_giving',
-			) );
-		}
-	}
-
-	
+		require_once CCBPRESS_CORE_PLUGIN_DIR . 'src/online-giving/index.php';
+	}	
 
 	/**
 	 * Enqueue Gutenberg block assets for both frontend + backend.
@@ -102,22 +92,6 @@ class CCBPress_Core_Blocks {
             array( 'wp-blocks' ), // Dependency to include the CSS after it.
             filemtime( plugin_dir_path( CCBPRESS_CORE_PLUGIN_FILE ) . $editor_style_path )
 		);
-	}
-
-    
-    public static function render_online_giving( $attributes ) {
-		$ccb_api_url = CCBPress()->ccb->api_url;
-		$ccb_online_giving_url = str_replace( 'api.php', 'w_give_online.php', $ccb_api_url );
-
-		ob_start();
-		?>
-		<div class="wp-block-ccbpress-online-giving">
-			<form action="<?php esc_attr_e( $ccb_online_giving_url ); ?>" target="_blank">
-			    <input type="submit" value="<?php esc_attr_e( __('Give Now', 'ccbpress-core') ); ?>">
-			</form>
-		</div>
-		<?php
-		return ob_get_clean();
 	}
 }
 CCBPress_Core_Blocks::init();
