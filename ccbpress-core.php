@@ -173,7 +173,6 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 			
 			// Blocks.
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/blocks.php';
-			require_once CCBPRESS_CORE_PLUGIN_DIR . 'src/group-info/index.php';
 
 			if ( is_admin() ) {
 				require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/admin-page-tabs.php';
