@@ -29,15 +29,13 @@ class CCBPress_Core_Blocks {
 		add_action( 'enqueue_block_assets', 'CCBPress_Core_Blocks::enqueue_block_assets' );
 		add_action( 'enqueue_block_editor_assets', 'CCBPress_Core_Blocks::enqueue_block_editor_assets' );
 		add_action( 'init', 'CCBPress_Core_Blocks::block_init' );
+
+		require_once CCBPRESS_CORE_PLUGIN_DIR . 'src/group-info/index.php';
+		require_once CCBPRESS_CORE_PLUGIN_DIR . 'src/login/index.php';
 	}
 
 	public static function block_init() {
 		if ( function_exists( 'register_block_type' ) ) {
-            
-            register_block_type( 'ccbpress/login', array(
-				'render_callback' => 'CCBPress_Core_Blocks::render_login',
-            ) );
-
             register_block_type( 'ccbpress/online-giving', array(
 				'render_callback' => 'CCBPress_Core_Blocks::render_online_giving',
 			) );
@@ -87,6 +85,16 @@ class CCBPress_Core_Blocks {
             filemtime( plugin_dir_path( CCBPRESS_CORE_PLUGIN_FILE ) . $editor_block_path )
 		);
 
+		// Scripts.
+		wp_localize_script(
+			'ccbpress-core-block-js',
+			'ccbpress_core_blocks',
+			array(
+			  'api_url' => site_url( '/wp-json/' ),
+			  'api_nonce' => wp_create_nonce( 'wp_rest' ),
+			)
+		);
+
 		// Styles.
 		wp_enqueue_style(
 			'ccbpress-core-block-editor-css', // Handle.
@@ -96,31 +104,6 @@ class CCBPress_Core_Blocks {
 		);
 	}
 
-	public static function render_login( $attributes ) {
-		$ccb_api_url = CCBPress()->ccb->api_url;
-		$ccb_login_url = str_replace( 'api.php', 'login.php', $ccb_api_url );
-		$ccb_password_url = str_replace( 'api.php', 'w_password.php', $ccb_api_url );
-		$uniqid = uniqid();
-	
-		ob_start();
-		?>
-		<div class="wp-block-ccbpress-login">
-			<form class="ccbpress-core-login" action="<?php echo esc_attr( $ccb_login_url ); ?>" method="post" target="_blank">
-				<input type="hidden" name="ax" value="login" />
-				<input type="hidden" name="rurl" value="" />
-				<label for="username_<?php echo esc_attr( $uniqid ); ?>"><?php esc_html_e( 'Username:', 'ccbpress-core' ); ?></label>
-				<input id="username_<?php echo esc_attr( $uniqid ); ?>" type="text" name="form[login]" value="" />
-				<label for="password_<?php echo esc_attr( $uniqid ); ?>"><?php esc_html_e( 'Password:', 'ccbpress-core' ); ?></label>
-				<input id="password_<?php echo esc_attr( $uniqid ); ?>" type="password" name="form[password]" value="" />
-				<input type="submit" value="<?php esc_attr_e( 'Login', 'ccbpress-core' ); ?>" />
-			</form>
-			<p>
-				<a href="<?php echo esc_attr( $ccb_password_url ); ?>" target="_blank"><?php esc_html_e( 'Forgot username or password?', 'ccbpress-core' ); ?></a>
-			</p>
-		</div>
-		<?php
-		return ob_get_clean();
-    }
     
     public static function render_online_giving( $attributes ) {
 		$ccb_api_url = CCBPress()->ccb->api_url;
