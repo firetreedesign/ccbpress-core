@@ -26,7 +26,7 @@
 			<?php echo wpautop( $group->description ); ?>
 		</div>
 	<?php endif; ?>
-	<div class="ccbpress-group-info-details">
+	<div class="ccbpress-group-info-details" style="<?php echo $template->detail_styles( $group ); ?>">
 		<?php
 		/**
 		 * Check the widget settings to see if it should be displayed.

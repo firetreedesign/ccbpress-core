@@ -643,4 +643,20 @@ class CCBPress_Widget_Group_Info_Template extends CCBPress_Template {
 
 	}
 
+	public function detail_styles( $group ) {
+
+		$style = '';
+
+		if ( isset( $group->block_options->box_background_color ) ) {
+			$style .= 'background-color: ' . $group->block_options->box_background_color . ';';
+		}
+
+		if ( isset( $group->block_options->box_border_color ) ) {
+			$style .= 'border-color: ' . $group->block_options->box_border_color . ';';
+		}
+
+		return $style;
+
+	}
+
 }

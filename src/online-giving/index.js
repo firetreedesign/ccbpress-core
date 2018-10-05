@@ -14,40 +14,78 @@ import blockIcons from "../icons.js";
 const { Component, Fragment } = wp.element;
 const { __ } = wp.i18n; // Import __() from wp.i18n
 const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
-const { InspectorControls } = wp.editor;
-const { PanelBody, TextControl } = wp.components;
+const { InspectorControls, PanelColorSettings, ContrastChecker } = wp.editor;
+const { PanelBody, TextControl, Disabled } = wp.components;
 
 class CCBPressOnlineGivingBlock extends Component {
   constructor() {
     super(...arguments);
   }
 
+  _setBackgroundColor = color => {
+    this.props.setAttributes({ backgroundColor: color });
+  };
+
+  _setTextColor = color => {
+    this.props.setAttributes({ textColor: color });
+  };
+
   render() {
     const { attributes, setAttributes, className } = this.props;
-    const { buttonText } = attributes;
+    const { buttonText, backgroundColor, textColor } = attributes;
 
     const inspectorControls = (
       <InspectorControls key="inspector">
-        <PanelBody title={__("Settings")}>
+        <PanelBody title={__("Button Settings")}>
           <TextControl
             label={__("Button Text")}
             value={buttonText}
             onChange={buttonText => setAttributes({ buttonText })}
           />
         </PanelBody>
+        <PanelColorSettings
+          title={__("Button Colors")}
+          initialOpen={false}
+          colorSettings={[
+            {
+              value: backgroundColor,
+              onChange: this._setBackgroundColor,
+              label: __("Background Color")
+            },
+            {
+              value: textColor,
+              onChange: this._setTextColor,
+              label: __("Text Color")
+            }
+          ]}
+        >
+          <ContrastChecker
+            {...{
+              textColor: textColor,
+              backgroundColor: backgroundColor
+            }}
+          />
+        </PanelColorSettings>
       </InspectorControls>
     );
 
     return (
       <Fragment>
         {inspectorControls}
-        <div className={className}>
-          <form className="ccbpress-core-online-giving" target="_blank">
-            <fieldset disabled="true">
-              <input type="submit" value={buttonText} />
-            </fieldset>
-          </form>
-        </div>
+        <Disabled>
+          <div className={className}>
+            <form className="ccbpress-core-online-giving" target="_blank">
+              <input
+                type="submit"
+                value={buttonText}
+                style={{
+                  backgroundColor: backgroundColor ? backgroundColor : "",
+                  color: textColor ? textColor : ""
+                }}
+              />
+            </form>
+          </div>
+        </Disabled>
       </Fragment>
     );
   }
@@ -79,6 +117,12 @@ registerBlockType("ccbpress/online-giving", {
     buttonText: {
       type: "string",
       default: __("Give Now")
+    },
+    backgroundColor: {
+      type: "string"
+    },
+    textColor: {
+      type: "string"
     }
   },
 

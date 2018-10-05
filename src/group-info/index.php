@@ -265,6 +265,14 @@ class CCBPress_Core_Group_Info_Block {
 		}
 		$group->widget_options->show_group_registration_forms = $show_registration_forms;
 
+		if ( isset( $attributes['boxBackgroundColor'] ) ) {
+            $group->block_options->box_background_color = $attributes['boxBackgroundColor'];
+		}
+
+		if ( isset( $attributes['boxBorderColor'] ) ) {
+            $group->block_options->box_border_color = $attributes['boxBorderColor'];
+		}
+
 		ob_start();
 		echo '<div class="wp-block-ccbpress-group-info">';
 		// Echo the group data and apply any filters.

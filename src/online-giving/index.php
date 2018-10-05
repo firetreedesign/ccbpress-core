@@ -49,11 +49,20 @@ class CCBPress_Core_Online_Giving_Block {
 			$button_text = $attributes['buttonText'];
 		}
 
+		$style = '';
+		if ( isset( $attributes['backgroundColor'] ) ) {
+			$style .= 'background-color: ' . $attributes['backgroundColor'] . ';';
+		}
+
+		if ( isset( $attributes['textColor'] ) ) {
+			$style .= 'color: ' . $attributes['textColor'] . ';';
+		}
+
 		ob_start();
 		?>
 		<div class="wp-block-ccbpress-online-giving">
 			<form action="<?php esc_attr_e( $ccb_online_giving_url ); ?>" target="_blank">
-			    <input type="submit" value="<?php esc_attr_e( $button_text ); ?>">
+			    <input type="submit" value="<?php esc_attr_e( $button_text ); ?>" style="<?php echo $style; ?>">
 			</form>
 		</div>
 		<?php

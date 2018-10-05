@@ -14,21 +14,34 @@ import blockIcons from "../icons.js";
 const { Component, Fragment } = wp.element;
 const { __ } = wp.i18n; // Import __() from wp.i18n
 const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
-const { InspectorControls } = wp.editor;
-const { PanelBody, ToggleControl } = wp.components;
+const { InspectorControls, PanelColorSettings, ContrastChecker } = wp.editor;
+const { PanelBody, ToggleControl, TextControl, Disabled } = wp.components;
 
 class CCBPressLoginBlock extends Component {
   constructor() {
     super(...arguments);
   }
 
+  _setButtonBackgroundColor = color => {
+    this.props.setAttributes({ buttonBackgroundColor: color });
+  };
+
+  _setButtonTextColor = color => {
+    this.props.setAttributes({ buttonTextColor: color });
+  };
+
   render() {
     const { attributes, setAttributes, className } = this.props;
-    const { showForgotPassword } = attributes;
+    const {
+      showForgotPassword,
+      buttonBackgroundColor,
+      buttonTextColor,
+      buttonText
+    } = attributes;
 
     const inspectorControls = (
       <InspectorControls key="inspector">
-        <PanelBody title={__("Settings")}>
+        <PanelBody title={__("Form Settings")}>
           <ToggleControl
             label={__("Show Forgot Password")}
             checked={showForgotPassword}
@@ -36,31 +49,66 @@ class CCBPressLoginBlock extends Component {
               setAttributes({ showForgotPassword: !showForgotPassword })
             }
           />
+          <TextControl
+            label={__("Submit Button Text")}
+            value={buttonText}
+            onChange={buttonText => setAttributes({ buttonText })}
+          />
         </PanelBody>
+        <PanelColorSettings
+          title={__("Submit Button Colors")}
+          initialOpen={false}
+          colorSettings={[
+            {
+              value: buttonBackgroundColor,
+              onChange: this._setButtonBackgroundColor,
+              label: __("Background Color")
+            },
+            {
+              value: buttonTextColor,
+              onChange: this._setButtonTextColor,
+              label: __("Text Color")
+            }
+          ]}
+        >
+          <ContrastChecker
+            {...{
+              textColor: buttonTextColor,
+              backgroundColor: buttonBackgroundColor
+            }}
+          />
+        </PanelColorSettings>
       </InspectorControls>
     );
 
     return (
       <Fragment>
         {inspectorControls}
-        <div className={className} title="title">
-          <form class="ccbpress-core-login" method="post" target="_blank">
-            <fieldset disabled="true">
+        <Disabled>
+          <div className={className} title="title">
+            <form class="ccbpress-core-login" method="post" target="_blank">
               <label>{__("Username:")}</label>
               <input type="text" value="" />
               <label>{__("Password:")}</label>
               <input type="password" value="" />
-              <input type="submit" value={__("Login")} />
-            </fieldset>
-          </form>
-          {showForgotPassword && (
-            <p>
-              <a href="#" onClick="return false;">
-                {__("Forgot username or password?")}
-              </a>
-            </p>
-          )}
-        </div>
+              <input
+                type="submit"
+                value={buttonText}
+                style={{
+                  backgroundColor: buttonBackgroundColor
+                    ? buttonBackgroundColor
+                    : "",
+                  color: buttonTextColor ? buttonTextColor : ""
+                }}
+              />
+            </form>
+            {showForgotPassword && (
+              <p>
+                <a href="#">{__("Forgot username or password?")}</a>
+              </p>
+            )}
+          </div>
+        </Disabled>
       </Fragment>
     );
   }
@@ -92,6 +140,16 @@ registerBlockType("ccbpress/login", {
     showForgotPassword: {
       type: "boolean",
       default: true
+    },
+    buttonBackgroundColor: {
+      type: "string"
+    },
+    buttonTextColor: {
+      type: "string"
+    },
+    buttonText: {
+      type: "string",
+      default: __("Login")
     }
   },
 

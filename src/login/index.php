@@ -50,6 +50,20 @@ class CCBPress_Core_Login_Block {
         if ( isset( $attributes['showForgotPassword'] ) && false === $attributes['showForgotPassword'] ) {
 			$show_forgot_password = false;
 		}
+
+		$button_style = '';
+		if ( isset( $attributes['buttonBackgroundColor'] ) ) {
+			$button_style .= 'background-color: ' . $attributes['buttonBackgroundColor'] . ';';
+		}
+
+		if ( isset( $attributes['buttonTextColor'] ) ) {
+			$button_style .= 'color: ' . $attributes['buttonTextColor'] . ';';
+		}
+
+		$button_text = __('Login', 'ccbpress-core');
+		if ( isset( $attributes['buttonText'] ) ) {
+			$button_text = $attributes['buttonText'];
+		}
 	
 		ob_start();
 		?>
@@ -61,7 +75,7 @@ class CCBPress_Core_Login_Block {
 				<input id="username_<?php echo esc_attr( $uniqid ); ?>" type="text" name="form[login]" value="" />
 				<label for="password_<?php echo esc_attr( $uniqid ); ?>"><?php esc_html_e( 'Password:', 'ccbpress-core' ); ?></label>
 				<input id="password_<?php echo esc_attr( $uniqid ); ?>" type="password" name="form[password]" value="" />
-				<input type="submit" value="<?php esc_attr_e( 'Login', 'ccbpress-core' ); ?>" />
+				<input type="submit" value="<?php echo esc_attr( $button_text ); ?>" style="<?php echo $button_style; ?>" />
 			</form>
 			<?php if (true === $show_forgot_password ) : ?>
 				<p>
