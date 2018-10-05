@@ -16,7 +16,7 @@ import { getGroup, isFormActive } from "../utils/data.js";
 const { Component, Fragment } = wp.element;
 const { __ } = wp.i18n;
 const { registerBlockType } = wp.blocks;
-const { InspectorControls } = wp.editor;
+const { InspectorControls, PanelColorSettings, withColors } = wp.editor;
 const { PanelBody, ToggleControl, Spinner, Placeholder } = wp.components;
 
 class CCBPressGroupInfoBlock extends Component {
@@ -127,7 +127,12 @@ class CCBPressGroupInfoBlock extends Component {
   }
 
   render() {
-    const { attributes, setAttributes, className } = this.props;
+    const {
+      attributes,
+      setAttributes,
+      className,
+      setBoxBackgroundColor
+    } = this.props;
     const {
       groupId,
       showGroupImage,
@@ -136,7 +141,8 @@ class CCBPressGroupInfoBlock extends Component {
       showMainLeader,
       showMainLeaderEmail,
       showMainLeaderPhone,
-      showRegistrationForms
+      showRegistrationForms,
+      boxBackgroundColor
     } = attributes;
 
     const inspectorControls = (
@@ -192,6 +198,17 @@ class CCBPressGroupInfoBlock extends Component {
             }
           />
         </PanelBody>
+        <PanelColorSettings
+          title={__("Color Settings")}
+          initialOpen={false}
+          colorSettings={[
+            {
+              value: boxBackgroundColor.color,
+              onChange: setBoxBackgroundColor,
+              label: __("Box Background Color")
+            }
+          ]}
+        />
       </InspectorControls>
     );
 
@@ -356,6 +373,10 @@ export default registerBlockType("ccbpress/group-info", {
     showRegistrationForms: {
       type: "boolean",
       default: true
+    },
+    boxBackgroundColor: {
+      type: "string",
+      default: "#dddddd"
     }
   },
 
