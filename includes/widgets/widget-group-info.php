@@ -51,14 +51,45 @@ if ( ! class_exists( 'CCBPress_Widget_Group_Info' ) ) :
 		 */
 		public function widget( $args, $instance ) {
 
-			$group_id 							= $instance['group_id'];
-			$show_group_name 					= $instance['show_group_name'];
-			$show_group_description 			= $instance['show_group_description'];
-			$show_group_image 					= $instance['show_group_image'];
-			$show_group_leader_card 			= $instance['show_group_leader_card'];
-			$show_group_leader_phone_numbers	= $instance['show_group_leader_phone_numbers'];
-			$show_group_leader_email			= $instance['show_group_leader_email'];
-			$show_group_registration_forms 		= $instance['show_group_registration_forms'];
+			$group_id = '';
+			if ( isset( $instance['group_id'] ) ) {
+				$group_id = $instance['group_id'];
+			}
+
+			$show_group_name = 'show';
+			if ( isset( $instance['show_group_name'] ) ) {
+				$show_group_name = $instance['show_group_name'];
+			}
+			
+			$show_group_description = 'show';
+			if ( isset( $instance['show_group_description'] ) ) {
+				$show_group_description = $instance['show_group_description'];
+			}
+			
+			$show_group_image = 'show';
+			if ( isset( $instance['show_group_image'] ) ) {
+				$show_group_image = $instance['show_group_image'];
+			}
+			
+			$show_group_leader_card = 'show';
+			if ( isset( $instance['show_group_leader_card'] ) ) {
+				$show_group_leader_card = $instance['show_group_leader_card'];
+			}
+			
+			$show_group_leader_phone_numbers = 'show';
+			if ( isset( $instance['show_group_leader_phone_numbers'] ) ) {
+				$show_group_leader_phone_numbers = $instance['show_group_leader_phone_numbers'];
+			}
+			
+			$show_group_leader_email = 'show';
+			if ( isset( $instance['show_group_leader_email'] ) ) {
+				$show_group_leader_email = $instance['show_group_leader_email'];
+			}
+			
+			$show_group_registration_forms = 'show';
+			if ( isset( $instance['show_group_registration_forms'] ) ) {
+				$show_group_registration_forms = $instance['show_group_registration_forms'];
+			}
 
 			// Build the query to get the data from CCB.
 			$ccbpress_data = false;
