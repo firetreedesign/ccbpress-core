@@ -246,19 +246,19 @@ class CCBPressGroupInfoBlock extends Component {
     return (
       <Fragment>
         {inspectorControls}
-        <Disabled>
-          <div className={className}>
-            {(groupId === null || groupId === "") && (
-              <Placeholder
-                icon={blockIcons.ccbpress}
-                label={__("Group Information")}
-              >
-                <CCBPressGroupSelect
-                  value={groupId}
-                  onChange={value => setAttributes({ groupId: value })}
-                />
-              </Placeholder>
-            )}
+        <div className={className}>
+          {(groupId === null || groupId === "") && (
+            <Placeholder
+              icon={blockIcons.ccbpress}
+              label={__("Group Information")}
+            >
+              <CCBPressGroupSelect
+                value={groupId}
+                onChange={value => setAttributes({ groupId: value })}
+              />
+            </Placeholder>
+          )}
+          <Disabled>
             {groupId !== null &&
               groupId !== "" && (
                 <div>
@@ -338,8 +338,8 @@ class CCBPressGroupInfoBlock extends Component {
                   </div>
                 </div>
               )}
-          </div>
-        </Disabled>
+          </Disabled>
+        </div>
       </Fragment>
     );
   }
@@ -363,7 +363,7 @@ export default registerBlockType("ccbpress/group-info", {
   title: __("Group Information"), // Block title.
   description: __("Display group information from Church Community Builder."),
   icon: blockIcons.ccbpress, // Block icon from Dashicons → https://developer.wordpress.org/resource/dashicons/.
-  category: "widgets", // Block category — Group blocks together based on common traits E.g. common, formatting, layout widgets, embed.
+  category: "ccbpress", // Block category — Group blocks together based on common traits E.g. common, formatting, layout widgets, embed.
   keywords: [__("church community builder"), __("ccb"), __("ccbpress")],
   supports: {
     html: false
