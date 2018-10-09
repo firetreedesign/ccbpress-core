@@ -108,7 +108,7 @@ registerBlockType("ccbpress/online-giving", {
   // Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
   title: __("Online Giving"), // Block title.
   icon: blockIcons.ccbpress, // Block icon from Dashicons → https://developer.wordpress.org/resource/dashicons/.
-  category: "widgets", // Block category — Group blocks together based on common traits E.g. common, formatting, layout widgets, embed.
+  category: "ccbpress", // Block category — Group blocks together based on common traits E.g. common, formatting, layout widgets, embed.
   keywords: [__("church community builder"), __("ccb"), __("ccbpress")],
   supports: {
     html: false
