@@ -29,6 +29,8 @@ class CCBPress_Core_Blocks {
 		add_action( 'enqueue_block_assets', 'CCBPress_Core_Blocks::enqueue_block_assets' );
 		add_action( 'enqueue_block_editor_assets', 'CCBPress_Core_Blocks::enqueue_block_editor_assets' );
 
+		add_filter( 'block_categories', __CLASS__ . '::block_categories', 10, 2 );
+
 		require_once CCBPRESS_CORE_PLUGIN_DIR . 'src/group-info/index.php';
 		require_once CCBPRESS_CORE_PLUGIN_DIR . 'src/login/index.php';
 		require_once CCBPRESS_CORE_PLUGIN_DIR . 'src/online-giving/index.php';
@@ -91,6 +93,25 @@ class CCBPress_Core_Blocks {
 			plugins_url( $editor_style_path, CCBPRESS_CORE_PLUGIN_FILE ), // Block editor CSS.
             array( 'wp-blocks' ), // Dependency to include the CSS after it.
             filemtime( plugin_dir_path( CCBPRESS_CORE_PLUGIN_FILE ) . $editor_style_path )
+		);
+	}
+
+	/**
+	 * Register a new block category for CCBPress.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @return void
+	 */
+	public static function block_categories( $categories, $post ) {
+		return array_merge(
+			$categories,
+			array(
+				array(
+					'slug' => 'ccbpress',
+					'title' => __( 'CCBPress', 'ccbpress-core' ),
+				),
+			)
 		);
 	}
 }
