@@ -174,6 +174,22 @@ class CCBPress_Admin_Pages {
 		<hr />
 		<div class="feature-section one-col">
 			<div class="col">
+				<h2><?php esc_html_e( 'Gutenberg Blocks', 'ccbpress-core' ); ?></h2>
+				<p class="lead-description"><?php esc_html_e( 'Blocks to display your content.', 'ccbpress-core' ); ?></p>
+			</div>
+		</div>
+		<div class="feature-section two-col">
+			<div class="col">
+				<h3><?php esc_html_e( 'Blocks', 'ccbpress-core' ); ?></h3>
+				<p><?php esc_html_e( 'Our goal with CCBPress is to make it as easy as possible for churches to display content from Church Community Builder on their WordPress websites.', 'ccbpress-core' ); ?></p>
+			</div>
+			<div class="col">
+				<img src="<?php echo esc_attr( CCBPRESS_CORE_PLUGIN_URL ) . '/assets/images/blocks.png'; ?>" />
+			</div>
+		</div>
+		<hr />
+		<div class="feature-section one-col">
+			<div class="col">
 				<h2><?php esc_html_e( 'Widgets', 'ccbpress-core' ); ?></h2>
 				<p class="lead-description"><?php esc_html_e( 'We have widgets to display a variety of information.', 'ccbpress-core' ); ?></p>
 			</div>
@@ -255,9 +271,8 @@ class CCBPress_Admin_Pages {
 		<hr />
 		<div class="feature-section two-col">
 			<div class="col">
-				<h3><?php esc_html_e( '3. Add Some Widgets', 'ccbpress-core' ); ?></h3>
-				<p><?php esc_html_e( 'You are now ready to use any of the widgets that come with CCBPress.', 'ccbpress-core' ); ?></p>
-				<p><a class="button" href="<?php echo esc_url( admin_url( 'widgets.php' ) ); ?>"><?php esc_html_e( 'Manage Widgets', 'ccbpress-core' ); ?></a></p>
+				<h3><?php esc_html_e( '3. Add Some Blocks or Widgets', 'ccbpress-core' ); ?></h3>
+				<p><?php esc_html_e( 'You are now ready to use any of the blocks and widgets that come with CCBPress.', 'ccbpress-core' ); ?></p>
 			</div>
 		</div>
 		<hr />
