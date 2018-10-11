@@ -258,7 +258,7 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 				return;
 			}
 
-			printf( '<div class="notice notice-warning"><p>%s %s</p></div>', __( 'CCBPress may not work properly because the DISABLE_WP_CRON constant is set to true.', 'ccbpress-core' ), sprintf( '<a href="#" class="ccbpress-cron-help">%s</a>', esc_html__( 'Get More Info', 'ccbpress-core' ) ) );
+			printf( '<div class="notice notice-warning"><p>%s %s</p></div>', __( 'CCBPress may not work properly because the DISABLE_WP_CRON constant is set to true.', 'ccbpress-core' ), sprintf( '<a href="#" class="ccbpress-cron-help">%s</a>', esc_html__( 'Get more info.', 'ccbpress-core' ) ) );
 		}
 
 		/**
