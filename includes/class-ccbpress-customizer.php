@@ -46,8 +46,8 @@ if ( ! class_exists( 'CCBPress_Customizer' ) ) :
 			/**
 			 * Church Community Builder Forms Section
 			 */
-			$wp_customize->add_section( 'ccbpress_ccb_forms', array(
-				'title'			=> __( 'Church Community Builder Forms', 'ccbpress-core' ),
+			$wp_customize->add_section( 'ccbpress_ccb_links', array(
+				'title'			=> __( 'Church Community Builder Links', 'ccbpress-core' ),
 				'panel'			=> 'ccbpress-core',
 				'priority'		=> 120,
 			) );
@@ -57,10 +57,10 @@ if ( ! class_exists( 'CCBPress_Customizer' ) ) :
 			/**
 			 * Lightbox
 			 */
-			$wp_customize->add_setting( 'ccbpress_ccb_forms_lightbox', array(
+			$wp_customize->add_setting( 'ccbpress_ccb_links_forms', array(
 				'type'		=> 'option',
 				'transport'	=> 'refresh',
-				'default'	=> 'none',
+				'default'	=> 'lightbox',
 			) );
 		}
 
@@ -68,14 +68,14 @@ if ( ! class_exists( 'CCBPress_Customizer' ) ) :
 			/**
 			 * Lightbox
 			 */
-			$wp_customize->add_control( 'ccbpress_ccb_forms_lightbox', array(
-				'label'			=> __( 'Lightbox', 'ccbpress-core' ),
-				'description'	=> __( '<p>This will add the appropriate code on each link to enable a lightbox iframe. Additional setup may be necessary depending on the plugin.</p><p>The following lightbox plugin(s) are currently supported: <a href="http://wordpress.org/extend/plugins/easy-fancybox/">Easy Fancybox</a></p>', 'ccbpress-core' ),
+			$wp_customize->add_control( 'ccbpress_ccb_links_forms', array(
+				'label'			=> __( 'Form Links', 'ccbpress-core' ),
+				'description'	=> __( '<p>How would you like to open links to Church Community Builder forms?</p>', 'ccbpress-core' ),
 				'type'			=> 'radio',
-				'section'		=> 'ccbpress_ccb_forms',
+				'section'		=> 'ccbpress_ccb_links',
 				'choices'		=> array(
-					'none'			=> __( 'None', 'ccbpress-core' ),
-					'easy-fancybox'	=> __( 'Easy Fancybox', 'ccbpress-core' ),
+					'link'			=> __( 'Link', 'ccbpress-core' ),
+					'lightbox'	=> __( 'Lightbox', 'ccbpress-core' ),
 				),
 			) );
 		}

@@ -101,7 +101,7 @@
 					 */
 					if ( $template->is_form_active( $registration_form ) ) : ?>
 						<div class="ccbpress-group-info-registration-form">
-							<a href="<?php echo $registration_form->url; ?>" class="<?php echo $template->lightbox_class(); ?>">
+							<a href="<?php echo $registration_form->url; ?>"<?php echo $template->form_link_attributes(); ?>>
 								<?php echo $registration_form->name; ?>
 							</a>
 						</div>

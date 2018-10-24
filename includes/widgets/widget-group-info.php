@@ -51,6 +51,9 @@ if ( ! class_exists( 'CCBPress_Widget_Group_Info' ) ) :
 		 */
 		public function widget( $args, $instance ) {
 
+			wp_enqueue_style( 'lity' );
+			wp_enqueue_script( 'lity' );
+
 			$group_id = '';
 			if ( isset( $instance['group_id'] ) ) {
 				$group_id = $instance['group_id'];
@@ -653,7 +656,8 @@ class CCBPress_Widget_Group_Info_Template extends CCBPress_Template {
 	/**
 	 * Return the lightbox class
 	 *
-	 * @since 2.0.0
+	 * @since 1.0.0
+	 * @deprecated 1.3.0
 	 *
 	 * @return string	The lightbox class.
 	 */
@@ -672,6 +676,28 @@ class CCBPress_Widget_Group_Info_Template extends CCBPress_Template {
 
 		}
 
+	}
+
+	/**
+	 * Return the lightbox class
+	 *
+	 * @since 1.3.0
+	 *
+	 * @return string	The form link attributes.
+	 */
+	public function form_link_attributes() {
+		// Retrieve the lightbox settings from the plugin options.
+		switch ( get_option( 'ccbpress_ccb_links_forms', 'lightbox' ) ) {
+
+			case 'lightbox':
+				return ' data-lity';
+				break;
+
+			default:
+				return '';
+				break;
+
+		}
 	}
 
 	public function detail_styles( $group ) {
