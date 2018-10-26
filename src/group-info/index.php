@@ -181,8 +181,8 @@ class CCBPress_Core_Group_Info_Block {
 			return;
 		}
 
-		wp_enqueue_style( 'lity' );
-		wp_enqueue_script( 'lity' );
+		wp_enqueue_style( 'featherlight' );
+		wp_enqueue_script( 'featherlight' );
 
 		$group_id = $attributes['groupId'];
 
