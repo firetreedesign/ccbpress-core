@@ -74,8 +74,14 @@ class CCBPress_Core_Group_Info_Block {
 	 * @return array
 	 */
 	public static function rest_api_groups( WP_REST_Request $request ) {
+		$groups_array = array();
+		
 		if ( has_filter( 'ccbpress_rest_api_admin_groups' ) ) {
 			$ccb_groups = apply_filters( 'ccbpress_rest_api_admin_groups', array() );
+
+			foreach ( $ccb_groups as $group ) {
+				$groups_array[] = array( 'id' => (string) $group['id'], 'name' => (string) $group->name );
+			}
 		} else {
 			$ccb_groups = CCBPress()->ccb->get( array(
 				'cache_lifespan'	=> 2880,
@@ -86,17 +92,16 @@ class CCBPress_Core_Group_Info_Block {
 					'modified_since'		=> (string) date( 'Y-m-d', strtotime( '-5 months' ) ),
 				),
 			) );
+
+			if ( ! $ccb_groups ) {
+				return new WP_Error( 'ccbpress-core', 'No groups found.' );
+			}
+
+			foreach ( $ccb_groups->response->groups->group as $group ) {
+				$groups_array[] = array( 'id' => (string) $group['id'], 'name' => (string) $group->name );
+			}
 		}
 
-		if ( ! $ccb_groups ) {
-			return new WP_Error( 'ccbpress-core', 'No groups found.' );
-		}
-
-		$groups_array = array();
-
-		foreach ( $ccb_groups->response->groups->group as $group ) {
-			$groups_array[] = array( 'id' => (string) $group['id'], 'name' => (string) $group->name );
-		}
 		unset( $ccb_groups );
 
 		usort($groups_array, function($a, $b) {
