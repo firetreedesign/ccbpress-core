@@ -66,7 +66,7 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 	     * @var string
 	     * @since 1.0.0
 	     */
-	    public $version = '1.2.2';
+	    public $version = '1.3.0';
 
 		/**
 	     * Main CCBPress_Core Instance

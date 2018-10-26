@@ -1,10 +1,10 @@
 === CCBPress Core ===
 Contributors: firetree, danielmilner
-Tags: church, ccb, church community builder, chms
+Tags: church, ccb, church community builder, chms, gutenberg
 Requires at least: 4.3
-Tested up to: 4.9
+Tested up to: 5.0
 Requires PHP: 5.3
-Stable tag: 1.2.2
+Stable tag: 1.3.0
 License: GPLv2 or later
 License URI: http://ww.gnu.org/licenses/gpl-2.0.html
 
@@ -20,9 +20,9 @@ Requires a [Church Community Builder](http://churchcommunitybuilder.com/) accoun
 
 = Features: =
 * API Status Dashboard Widget
-* Group Information Widget
-* CCB Login Widget
-* Online Giving Widget
+* Group Information Block and Widget
+* CCB Login Block and Widget
+* Online Giving Block and Widget
 
 = Do More With Add-ons =
 
@@ -44,6 +44,12 @@ Extend the capabilities of CCBPress with these add-ons:
 2. Getting Started
 
 == Changelog ==
+
+= 1.3.0 =
+* New Gutenberg blocks for Group Information, Online Giving, and CCB Login. (Gutenberg will be coming in WordPress 5.0.)
+* New lightbox settings for form links.
+* Enhancement that checks if WP Cron is disabled and shows an alert with information on how it affects CCBPress.
+* Fixed a bug where forms that were not marked Public were not displayed.
 
 = 1.2.2 =
 * Fixed the support form embedded on the plugin pages.
