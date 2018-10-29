@@ -51,14 +51,48 @@ if ( ! class_exists( 'CCBPress_Widget_Group_Info' ) ) :
 		 */
 		public function widget( $args, $instance ) {
 
-			$group_id 							= $instance['group_id'];
-			$show_group_name 					= $instance['show_group_name'];
-			$show_group_description 			= $instance['show_group_description'];
-			$show_group_image 					= $instance['show_group_image'];
-			$show_group_leader_card 			= $instance['show_group_leader_card'];
-			$show_group_leader_phone_numbers	= $instance['show_group_leader_phone_numbers'];
-			$show_group_leader_email			= $instance['show_group_leader_email'];
-			$show_group_registration_forms 		= $instance['show_group_registration_forms'];
+			wp_enqueue_style( 'featherlight' );
+			wp_enqueue_script( 'featherlight' );
+
+			$group_id = '';
+			if ( isset( $instance['group_id'] ) ) {
+				$group_id = $instance['group_id'];
+			}
+
+			$show_group_name = 'show';
+			if ( isset( $instance['show_group_name'] ) ) {
+				$show_group_name = $instance['show_group_name'];
+			}
+			
+			$show_group_description = 'show';
+			if ( isset( $instance['show_group_description'] ) ) {
+				$show_group_description = $instance['show_group_description'];
+			}
+			
+			$show_group_image = 'show';
+			if ( isset( $instance['show_group_image'] ) ) {
+				$show_group_image = $instance['show_group_image'];
+			}
+			
+			$show_group_leader_card = 'show';
+			if ( isset( $instance['show_group_leader_card'] ) ) {
+				$show_group_leader_card = $instance['show_group_leader_card'];
+			}
+			
+			$show_group_leader_phone_numbers = 'show';
+			if ( isset( $instance['show_group_leader_phone_numbers'] ) ) {
+				$show_group_leader_phone_numbers = $instance['show_group_leader_phone_numbers'];
+			}
+			
+			$show_group_leader_email = 'show';
+			if ( isset( $instance['show_group_leader_email'] ) ) {
+				$show_group_leader_email = $instance['show_group_leader_email'];
+			}
+			
+			$show_group_registration_forms = 'show';
+			if ( isset( $instance['show_group_registration_forms'] ) ) {
+				$show_group_registration_forms = $instance['show_group_registration_forms'];
+			}
 
 			// Build the query to get the data from CCB.
 			$ccbpress_data = false;
@@ -108,8 +142,10 @@ if ( ! class_exists( 'CCBPress_Widget_Group_Info' ) ) :
 				$group->widget_options->show_group_leader_phone_numbers	= $show_group_leader_phone_numbers;
 				$group->widget_options->show_group_registration_forms	= $show_group_registration_forms;
 
+				echo '<div class="wp-block-ccbpress-group-info">';
 				// Echo the group data and apply any filters.
 				echo $this->ccbpress_get_template( $group );
+				echo '</div>';
 
 			}
 
@@ -528,10 +564,15 @@ class CCBPress_Widget_Group_Info_Template extends CCBPress_Template {
 			return false;
 		}
 
+		$any_active = false;
 		foreach ( $group->registration_forms->form as $registration_form ) {
-			if ( ! $this->is_form_active( $registration_form ) ) {
-				return false;
+			if ( $this->is_form_active( $registration_form ) ) {
+				$any_active = true;
 			}
+		}
+
+		if ( ! $any_active ) {
+			return false;
 		}
 
 		return true;
@@ -548,7 +589,6 @@ class CCBPress_Widget_Group_Info_Template extends CCBPress_Template {
 	 * @return boolean	True/False.
 	 */
 	public function is_form_active( $registration_form ) {
-
 		return CCBPress()->ccb->is_form_active( (string) $registration_form['id'] );
 
 	}
@@ -616,7 +656,8 @@ class CCBPress_Widget_Group_Info_Template extends CCBPress_Template {
 	/**
 	 * Return the lightbox class
 	 *
-	 * @since 2.0.0
+	 * @since 1.0.0
+	 * @deprecated 1.3.0
 	 *
 	 * @return string	The lightbox class.
 	 */
@@ -634,6 +675,50 @@ class CCBPress_Widget_Group_Info_Template extends CCBPress_Template {
 				break;
 
 		}
+
+	}
+
+	/**
+	 * Return the lightbox class
+	 *
+	 * @since 1.3.0
+	 * 
+	 * @param string $class Additional class names.
+	 *
+	 * @return string	The form link attributes.
+	 */
+	public function form_link_class( $class = '' ) {
+
+		$class_array = [];
+
+		if ( strlen( trim( $class ) ) > 0 ) {
+			$class_array[] = trim( $class );
+		}
+		// Retrieve the lightbox settings from the plugin options.
+		switch ( get_option( 'ccbpress_ccb_links_forms', 'lightbox' ) ) {
+
+			case 'lightbox':
+				$class_array[] = 'ccbpress-lightbox';
+				break;
+
+		}
+
+		return implode( ' ', $class_array );
+	}
+
+	public function detail_styles( $group ) {
+
+		$style = '';
+
+		if ( isset( $group->block_options->box_background_color ) ) {
+			$style .= 'background-color: ' . $group->block_options->box_background_color . ';';
+		}
+
+		if ( isset( $group->block_options->box_border_color ) ) {
+			$style .= 'border-color: ' . $group->block_options->box_border_color . ';';
+		}
+
+		return $style;
 
 	}
 

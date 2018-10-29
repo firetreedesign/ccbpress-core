@@ -4,6 +4,12 @@ jQuery(document).ready(function($) {
     return false;
   });
 
+  jQuery(".ccbpress-cron-help").click(function() {
+    jQuery("button#contextual-help-link").trigger("click");
+    jQuery("#tab-link-ccbpress-cron > a").trigger("click");
+    return false;
+  });
+
   jQuery("#ccbpress-ccb-service-check-button").click(function() {
     jQuery("#ccbpress-ccb-service-check-button")
       .text(ccbpress_vars.messages.running)

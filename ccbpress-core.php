@@ -3,7 +3,7 @@
  * Plugin Name: CCBPress Core
  * Plugin URI: https://ccbpress.com/
  * Description: Display information from Church Community Builder on your WordPress site.
- * Version: 1.2.2
+ * Version: 1.3.0
  * Author: CCBPress <info@ccbpress.com>
  * Author URI: https://ccbpress.com/
  * Text Domain: ccbpress-core
@@ -66,7 +66,7 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 	     * @var string
 	     * @since 1.0.0
 	     */
-	    public $version = '1.2.2';
+	    public $version = '1.3.0';
 
 		/**
 	     * Main CCBPress_Core Instance
@@ -170,6 +170,9 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/class-ccbpress-background-get.php';
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/import.php';
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/upgrades.php';
+			
+			// Blocks.
+			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/blocks.php';
 
 			if ( is_admin() ) {
 				require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/admin-page-tabs.php';
@@ -194,6 +197,10 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 
 			if ( false === get_option( 'ccbpress_import_in_progress', false ) ) {
 				add_action( 'ccbpress_maintenance', array( 'CCBPress_Core', 'schedule_cron' ) );
+			}
+
+			if ( defined( 'DISABLE_WP_CRON' ) && true === DISABLE_WP_CRON ) {
+				add_action( 'admin_notices', array( 'CCBPress_Core', 'cron_disabled' ) );
 			}
 		}
 
@@ -227,6 +234,31 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 			wp_clear_scheduled_hook( 'ccbpress_maintenance' );
 			wp_clear_scheduled_hook( 'ccbpress_import' );
 			wp_clear_scheduled_hook( 'ccbpress_transient_cache_cleanup' );
+		}
+
+		/**
+		 * Display a warning that cron is disabled
+		 * 
+		 * @since 1.3.0
+		 * 
+		 * @return void
+		 */
+		public static function cron_disabled() {
+			global $pagenow;
+			
+			if ( 'admin.php' !== $pagenow ) {
+				return;
+			}
+
+			if ( ! isset( $_GET['page'] ) ) {
+				return;
+			}
+
+			if ( 'ccbpress-settings' !== $_GET['page'] ) {
+				return;
+			}
+
+			printf( '<div class="notice notice-warning"><p>%s %s</p></div>', __( 'CCBPress may not work properly because the DISABLE_WP_CRON constant is set to true.', 'ccbpress-core' ), sprintf( '<a href="#" class="ccbpress-cron-help">%s</a>', esc_html__( 'Get more info.', 'ccbpress-core' ) ) );
 		}
 
 		/**

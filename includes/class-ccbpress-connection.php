@@ -133,6 +133,7 @@ class CCBPress_Connection {
 	 */
 	public function actions() {
 		add_action( 'ccbpress_after_get_group_profile_from_id', array( $this, 'cache_image_group_profile_from_id' ), 10, 2 );
+		add_action( 'ccbpress_after_get_individual_profile_from_id', array( $this, 'cache_image_individual_profile_from_id' ), 10, 2 );
 	}
 
 	/**
@@ -723,6 +724,33 @@ class CCBPress_Connection {
 	}
 
 	/**
+	 * Cache individual_profile_from_id image
+	 *
+	 * @since 1.3.0
+	 *
+	 * @param  object $data	Data from Church Community Builder.
+	 * @param  array  $args Import job item.
+	 *
+	 * @return void
+	 */
+	public function cache_image_individual_profile_from_id( $data, $args ) {
+
+		if ( ! isset( $data->response->individuals->individual->image ) ) {
+			return;
+		}
+
+		$image_url = $data->response->individuals->individual->image;
+
+		if ( false !== strpos( $image_url, 'profile-default' ) ) {
+			return;
+		}
+
+		$image_id = $data->response->individuals->individual['id'];
+		$this->cache_image( $image_url, $image_id, 'individual' );
+
+	}
+
+	/**
 	 * Retrieves the URL to a cached image
 	 *
 	 * @param   string $image_id   The ID of the image.
@@ -794,11 +822,11 @@ class CCBPress_Connection {
 					break;
 				}
 
-				// Is the form not public?
-				if ( 'false' === (string) $form->public ) {
-					$is_valid = false;
-					break;
-				}
+				// // Is the form not public?
+				// if ( 'false' === (string) $form->public ) {
+				// 	$is_valid = false;
+				// 	break;
+				// }
 
 				// Has the form been published?
 				if ( 'false' === (string) $form->published ) {
