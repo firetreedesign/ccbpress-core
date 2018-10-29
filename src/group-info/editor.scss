@@ -1,0 +1,20 @@
+/**
+ * #.# Editor Styles
+ *
+ * CSS for just Backend enqueued after style.scss
+ * which makes it higher in priority.
+ */
+
+ .wp-block-ccbpress-group-info {
+    .ccbpress-group-info-name {
+        font-size: 1.3em; font-weight: bold;
+    }
+    .ccbpress-group-info-desc {
+        padding: 10px 0; margin-bottom: 0;
+    }
+    .ccbpress-group-info-leader-title,
+    .ccbpress-group-info-registration-forms-title { font-weight: bold; padding: 10px 0; }
+    .ccbpress-group-info-leader-phone {
+        font-style: italic;
+    }
+ }

@@ -1,0 +1,50 @@
+/**
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
+ */
+
+.wp-block-ccbpress-group-info {
+  .ccbpress-group-info-image {
+    width: 100%;
+    height: auto;
+  }
+  .ccbpress-group-info-name {
+    font-size: 1.3em;
+    font-weight: bold;
+  }
+  .ccbpress-group-info-details {
+    margin-top: 20px;
+    padding: 10px;
+    font-size: 0.8em;
+    background-color: rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-gap: 20px;
+    &:empty {
+      display: none;
+    }
+  }
+  .ccbpress-group-info-leader-title,
+  .ccbpress-group-info-registration-forms-title {
+    font-weight: bold;
+    font-size: 1.1em;
+    margin-bottom: 2px;
+  }
+  .ccbpress-group-info-leader-container {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    & > img {
+      margin-right: 5px;
+    }
+  }
+  .ccbpress-group-info-leader-image {
+    width: 30px;
+    height: 30px;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+}
