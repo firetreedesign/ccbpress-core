@@ -89,17 +89,24 @@ class CCBPress_Import {
 			return;
 		}
 
+		// Make sure that the queue is empty before scheduling another import.
+		if ( ! self::is_queue_empty() ) {
+			self::reset();
+			self::reschedule();
+			return;
+		}
+
 		update_option( 'ccbpress_current_import', date( 'Y-m-d H:i:s', current_time( 'timestamp' ) ) );
 
 		foreach ( $jobs as $job ) {
 			do_action( 'ccbpress_import_job_queued', $job );
-			CCBPress()->get->push_to_queue( $job );
+			CCBPress()->get->push_to_queue( $job )->save();
 		}
 
 		wp_clear_scheduled_hook( 'ccbpress_import' );
 
 		do_action( 'ccbpress_import_jobs_dispatched' );
-		CCBPress()->get->save()->dispatch();
+		CCBPress()->get->dispatch();
 
 	}
 
@@ -220,12 +227,40 @@ class CCBPress_Import {
 
 		$last_import = get_option( 'ccbpress_last_import', 'Never' );
 		if ( 'Never' === $last_import ) {
-			// echo esc_html( $last_import );
 			wp_send_json( $last_import );
 		} else {
-			// echo esc_html( human_time_diff( strtotime( 'now', current_time( 'timestamp' ) ), strtotime( $last_import, current_time( 'timestamp' ) ) ) . ' ago' );
 			wp_send_json( esc_html( human_time_diff( strtotime( 'now', current_time( 'timestamp' ) ), strtotime( $last_import, current_time( 'timestamp' ) ) ) . ' ago' ) );
 		}
+	}
+
+	/**
+	 * Check if the queue is empty
+	 * 
+	 * @since 1.3.2
+	 * 
+	 * @return boolean
+	 */
+	public static function is_queue_empty() {
+		
+		global $wpdb;
+		
+		$table  = $wpdb->options;
+		$column = 'option_name';
+		
+		if ( is_multisite() ) {
+			$table  = $wpdb->sitemeta;
+			$column = 'meta_key';
+		}
+		
+		$key = $wpdb->esc_like( 'wp_ccbpress_get_batch_' ) . '%';
+		$count = $wpdb->get_var( $wpdb->prepare( "
+			SELECT COUNT(*)
+			FROM {$table}
+			WHERE {$column} LIKE %s
+		", $key ) );
+		
+		return ( $count > 0 ) ? false : true;
+
 	}
 
 }
