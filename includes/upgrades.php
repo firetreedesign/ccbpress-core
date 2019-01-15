@@ -38,6 +38,11 @@ class CCBPress_Upgrades {
 			self::v1_1_11_upgrade();
 		}
 
+		// Version is before 1.3.2
+		if ( version_compare( $version, '1.3.2', '<' ) ) {
+			self::v1_3_2_upgrade();
+		}
+
 		update_option( 'ccbpress_core_db_version', CCBPRESS_CORE_DB_VERSION );
 
 	}
@@ -45,6 +50,21 @@ class CCBPress_Upgrades {
 	private static function v1_1_11_upgrade() {
 		call_user_func( array( 'CCBPress_Core', 'unschedule_cron' ) );
 		call_user_func( array( 'CCBPress_Core', 'schedule_cron' ) );
+	}
+
+	private static function v1_3_2_upgrade() {
+		global $wpdb;
+		
+		$table  = $wpdb->options;
+		$column = 'option_name';
+		$key = 'wp_ccbpress_get_batch_%';
+		
+		if ( is_multisite() ) {
+			$table  = $wpdb->sitemeta;
+			$column = 'meta_key';
+		}
+
+		$wpdb->query( $wpdb->prepare( "DELETE FROM $table WHERE $column LIKE %s", $key ) );
 	}
 
 }

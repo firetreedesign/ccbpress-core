@@ -34,4 +34,15 @@ if ( isset( $ccbpress_settings['remove_data'] ) ) {
 	delete_option( 'ccbpress_cancel_import' );
 	delete_option( 'ccbpress_current_import' );
 
+	// Delete any left-over import jobs.
+	global $wpdb;	
+	$table  = $wpdb->options;
+	$column = 'option_name';
+	$key = 'wp_ccbpress_get_batch_%';
+	if ( is_multisite() ) {
+		$table  = $wpdb->sitemeta;
+		$column = 'meta_key';
+	}
+	$wpdb->query( $wpdb->prepare( "DELETE FROM $table WHERE $column LIKE %s", $key ) );
+
 }
