@@ -52,7 +52,7 @@ class CCBPress_Core_Blocks {
 		wp_enqueue_style(
 			'ccbpress-core-blocks-css', // Handle.
 			plugins_url( $style_path, CCBPRESS_CORE_PLUGIN_FILE ), // Block style CSS.
-            array( 'wp-blocks' ), // Dependency to include the CSS after it.
+            array(), // Dependency to include the CSS after it.
             filemtime( plugin_dir_path( CCBPRESS_CORE_PLUGIN_FILE ) . $style_path )
 		);
 	}
@@ -73,7 +73,7 @@ class CCBPress_Core_Blocks {
 		wp_enqueue_script(
 			'ccbpress-core-block-js', // Handle.
 			plugins_url( $editor_block_path, CCBPRESS_CORE_PLUGIN_FILE ), // Block.build.js: We register the block here. Built with Webpack.
-            array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-components' ), // Dependencies, defined above.
+            array('wp-i18n', 'wp-element', 'wp-components' ), // Dependencies, defined above.
             filemtime( plugin_dir_path( CCBPRESS_CORE_PLUGIN_FILE ) . $editor_block_path )
 		);
 
@@ -91,7 +91,7 @@ class CCBPress_Core_Blocks {
 		wp_enqueue_style(
 			'ccbpress-core-block-editor-css', // Handle.
 			plugins_url( $editor_style_path, CCBPRESS_CORE_PLUGIN_FILE ), // Block editor CSS.
-            array( 'wp-blocks' ), // Dependency to include the CSS after it.
+            array(), // Dependency to include the CSS after it.
             filemtime( plugin_dir_path( CCBPRESS_CORE_PLUGIN_FILE ) . $editor_style_path )
 		);
 	}
