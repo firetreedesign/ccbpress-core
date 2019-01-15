@@ -3,7 +3,7 @@
  * Plugin Name: CCBPress Core
  * Plugin URI: https://ccbpress.com/
  * Description: Display information from Church Community Builder on your WordPress site.
- * Version: 1.3.1
+ * Version: 1.3.2
  * Author: CCBPress <info@ccbpress.com>
  * Author URI: https://ccbpress.com/
  * Text Domain: ccbpress-core
@@ -66,7 +66,7 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 	     * @var string
 	     * @since 1.0.0
 	     */
-	    public $version = '1.3.1';
+	    public $version = '1.3.2';
 
 		/**
 	     * Main CCBPress_Core Instance
@@ -114,7 +114,7 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 
 			// Plugin Database Version.
 			if ( ! defined( 'CCBPRESS_CORE_DB_VERSION' ) ) {
-				define( 'CCBPRESS_CORE_DB_VERSION', '1.0.1' );
+				define( 'CCBPRESS_CORE_DB_VERSION', CCBPress()->version );
 			}
 
 			// Plugin File.
@@ -202,6 +202,10 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 			if ( defined( 'DISABLE_WP_CRON' ) && true === DISABLE_WP_CRON ) {
 				add_action( 'admin_notices', array( 'CCBPress_Core', 'cron_disabled' ) );
 			}
+
+			if ( defined( 'ALTERNATE_WP_CRON' ) && true === ALTERNATE_WP_CRON ) {
+				add_action( 'admin_notices', array( 'CCBPress_Core', 'cron_alternate' ) );
+			}
 		}
 
 		/**
@@ -217,7 +221,7 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 				wp_schedule_event( current_time( 'timestamp' ) + 1800, 'hourly', 'ccbpress_maintenance' );
 			}
 
-			if ( false === wp_next_scheduled( 'ccbpress_import' ) && false === get_option( 'ccbpress_import_in_progress', false ) ) {
+			if ( false === wp_next_scheduled( 'ccbpress_import' ) && false === get_option( 'ccbpress_import_in_progress', false ) && CCBPress()->get->is_queue_empty() ) {
 				wp_schedule_single_event( current_time( 'timestamp' ), 'ccbpress_import' );
 			}
 
@@ -259,6 +263,31 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 			}
 
 			printf( '<div class="notice notice-warning"><p>%s %s</p></div>', __( 'CCBPress may not work properly because the DISABLE_WP_CRON constant is set to true.', 'ccbpress-core' ), sprintf( '<a href="#" class="ccbpress-cron-help">%s</a>', esc_html__( 'Get more info.', 'ccbpress-core' ) ) );
+		}
+
+		/**
+		 * Display a warning that alternative cron is enabled
+		 * 
+		 * @since 1.3.2
+		 * 
+		 * @return void
+		 */
+		public static function cron_alternate() {
+			global $pagenow;
+			
+			if ( 'admin.php' !== $pagenow ) {
+				return;
+			}
+
+			if ( ! isset( $_GET['page'] ) ) {
+				return;
+			}
+
+			if ( 'ccbpress-settings' !== $_GET['page'] ) {
+				return;
+			}
+
+			printf( '<div class="notice notice-warning"><p>%s %s</p></div>', __( 'CCBPress may not work properly because the ALTERNATE_WP_CRON constant is set to true.', 'ccbpress-core' ), sprintf( '<a href="#" class="ccbpress-cron-help">%s</a>', esc_html__( 'Get more info.', 'ccbpress-core' ) ) );
 		}
 
 		/**

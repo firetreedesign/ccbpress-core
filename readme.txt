@@ -4,7 +4,7 @@ Tags: church, ccb, church community builder, chms, gutenberg
 Requires at least: 4.3
 Tested up to: 5.0
 Requires PHP: 5.3
-Stable tag: 1.3.1
+Stable tag: 1.3.2
 License: GPLv2 or later
 License URI: http://ww.gnu.org/licenses/gpl-2.0.html
 
@@ -44,6 +44,13 @@ Extend the capabilities of CCBPress with these add-ons:
 2. Getting Started
 
 == Changelog ==
+
+= 1.3.2 =
+* Fixed an issue where duplicate import jobs could be scheduled.
+* Fixed a dependancy issue with the Gutenberg blocks.
+* Adjusted the wait time from 1 second to 5 seconds when encountering a rate limit with Church Community Builder's API.
+* Adjusted the import status update time from every 5 seconds to every 10 seconds.
+* Adjusted the import health check time from every 5 minutes to every 10 minutes.
 
 = 1.3.1 =
 * Some files were missing from the final build.

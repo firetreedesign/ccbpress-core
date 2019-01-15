@@ -382,7 +382,7 @@ class CCBPress_Admin_Pages {
 			}
 		}
 
-		if ( defined( 'DISABLE_WP_CRON' ) && true === DISABLE_WP_CRON ) {
+		if ( ( defined( 'DISABLE_WP_CRON' ) && true === DISABLE_WP_CRON ) || ( defined( 'ALTERNATE_WP_CRON' ) && true === ALTERNATE_WP_CRON ) ) {
 			// WP Cron help
 			$screen->add_help_tab( array(
 				'id' => 'ccbpress-cron',
