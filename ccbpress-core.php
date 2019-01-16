@@ -3,7 +3,7 @@
  * Plugin Name: CCBPress Core
  * Plugin URI: https://ccbpress.com/
  * Description: Display information from Church Community Builder on your WordPress site.
- * Version: 1.3.2
+ * Version: 1.3.3
  * Author: CCBPress <info@ccbpress.com>
  * Author URI: https://ccbpress.com/
  * Text Domain: ccbpress-core
@@ -66,7 +66,7 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 	     * @var string
 	     * @since 1.0.0
 	     */
-	    public $version = '1.3.2';
+	    public $version = '1.3.3';
 
 		/**
 	     * Main CCBPress_Core Instance
@@ -221,7 +221,7 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 				wp_schedule_event( current_time( 'timestamp' ) + 1800, 'hourly', 'ccbpress_maintenance' );
 			}
 
-			if ( false === wp_next_scheduled( 'ccbpress_import' ) && false === get_option( 'ccbpress_import_in_progress', false ) && CCBPress()->get->is_queue_empty() ) {
+			if ( false === wp_next_scheduled( 'ccbpress_import' ) && false === get_option( 'ccbpress_import_in_progress', false ) && CCBPress_Import::is_queue_empty() ) {
 				wp_schedule_single_event( current_time( 'timestamp' ), 'ccbpress_import' );
 			}
 
