@@ -90,6 +90,8 @@ class CCBPress_Admin_Scripts {
 				'process_running' => __( 'Process is running...', 'ccbpress-core' ),
 				'reset_import_confirmation' => __( 'Are you sure that you want to reset the last import time?', 'ccbpress-core' ),
 			),
+			'api_url' => site_url( '/wp-json/' ),
+			'api_nonce' => wp_create_nonce( 'wp_rest' ),
 		) );
 
 		$current_user = wp_get_current_user();

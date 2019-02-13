@@ -28,9 +28,6 @@ class CCBPress_Import {
 		add_action( 'ccbpress_import_job_queued',		__CLASS__ . '::import_job_queued' );
 		add_action( 'ccbpress_import_jobs_dispatched',	__CLASS__ . '::import_jobs_dispatched' );
 		add_action( 'ccbpress_background_get_complete', __CLASS__ . '::import_complete' );
-		add_action( 'wp_ajax_ccbpress_import',			__CLASS__ . '::ajax_run' );
-		add_action( 'wp_ajax_ccbpress_import_status',	__CLASS__ . '::ajax_status' );
-		add_action( 'wp_ajax_ccbpress_last_import',		__CLASS__ . '::ajax_last_import' );
 	}
 
 	/**
@@ -159,78 +156,6 @@ class CCBPress_Import {
 		 */
 		self::reschedule();
 
-	}
-
-	/**
-	 * Run the import via ajax
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return void
-	 */
-	public static function ajax_run() {
-
-		if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'ccbpress-nonce' ) ) {
-			die( esc_html__( 'Insufficient Permissions', 'ccbpress-core' ) );
-		}
-
-		self::run();
-
-		wp_send_json( 'started' );
-
-	}
-
-	/**
-	 * Get the status via ajax
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return void
-	 */
-	public static function ajax_status() {
-
-		if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'ccbpress-nonce' ) ) {
-			die( esc_html__( 'Insufficient Permissions', 'ccbpress-core' ) );
-		}
-
-		$status = array();
-		$progress = get_option( 'ccbpress_import_in_progress', false );
-
-		if ( false === $progress ) {
-			wp_send_json( 'false' );
-		}
-
-		array_push( $status, array(
-			'text' => $progress,
-			'element'	=> 'strong',
-		) );
-		array_push( $status, array(
-			'text'		=> esc_html__( 'Import is running in the background. Leaving this page will not interrupt the process.', 'ccbpress-core' ),
-			'element'	=> 'i',
-		) );
-
-		wp_send_json( $status );
-	}
-
-	/**
-	 * Get the last import via ajax
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return void
-	 */
-	public static function ajax_last_import() {
-
-		if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'ccbpress-nonce' ) ) {
-			die( esc_html__( 'Insufficient Permissions', 'ccbpress-core' ) );
-		}
-
-		$last_import = get_option( 'ccbpress_last_import', 'Never' );
-		if ( 'Never' === $last_import ) {
-			wp_send_json( $last_import );
-		} else {
-			wp_send_json( esc_html( human_time_diff( strtotime( 'now', current_time( 'timestamp' ) ), strtotime( $last_import, current_time( 'timestamp' ) ) ) . ' ago' ) );
-		}
 	}
 
 	/**

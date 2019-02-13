@@ -8,6 +8,7 @@ class CCBPress_Admin_Page_Tabs {
 		add_filter( 'ccbpress_settings_page_tabs', array( $this, 'settings_page_tabs_late' ), 100 );
 		add_filter( 'ccbpress_settings_page_tabs', array( $this, 'settings_page_tabs' ) );
 		add_filter( 'ccbpress_settings_page_actions', array( $this, 'settings_page_actions' ) );
+		add_filter( 'ccbpress_tools_page_tabs', array( $this, 'tools_page_tabs' ) );
 	}
 
 	public function settings_page_tabs( $tabs ) {
@@ -76,6 +77,23 @@ class CCBPress_Admin_Page_Tabs {
 		);
 
 		return $actions;
+
+	}
+
+	public function tools_page_tabs( $tabs ) {
+
+		if ( CCBPress()->ccb->is_connected() ) {
+
+			$tabs[] = array(
+				'tab_id'		=> 'cache',
+				'settings_id'	=> 'ccbpress_tools_cache',
+				'title'			=> __( 'Cache', 'ccbpress-core' ),
+				'submit'		=> false,
+			);
+
+		}
+
+		return $tabs;
 
 	}
 
