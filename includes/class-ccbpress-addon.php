@@ -96,7 +96,6 @@ if ( ! class_exists( 'CCBPress_Addon' ) ) :
 		private function hooks() {
 
 			add_filter( 'ccbpress_ccb_services', array( $this, 'setup_services' ) );
-			// add_filter( 'ccbpress_support_topics', array( $this, 'support_topics' ) );
 			add_filter( 'ccbpress_import_jobs', array( $this, 'import_jobs' ) );
 			add_filter( 'ccbpress_uninstall_settings', array( $this, 'uninstall_settings' ) );
 
@@ -126,32 +125,6 @@ if ( ! class_exists( 'CCBPress_Addon' ) ) :
 			}
 
 			return $services;
-
-		}
-
-		/**
-		 * Add the HS Beacon support topics
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param  array $topics The topics
-		 *
-		 * @return array         The new topics
-		 */
-		public function support_topics( $topics ) {
-
-			add_filter('ccbpress_enable_beacon', function() {} );
-
-			if ( is_array( $this->support_topics ) ) {
-				foreach( $this->support_topics as $topic ) {
-					$topics[] = array(
-						'val'	=> $topic['val'],
-						'label'	=> $topic['label'],
-					);
-				}
-			}
-
-			return $topics;
 
 		}
 
