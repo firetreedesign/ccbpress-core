@@ -62,25 +62,21 @@ if ( ! class_exists( 'CCBPress_Addon' ) ) :
 		  */
 	    function __construct( $_args ) {
 
-			if ( ! isset( $_args['services'] ) ) {
-				return;
-			}
+				if ( ! isset( $_args['services'] ) ) {
+					return;
+				}
 
-			$this->services = $_args['services'];
+				$this->services = $_args['services'];
 
-			// if ( isset( $_args['support_topics'] ) ) {
-			// 	$this->support_topics = $_args['support_topics'];
-			// }
+				if ( isset( $_args['import_jobs'] ) ) {
+					$this->import_jobs = $_args['import_jobs'];
+				}
 
-			if ( isset( $_args['import_jobs'] ) ) {
-				$this->import_jobs = $_args['import_jobs'];
-			}
+				if ( isset( $_args['uninstall'] ) ) {
+					$this->uninstall = $_args['uninstall'];
+				}
 
-			if ( isset( $_args['uninstall'] ) ) {
-				$this->uninstall = $_args['uninstall'];
-			}
-
-			$this->hooks();
+				$this->hooks();
 
 	    }
 
