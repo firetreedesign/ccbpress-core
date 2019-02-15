@@ -62,25 +62,21 @@ if ( ! class_exists( 'CCBPress_Addon' ) ) :
 		  */
 	    function __construct( $_args ) {
 
-			if ( ! isset( $_args['services'] ) ) {
-				return;
-			}
+				if ( ! isset( $_args['services'] ) ) {
+					return;
+				}
 
-			$this->services = $_args['services'];
+				$this->services = $_args['services'];
 
-			// if ( isset( $_args['support_topics'] ) ) {
-			// 	$this->support_topics = $_args['support_topics'];
-			// }
+				if ( isset( $_args['import_jobs'] ) ) {
+					$this->import_jobs = $_args['import_jobs'];
+				}
 
-			if ( isset( $_args['import_jobs'] ) ) {
-				$this->import_jobs = $_args['import_jobs'];
-			}
+				if ( isset( $_args['uninstall'] ) ) {
+					$this->uninstall = $_args['uninstall'];
+				}
 
-			if ( isset( $_args['uninstall'] ) ) {
-				$this->uninstall = $_args['uninstall'];
-			}
-
-			$this->hooks();
+				$this->hooks();
 
 	    }
 
@@ -96,7 +92,6 @@ if ( ! class_exists( 'CCBPress_Addon' ) ) :
 		private function hooks() {
 
 			add_filter( 'ccbpress_ccb_services', array( $this, 'setup_services' ) );
-			// add_filter( 'ccbpress_support_topics', array( $this, 'support_topics' ) );
 			add_filter( 'ccbpress_import_jobs', array( $this, 'import_jobs' ) );
 			add_filter( 'ccbpress_uninstall_settings', array( $this, 'uninstall_settings' ) );
 
@@ -126,32 +121,6 @@ if ( ! class_exists( 'CCBPress_Addon' ) ) :
 			}
 
 			return $services;
-
-		}
-
-		/**
-		 * Add the HS Beacon support topics
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param  array $topics The topics
-		 *
-		 * @return array         The new topics
-		 */
-		public function support_topics( $topics ) {
-
-			add_filter('ccbpress_enable_beacon', function() {} );
-
-			if ( is_array( $this->support_topics ) ) {
-				foreach( $this->support_topics as $topic ) {
-					$topics[] = array(
-						'val'	=> $topic['val'],
-						'label'	=> $topic['label'],
-					);
-				}
-			}
-
-			return $topics;
 
 		}
 

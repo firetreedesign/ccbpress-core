@@ -3,7 +3,7 @@
  * Plugin Name: CCBPress Core
  * Plugin URI: https://ccbpress.com/
  * Description: Display information from Church Community Builder on your WordPress site.
- * Version: 1.3.3
+ * Version: 1.3.4
  * Author: CCBPress <info@ccbpress.com>
  * Author URI: https://ccbpress.com/
  * Text Domain: ccbpress-core
@@ -66,7 +66,7 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 	     * @var string
 	     * @since 1.0.0
 	     */
-	    public $version = '1.3.3';
+	    public $version = '1.3.4';
 
 		/**
 	     * Main CCBPress_Core Instance
@@ -159,9 +159,8 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/settings/settings-import.php';
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/settings/settings-ccbpress.php';
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/settings/settings-licenses.php';
-			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/admin-bar-menu.php';
+			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/tools/tools-cache.php';
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/admin-purge-cache.php';
-			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/admin-ajax.php';
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/widgets/widget-login.php';
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/widgets/widget-online-giving.php';
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/widgets/widget-group-info.php';
@@ -170,6 +169,7 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/class-ccbpress-background-get.php';
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/import.php';
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/upgrades.php';
+			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/admin-rest-api.php';
 			
 			// Blocks.
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/blocks.php';
@@ -180,6 +180,7 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 				require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/admin-scripts.php';
 				require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/admin-styles.php';
 				require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/admin-dashboard.php';
+
 			}
 
 		}
