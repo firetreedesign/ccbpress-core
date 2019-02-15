@@ -14,16 +14,15 @@ class CCBPress_Options {
 
 	private $options;
 
-    /**
-     * Create a new instance
-     */
-    function __construct( $_args ) {
+	/**
+	 * Create a new instance
+	 */
+	function __construct( $_args ) {
 
 		$this->options = $_args;
-
 		$this->hooks();
 
-    }
+	}
 
 	/**
 	 * Setup our hooks
@@ -38,6 +37,7 @@ class CCBPress_Options {
 
 		add_filter( 'ccbpress_settings_page_tabs', array( $this, 'settings_page_tabs' ) );
 		add_filter( 'ccbpress_settings_page_actions', array( $this, 'settings_page_actions' ) );
+		add_filter( 'ccbpress_tools_page_tabs', array( $this, 'tools_page_tabs' ) );
 
 	}
 
@@ -104,6 +104,34 @@ class CCBPress_Options {
 		}
 
 		return $actions;
+
+	}
+
+	/**
+	 * Add the tools page tabs
+	 *
+	 * @since 1.3.4
+	 *
+	 * @param  array $tabs
+	 *
+	 * @return array
+	 */
+	public function tools_page_tabs( $tabs ) {
+
+		if ( isset( $this->options['tools'] ) && is_array( $this->options['tools'] ) && isset( $this->options['tools']['tabs'] ) && is_array( $this->options['tools']['tabs'] ) ) {
+
+			foreach( $this->options['tools']['tabs'] as $tab ) {
+				$tabs[] = array(
+					'tab_id'		=> $tab['tab_id'],
+					'settings_id'	=> $tab['settings_id'],
+					'title'			=> $tab['title'],
+					'submit'		=> $tab['submit'],
+				);
+			}
+
+		}
+
+		return $tabs;
 
 	}
 

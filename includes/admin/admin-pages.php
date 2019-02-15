@@ -69,6 +69,16 @@ class CCBPress_Admin_Pages {
 	    );
 		add_action( 'load-' . $ccbpress_settings_help_page, array( $this, 'settings_page_help' ) );
 
+		// Tools page.
+		add_submenu_page(
+			'ccbpress',
+			__( 'Tools', 'ccbpress-core' ),
+			__( 'Tools', 'ccbpress-core' ),
+			'manage_options',
+			'ccbpress-tools',
+			array( $this, 'tools_page' )
+		);
+
 		add_submenu_page(
 			'ccbpress',
 			__( 'Add-ons', 'ccbpress-core' ),
@@ -310,13 +320,13 @@ class CCBPress_Admin_Pages {
 		?>
 	    <div class="wrap">
 			<h1><?php esc_html_e( 'Settings', 'ccbpress-core' ); ?></h1>
-	        <h1 class="nav-tab-wrapper">
+	        <div class="nav-tab-wrapper">
 	            <?php foreach ( $all_tabs as $tab ) : ?>
 	                <a class="nav-tab<?php echo ( $active_tab === $tab['tab_id'] ? ' nav-tab-active' : '' ); ?>" href="<?php echo esc_url( admin_url( add_query_arg( array( 'tab' => $tab['tab_id'] ), add_query_arg( array( 'page' => 'ccbpress-settings' ), 'admin.php' ) ) ) ); ?>">
 	                    <?php echo esc_html( $tab['title'] ); ?>
 	                </a>
 	            <?php endforeach; ?>
-	        </h1>
+	        </div>
 	        <?php if ( $has_tab_actions ) : ?>
 	            <div class="ccbpress_tab_actions">
 	            <?php foreach ( $all_tab_actions as $tab_action ) : ?>
@@ -391,6 +401,75 @@ class CCBPress_Admin_Pages {
 			) );
 		}
 
+	}
+
+	/**
+	 * Render Tools Page
+	 *
+	 * @access public
+	 * @since 1.0.0
+	 * @return void
+	 */
+	public function tools_page() {
+		if ( has_filter( 'ccbpress_enable_beacon' ) ) {
+			wp_enqueue_script( 'ccbpress-core-beacon' );
+		}
+		$all_tabs = apply_filters( 'ccbpress_tools_page_tabs', array() );
+		if ( ! is_array( $all_tabs ) || 0 === count( $all_tabs ) ) {
+			return;
+		}
+		$active_tab = isset( $_GET['tab'] ) ? $_GET['tab'] : $all_tabs[0]['tab_id'];
+
+		$all_tab_actions = apply_filters( 'ccbpress_tools_page_actions', array() );
+		$has_tab_actions = false;
+		foreach ( $all_tab_actions as $tab_action ) {
+			if ( isset( $tab_action['tab_id'] ) && $tab_action['tab_id'] === $active_tab ) {
+				$has_tab_actions = true;
+			}
+		}
+		?>
+	    <div class="wrap">
+			<h1><?php esc_html_e( 'Tools', 'ccbpress-core' ); ?></h1>
+	        <div class="nav-tab-wrapper">
+	            <?php foreach ( $all_tabs as $tab ) : ?>
+	                <a class="nav-tab<?php echo ( $active_tab === $tab['tab_id'] ? ' nav-tab-active' : '' ); ?>" href="<?php echo esc_url( admin_url( add_query_arg( array( 'tab' => $tab['tab_id'] ), add_query_arg( array( 'page' => 'ccbpress-tools' ), 'admin.php' ) ) ) ); ?>">
+	                    <?php echo esc_html( $tab['title'] ); ?>
+	                </a>
+	            <?php endforeach; ?>
+	        </div>
+	        <?php if ( $has_tab_actions ) : ?>
+	            <div class="ccbpress_tab_actions">
+	            <?php foreach ( $all_tab_actions as $tab_action ) : ?>
+	                <?php if ( isset( $tab_action['tab_id'] ) && $tab_action['tab_id'] === $active_tab ) : ?>
+	                    <a class="button<?php echo esc_attr( is_null( $tab_action['class'] ) ) ? '' : ' ' . esc_attr( $tab_action['class'] ); ?>" href="<?php echo esc_url( $tab_action['link'] ); ?>"<?php echo ( is_null( $tab_action['target'] ) ) ? '' : ' target="' . esc_attr( $tab_action['target'] ) . '"'; ?>><?php echo $tab_action['title']; ?></a>
+	                <?php endif; ?>
+	            <?php endforeach; ?>
+	            </div>
+	        <?php endif; ?>
+			<div id="ccbpress_tab_container" class="metabox-holder">
+				<div class="postbox">
+					<div class="inside">
+		    			<form method="post" action="options.php">
+		    				<table class="form-table">
+								<?php
+								foreach ( $all_tabs as $tab ) {
+									if ( isset( $tab['tab_id'] ) && isset( $tab['settings_id'] ) && $tab['tab_id'] === $active_tab ) {
+										settings_fields( $tab['settings_id'] );
+										do_settings_sections( $tab['settings_id'] );
+										if ( true === $tab['submit'] ) {
+											submit_button();
+										}
+										settings_errors();
+									}
+								}
+								?>
+		    				</table>
+		    			</form>
+					</div>
+				</div>
+			</div><!-- #tab_container-->
+		</div>
+		<?php
 	}
 
 	/**
