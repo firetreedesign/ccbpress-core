@@ -28,7 +28,7 @@ class CCBPress_Background_Get extends WP_Background_Process {
 	 * 
 	 * @var int
 	 */
-	protected $cron_interval = 10;
+	protected $cron_interval = 5;
 
 	/**
 	 * The task
