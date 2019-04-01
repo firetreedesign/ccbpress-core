@@ -26,16 +26,36 @@ class CCBPress_Purge_Cache {
 
 		global $wpdb;
 
-		$cache = $wpdb->get_col( "SELECT option_name FROM $wpdb->options where option_name LIKE '_transient_timeout_ccbp_%'" );
+		// Find transients that contain expiration dates.
+		$cache = $wpdb->get_col(
+			$wpdb->prepare(
+				"SELECT option_name FROM $wpdb->options WHERE option_name LIKE %d",
+				$wpdb->esc_like( '_transient_timeout_ccbp_' ) . '%'
+			)
+		);
 
+		// Delete the transients.
 		if ( ! empty( $cache ) ) {
 			foreach ( $cache as $transient ) {
 				$name = str_replace( '_transient_timeout_', '', $transient );
-				delete_transient( $name );
+				if ( is_multisite() ) {
+					delete_site_transient( $name );
+				} else {
+					delete_transient( $name );
+				}
 			}
 		}
 
 		unset( $cache );
+
+		// Find and delete transients without expiration dates.
+		$wpdb->query(
+			$wpdb->prepare(
+				"DELETE FROM $wpdb->options WHERE option_name LIKE %s AND autoload = %s",
+				$wpdb->esc_like( '_transient_ccbp_' ) . '%',
+				'yes'
+			)
+		);
 
 	}
 
