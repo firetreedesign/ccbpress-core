@@ -26,7 +26,7 @@ if ( ! class_exists( 'CCBPress_Widget_Group_Info' ) ) :
 		 *
 		 * @since 1.0.0
 		 */
-		private function __construct() {
+		public function __construct() {
 
 			parent::__construct(
 				'ccbpress_widget_group_info',
