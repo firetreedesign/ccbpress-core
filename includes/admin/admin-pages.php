@@ -166,56 +166,56 @@ class CCBPress_Admin_Pages {
 	 */
 	private function welcome_content() {
 		?>
-		<div class="feature-section one-col">
-			<div class="col">
+		<div class="feature-section">
+			<div>
 				<h2><?php esc_html_e( 'Dashboard Widget', 'ccbpress-core' ); ?></h2>
 				<p class="lead-description"><?php esc_html_e( 'At a glance, you can keep tabs on CCBPress.', 'ccbpress-core' ); ?></p>
 			</div>
 		</div>
-		<div class="feature-section two-col">
-			<div class="col">
+		<div class="feature-section has-2-columns is-wider-right">
+			<div class="column">
 				<h3><?php esc_html_e( 'API Status', 'ccbpress-core' ); ?></h3>
 				<p><?php esc_html_e( 'The Church Community Builder API status is displayed on your WordPress Dashboard. Easily keep track of your API usage throughout the day.', 'ccbpress-core' ); ?></p>
 			</div>
-			<div class="col">
+			<div class="column is-vertically-aligned-center">
 				<img src="<?php echo esc_attr( CCBPRESS_CORE_PLUGIN_URL ) . '/assets/images/api_status.png'; ?>" />
 			</div>
 		</div>
 		<hr />
-		<div class="feature-section one-col">
-			<div class="col">
+		<div class="feature-section">
+			<div>
 				<h2><?php esc_html_e( 'Gutenberg Blocks', 'ccbpress-core' ); ?></h2>
 				<p class="lead-description"><?php esc_html_e( 'Blocks to display your content.', 'ccbpress-core' ); ?></p>
 			</div>
 		</div>
-		<div class="feature-section two-col">
-			<div class="col">
+		<div class="feature-section has-2-columns is-wider-right">
+			<div class="column">
 				<h3><?php esc_html_e( 'Blocks', 'ccbpress-core' ); ?></h3>
 				<p><?php esc_html_e( 'Our goal with CCBPress is to make it as easy as possible for churches to display content from Church Community Builder on their WordPress websites.', 'ccbpress-core' ); ?></p>
 			</div>
-			<div class="col">
+			<div class="column">
 				<img src="<?php echo esc_attr( CCBPRESS_CORE_PLUGIN_URL ) . '/assets/images/blocks.png'; ?>" />
 			</div>
 		</div>
 		<hr />
-		<div class="feature-section one-col">
-			<div class="col">
+		<div class="feature-section">
+			<div>
 				<h2><?php esc_html_e( 'Widgets', 'ccbpress-core' ); ?></h2>
 				<p class="lead-description"><?php esc_html_e( 'We have widgets to display a variety of information.', 'ccbpress-core' ); ?></p>
 			</div>
 		</div>
-		<div class="feature-section two-col">
-			<div class="col">
+		<div class="feature-section has-2-columns is-fullwidth">
+			<div class="column">
 				<h3><?php esc_html_e( 'Group Information Widget', 'ccbpress-core' ); ?></h3>
 				<img src="<?php echo esc_attr( CCBPRESS_CORE_PLUGIN_URL ) . '/assets/images/group_info_widget.png'; ?>" />
 				<p><?php esc_html_e( 'The Group Information Widget displays details about a specific group from Church Community Builder.', 'ccbpress-core' ); ?></p>
 			</div>
-			<div class="col">
+			<div class="column">
 				<h3><?php esc_html_e( 'Online Giving Widget', 'ccbpress-core' ); ?></h3>
 				<img src="<?php echo esc_attr( CCBPRESS_CORE_PLUGIN_URL ) . '/assets/images/online_giving_widget.png'; ?>" />
 				<p><?php esc_html_e( "Church Community Builder has a very nice Online Giving page. This widget allows you to easily place a link to that page anywhere you'd like.", 'ccbpress-core' ); ?></p>
 			</div>
-			<div class="col">
+			<div class="column">
 				<h3><?php esc_html_e( 'CCB Login', 'ccbpress-core' ); ?></h3>
 				<img src="<?php echo esc_attr( CCBPRESS_CORE_PLUGIN_URL ) . '/assets/images/ccb_login_widget.png'; ?>" />
 				<p><?php esc_html_e( 'The CCB Login widget allows you to place a form on your site that lets your users log in to Church Community Builder from your website. It passes their login info to CCB and opens CCB in a new window.', 'ccbpress-core' ); ?></p>
@@ -235,14 +235,14 @@ class CCBPress_Admin_Pages {
 		$services = apply_filters( 'ccbpress_ccb_services', array() );
 		sort( $services );
 		?>
-		<div class="feature-section one-col">
-			<div class="col">
+		<div class="feature-section">
+			<div>
 				<h2><?php esc_html_e( 'Connecting Church Community Builder', 'ccbpress-core' ); ?></h2>
 				<p class="lead-description"><?php esc_html_e( 'Before you can use the plugin, you need to provide it with information needed to connect to your Church Community Builder account.', 'ccbpress-core' ); ?></p>
 			</div>
 		</div>
-		<div class="feature-section two-col">
-			<div class="col">
+		<div class="feature-section has-2-columns is-fullwidth">
+			<div class="column">
 				<h3><?php esc_html_e( '1. Creating a Church Community Builder API User', 'ccbpress-core' ); ?></h3>
 				<p><?php esc_html_e( 'The API User is created from inside the API Admin section of Church Community Builder. Church Community Builder has some excellent documentation on doing this.', 'ccbpress-core' ); ?></p>
 				<p><?php esc_html_e( 'Your API User must have permission to use the following services:', 'ccbpress-core' ); ?></p>
@@ -257,13 +257,13 @@ class CCBPress_Admin_Pages {
 				<p><?php esc_html_e( 'This list is automatically updated based on the add-ons that are installed and the services that they require.', 'ccbpress-core' ); ?></p>
 				<p><a class="button" href="http://support.churchcommunitybuilder.com/customer/portal/articles/640595" target="_blank"><?php esc_html_e( 'Creating an API User and Assigning Services', 'ccbpress-core' ); ?></a></p>
 			</div>
-			<div class="col">
+			<div class="column">
 				<img src="<?php echo esc_attr( CCBPRESS_CORE_PLUGIN_URL ) . '/assets/images/getting_started_api_user.png'; ?>" />
 			</div>
 		</div>
 		<hr />
-		<div class="feature-section two-col">
-			<div class="col">
+		<div class="feature-section has-2-columns is-fullwidth">
+			<div class="column">
 				<h3><?php esc_html_e( '2. Entering Your API User Information', 'ccbpress-core' ); ?></h3>
 				<p><?php esc_html_e( 'Next, you will need to visit the Church Community Builder tab of the Settings page and enter the Connection Settings for your API User.', 'ccbpress-core' ); ?></p>
 				<p><?php esc_html_e( 'You will need to have the following information:', 'ccbpress-core' ); ?></p>
@@ -274,20 +274,20 @@ class CCBPress_Admin_Pages {
 				</ul>
 				<p><a class="button" href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'ccbpress-settings' ), 'admin.php' ) ) ); ?>"><?php esc_html_e( 'Enter Your Connection Settings', 'ccbpress-core' ); ?></a></p>
 			</div>
-			<div class="col">
+			<div class="column">
 				<img src="<?php echo esc_attr( CCBPRESS_CORE_PLUGIN_URL ) . '/assets/images/getting_started_connection_settings.png'; ?>" />
 			</div>
 		</div>
 		<hr />
-		<div class="feature-section two-col">
-			<div class="col">
+		<div class="feature-section has-2-columns is-fullwidth">
+			<div class="column">
 				<h3><?php esc_html_e( '3. Add Some Blocks or Widgets', 'ccbpress-core' ); ?></h3>
 				<p><?php esc_html_e( 'You are now ready to use any of the blocks and widgets that come with CCBPress.', 'ccbpress-core' ); ?></p>
 			</div>
 		</div>
 		<hr />
-		<div class="feature-section two-col">
-			<div class="col">
+		<div class="feature-section has-2-columns is-fullwidth">
+			<div class="column">
 				<h3><?php esc_html_e( '4. Browse Our Add-ons', 'ccbpress-core' ); ?></h3>
 				<p><?php esc_html_e( 'Feel free to browse our add-ons to add additional functionality to CCBPress.', 'ccbpress-core' ); ?></p>
 				<p><a class="button button-primary" href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'ccbpress-addons' ), 'admin.php' ) ) ); ?>"><?php esc_html_e( 'Browse Add-ons', 'ccbpress-core' ); ?></a></p>
