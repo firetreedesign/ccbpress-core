@@ -199,21 +199,36 @@ class CCBPress_Transients {
 
 		global $wpdb;
 
-		$expired  = $wpdb->get_col( "SELECT option_name FROM " . $wpdb->options . " where option_name LIKE '_transient_timeout_" . $this->prefix . "%' AND option_value+0 < " . (string) time() );
+		$expired = $wpdb->get_col(
+			$wpdb->prepare(
+				"SELECT option_name FROM $wpdb->options WHERE option_name LIKE %s AND option_value+0 < %s",
+				$wpdb->esc_like( '_transient_timeout_' . $this->prefix ) . '%',
+				(string) time()
+			)
+		);
 
-		if ( empty( $expired ) ) {
-			return false;
-		}
+		if ( ! empty( $expired ) ) {
+			foreach ( $expired as $transient ) {
 
-		foreach ( $expired as $transient ) {
-
-			$name = str_replace( '_transient_timeout_', '', $transient );
-			if ( is_multisite() ) {
-				delete_site_transient( $name );
-			} else {
-				delete_transient( $name );
+				$name = str_replace( '_transient_timeout_', '', $transient );
+				if ( is_multisite() ) {
+					delete_site_transient( $name );
+				} else {
+					delete_transient( $name );
+				}
 			}
 		}
+
+		unset( $expired );
+
+		// Find and delete transients without expiration dates.
+		$wpdb->query(
+			$wpdb->prepare(
+				"DELETE FROM $wpdb->options WHERE option_name LIKE %s AND autoload = %s",
+				$wpdb->esc_like( '_transient_ccbp_' ) . '%',
+				'yes'
+			)
+		);
 
 		return true;
 

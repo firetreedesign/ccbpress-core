@@ -24,10 +24,11 @@ class CCBPress_Import {
 	 * @return void
 	 */
 	public static function init() {
-		add_action( 'ccbpress_import',					__CLASS__ . '::run' );
-		add_action( 'ccbpress_import_job_queued',		__CLASS__ . '::import_job_queued' );
-		add_action( 'ccbpress_import_jobs_dispatched',	__CLASS__ . '::import_jobs_dispatched' );
+		add_action( 'ccbpress_import', __CLASS__ . '::run' );
+		add_action( 'ccbpress_import_job_queued', __CLASS__ . '::import_job_queued' );
+		add_action( 'ccbpress_import_jobs_dispatched', __CLASS__ . '::import_jobs_dispatched' );
 		add_action( 'ccbpress_background_get_complete', __CLASS__ . '::import_complete' );
+		add_action( 'ccbpress_maintenance', __CLASS__ . '::find_stalled_imports' );
 	}
 
 	/**
@@ -185,6 +186,73 @@ class CCBPress_Import {
 		
 		return ( $count > 0 ) ? false : true;
 
+	}
+
+	/**
+	 * Find stalled imports
+	 *
+	 * @return void
+	 */
+	public static function find_stalled_imports() {
+		$is_stalled       = false;
+		$in_progress      = false;
+		$job_cron_exists  = false;
+		$job_queue_exists = self::is_queue_empty();
+
+		if ( false !== get_option( 'ccbpress_import_in_progress', false ) ) {
+			$in_progress = true;
+		}
+
+		if ( false !== wp_next_scheduled( 'wp_ccbpress_get_cron' ) ) {
+			$job_cron_exists = true;
+		}
+
+		// Check if there are jobs in the queue, but the CRON to run them does not exist.
+		if ( true === $job_queue_exists && false === $job_cron_exists ) {
+			$is_stalled = true;
+		}
+
+		// Check if the "in_progress" option exists, but there are no jobs in the queue.
+		if ( true === $in_progress && false === $job_queue_exists ) {
+			$is_stalled = true;
+		}
+
+		// Check if the "in_progress" option exists, but the CRON to run it does not exist.
+		if ( true === $in_progress && false === $job_cron_exists ) {
+			$is_stalled = true;
+		}
+
+		// If the import is not stalled, then exit.
+		if ( false === $is_stalled ) {
+			return;
+		}
+
+		// Run the task to clean up the stalled import.
+		self::cleanup_stalled_import();
+	}
+
+	/**
+	 * Cleanup the stalled import
+	 *
+	 * @return void
+	 */
+	private static function cleanup_stalled_import() {
+		global $wpdb;
+
+		$key = $wpdb->esc_like( 'wp_ccbpress_get_batch_' ) . '%';
+		$wpdb->query(
+			$wpdb->prepare(
+				"DELETE FROM $wpdb->options WHERE option_name LIKE %s",
+				$key
+			)
+		);
+
+		delete_option( 'ccbpress_import_in_progress' );
+		delete_option( 'ccbpress_current_import' );
+		delete_option( 'ccbpress_cancel_import' );
+		delete_site_transient( 'wp_ccbpress_get_process_lock' );
+
+		CCBPress_Core::schedule_cron();
 	}
 
 }
