@@ -1,6 +1,6 @@
 # [CCBPress Core](https://ccbpress.com/)
 
-![Plugin Version](https://img.shields.io/wordpress/plugin/v/ccbpress-core.svg?maxAge=2592000) ![Total Downloads](https://img.shields.io/wordpress/plugin/dt/ccbpress-core.svg?maxAge=2592000) ![WordPress Compatibility](https://img.shields.io/wordpress/v/ccbpress-core.svg?maxAge=2592000)
+![Plugin Version](https://img.shields.io/wordpress/plugin/v/ccbpress-core.svg) ![WordPress Compatibility](https://img.shields.io/wordpress/v/ccbpress-core.svg) ![Total Downloads](https://img.shields.io/wordpress/plugin/dt/ccbpress-core.svg)
 
 Introducing the easiest way to display information from Church Community Builder
 (CCB) on your church WordPress site.
