@@ -2,8 +2,8 @@
 /**
  * CCBPress - Import
  *
- * @since	1.0.3
- * @package	CCBPress Core
+ * @since 1.0.3
+ * @package CCBPress Core
  */
 
 // Exit if accessed directly.
@@ -33,9 +33,9 @@ class CCBPress_Import {
 
 	/**
 	 * Reset the impor status
-	 * 
+	 *
 	 * @since 1.1.12
-	 * 
+	 *
 	 * @return void
 	 */
 	public static function reset() {
@@ -45,9 +45,9 @@ class CCBPress_Import {
 
 	/**
 	 * Reschedule the import job
-	 * 
+	 *
 	 * @since 1.1.12
-	 * 
+	 *
 	 * @return void
 	 */
 	public static function reschedule() {
@@ -160,30 +160,33 @@ class CCBPress_Import {
 
 	/**
 	 * Check if the queue is empty
-	 * 
+	 *
 	 * @since 1.3.2
-	 * 
+	 *
 	 * @return boolean
 	 */
 	public static function is_queue_empty() {
-		
+
 		global $wpdb;
-		
+
 		$table  = $wpdb->options;
 		$column = 'option_name';
-		
+
 		if ( is_multisite() ) {
 			$table  = $wpdb->sitemeta;
 			$column = 'meta_key';
 		}
-		
-		$key = $wpdb->esc_like( 'wp_ccbpress_get_batch_' ) . '%';
-		$count = $wpdb->get_var( $wpdb->prepare( "
-			SELECT COUNT(*)
-			FROM {$table}
-			WHERE {$column} LIKE %s
-		", $key ) );
-		
+
+		$key   = $wpdb->esc_like( 'wp_ccbpress_get_batch_' ) . '%';
+		$count = $wpdb->get_var(
+			$wpdb->prepare(
+				"SELECT COUNT(*)
+				FROM {$table}
+				WHERE {$column} LIKE %s",
+				$key
+			)
+		);
+
 		return ( $count > 0 ) ? false : true;
 
 	}
@@ -197,7 +200,7 @@ class CCBPress_Import {
 		$is_stalled       = false;
 		$in_progress      = false;
 		$job_cron_exists  = false;
-		$job_queue_exists = self::is_queue_empty();
+		$job_queue_exists = ! self::is_queue_empty();
 
 		if ( false !== get_option( 'ccbpress_import_in_progress', false ) ) {
 			$in_progress = true;
