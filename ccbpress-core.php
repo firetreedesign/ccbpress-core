@@ -3,7 +3,7 @@
  * Plugin Name: CCBPress Core
  * Plugin URI: https://ccbpress.com/
  * Description: Display information from Church Community Builder on your WordPress site.
- * Version: 1.3.5
+ * Version: 1.3.6
  * Author: CCBPress <info@ccbpress.com>
  * Author URI: https://ccbpress.com/
  * Text Domain: ccbpress-core
@@ -28,15 +28,15 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 	 */
 	class CCBPress_Core {
 
-	    /**
-	     * Instance
-	     *
-	     * @var CCBPress_Core The one true CCBPress_Core
-	     * @since 1.0.0
-	     */
+		/**
+		 * Instance
+		 *
+		 * @var CCBPress_Core The one true CCBPress_Core
+		 * @since 1.0.0
+		 */
 		private static $instance;
 
-	    /**
+		/**
 		 * CCBPress Transients Object
 		 *
 		 * @var object
@@ -45,63 +45,63 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 		public $transients;
 
 		/**
-	     * CCBPress CCB Object
-	     *
-	     * @var object
-	     * @since 1.0.0
-	     */
+		 * CCBPress CCB Object
+		 *
+		 * @var object
+		 * @since 1.0.0
+		 */
 		public $ccb;
 
 		/**
-	     * CCBPress Sync Object
-	     *
-	     * @var object
-	     * @since 1.0.0
-	     */
-	    public $sync;
+		 * CCBPress Sync Object
+		 *
+		 * @var object
+		 * @since 1.0.0
+		 */
+		public $sync;
 
 		/**
-	     * CCBPress Version
-	     *
-	     * @var string
-	     * @since 1.0.0
-	     */
-	    public $version = '1.3.5';
+		 * CCBPress Version
+		 *
+		 * @var string
+		 * @since 1.0.0
+		 */
+		public $version = '1.3.6';
 
 		/**
-	     * Main CCBPress_Core Instance
-	     *
-	     * Insures that only one instance of CCBPress_Core exists in memory at any
-	     * one time.
-	     *
-	     * @since 1.0
-	     * @static
-	     * @staticvar array $instance
-	     * @uses CCBPress_Core::includes() Include the required files
-	     * @see CCBPress_Core()
-	     * @return The one true CCBPress_Core
-	     */
-	    public static function instance() {
+		 * Main CCBPress_Core Instance
+		 *
+		 * Insures that only one instance of CCBPress_Core exists in memory at any
+		 * one time.
+		 *
+		 * @since 1.0
+		 * @static
+		 * @staticvar array $instance
+		 * @uses CCBPress_Core::includes() Include the required files
+		 * @see CCBPress_Core()
+		 * @return The one true CCBPress_Core
+		 */
+		public static function instance() {
 
-	        if ( ! isset( self::$instance ) && ! ( self::$instance instanceof CCBPress_Core ) ) {
+			if ( ! isset( self::$instance ) && ! ( self::$instance instanceof CCBPress_Core ) ) {
 
-	            self::$instance = new CCBPress_Core;
-	            self::$instance->setup_constants();
-	            self::$instance->includes();
+				self::$instance = new CCBPress_Core();
+				self::$instance->setup_constants();
+				self::$instance->includes();
 
-	            self::$instance->transients	= new CCBPress_Transients();
-	            self::$instance->ccb		= new CCBPress_Connection();
-				self::$instance->get		= new CCBPress_Background_Get();
+				self::$instance->transients = new CCBPress_Transients();
+				self::$instance->ccb        = new CCBPress_Connection();
+				self::$instance->get        = new CCBPress_Background_Get();
 
 				self::$instance->init();
 				self::$instance->transients->init();
 				self::$instance->ccb->init();
 
-	        }
+			}
 
-	        return self::$instance;
+			return self::$instance;
 
-	    }
+		}
 
 		/**
 		 * Setup plugin constants
@@ -170,7 +170,7 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/import.php';
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/upgrades.php';
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/admin-rest-api.php';
-			
+
 			// Blocks.
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/blocks.php';
 
@@ -243,14 +243,14 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 
 		/**
 		 * Display a warning that cron is disabled
-		 * 
+		 *
 		 * @since 1.3.0
-		 * 
+		 *
 		 * @return void
 		 */
 		public static function cron_disabled() {
 			global $pagenow;
-			
+
 			if ( 'admin.php' !== $pagenow ) {
 				return;
 			}
@@ -268,14 +268,14 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 
 		/**
 		 * Display a warning that alternative cron is enabled
-		 * 
+		 *
 		 * @since 1.3.2
-		 * 
+		 *
 		 * @return void
 		 */
 		public static function cron_alternate() {
 			global $pagenow;
-			
+
 			if ( 'admin.php' !== $pagenow ) {
 				return;
 			}
