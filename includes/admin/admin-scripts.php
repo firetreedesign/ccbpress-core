@@ -90,7 +90,7 @@ class CCBPress_Admin_Scripts {
 				'process_running' => __( 'Process is running...', 'ccbpress-core' ),
 				'reset_import_confirmation' => __( 'Are you sure that you want to reset the last import time?', 'ccbpress-core' ),
 			),
-			'api_url' => site_url( '/wp-json/' ),
+			'api_url' => get_rest_url(),
 			'api_nonce' => wp_create_nonce( 'wp_rest' ),
 		) );
 
@@ -101,20 +101,6 @@ class CCBPress_Admin_Scripts {
 			'ccbpress_ver'		=> CCBPress()->version,
 			'wp_ver'			=> get_bloginfo( 'version' ),
 			'php_ver'			=> phpversion(),
-			// 'topics'			=> apply_filters( 'ccbpress_support_topics', array(
-			// 	array(
-			// 	   'val'	=> 'general',
-			// 	   'label'	=> __( 'General question', 'ccbpress-core' ),
-			// 	),
-			// 	array(
-			// 	   'val'	=> 'ccb-credentials',
-			// 	   'label'	=> __( 'Help connecting to Church Community Builder', 'ccbpress-core' ),
-			// 	),
-			// 	array(
-			// 	   'val'	=> 'bug',
-			// 	   'label'	=> __( 'I think I found a bug', 'ccbpress-core' ),
-			// 	),
-		   	// ) ),
 	   	) );
 	}
 
