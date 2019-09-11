@@ -29,15 +29,15 @@ class CCBPress_Purge_Cache {
 		// Find transients that contain expiration dates.
 		$cache = $wpdb->get_col(
 			$wpdb->prepare(
-				"SELECT option_name FROM $wpdb->options WHERE option_name LIKE %d",
-				$wpdb->esc_like( '_transient_timeout_ccbp_' ) . '%'
+				"SELECT option_name FROM $wpdb->options WHERE option_name LIKE %s",
+				$wpdb->esc_like( '_transient_ccbp_' ) . '%'
 			)
 		);
 
 		// Delete the transients.
 		if ( ! empty( $cache ) ) {
 			foreach ( $cache as $transient ) {
-				$name = str_replace( '_transient_timeout_', '', $transient );
+				$name = str_replace( '_transient_', '', $transient );
 				if ( is_multisite() ) {
 					delete_site_transient( $name );
 				} else {
