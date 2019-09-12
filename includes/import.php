@@ -89,7 +89,7 @@ class CCBPress_Import {
 
 		// Make sure that the queue is empty before scheduling another import.
 		if ( ! self::is_queue_empty() ) {
-			self::reschedule();
+			self::find_stalled_imports();
 			return;
 		}
 
