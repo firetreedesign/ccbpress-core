@@ -219,11 +219,11 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 		public static function schedule_cron() {
 
 			if ( false === wp_next_scheduled( 'ccbpress_maintenance' ) ) {
-				wp_schedule_event( current_time( 'timestamp' ) + 1800, 'hourly', 'ccbpress_maintenance' );
+				wp_schedule_event( time() + 1800, 'hourly', 'ccbpress_maintenance' );
 			}
 
 			if ( false === wp_next_scheduled( 'ccbpress_import' ) && false === get_option( 'ccbpress_import_in_progress', false ) && CCBPress_Import::is_queue_empty() ) {
-				wp_schedule_single_event( current_time( 'timestamp' ), 'ccbpress_import' );
+				wp_schedule_single_event( time(), 'ccbpress_import' );
 			}
 
 		}
