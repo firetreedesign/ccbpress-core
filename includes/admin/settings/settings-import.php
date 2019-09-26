@@ -139,35 +139,34 @@ class CCBPress_Settings_Import extends CCBPress_Settings {
     }
 
 	public function data_import_section_callback() {
-        echo '<p>' . __( 'Here you can manage the import settings for your Church Community Builder data. If you have add-ons that need data, we will automatically import the data from Church Community Builder on a regular schedule.', 'ccbpress-core' ) . '</p>';
+		echo '<p>' . __( 'Here you can manage the import settings for your Church Community Builder data. If you have add-ons that need data, we will automatically import the data from Church Community Builder on a regular schedule.', 'ccbpress-core' ) . '</p>';
 	}
 
 	public function sanitize_callback( $input ) {
 
-        // Define all of the variables that we'll be using
+		// Define all of the variables that we'll be using.
 		$output = array();
-		
+
 		if ( ! is_array( $input ) ) {
 			return $output;
 		}
 
-    	// Loop through each of the incoming options
-    	foreach ( $input as $key => $value ) {
+		// Loop through each of the incoming options.
+		foreach ( $input as $key => $value ) {
 
-    		// Check to see if the current option has a value. If so, process it.
-    		if ( isset( $input[$key] ) ) {
+			// Check to see if the current option has a value. If so, process it.
+			if ( isset( $input[ $key ] ) ) {
 
-    			// Strip all HTML and PHP tags and properly handle quoted strings
-    			$output[$key] = strip_tags( stripslashes( $input[$key] ) );
+				// Strip all HTML and PHP tags and properly handle quoted strings.
+				$output[ $key ] = wp_strip_all_tags( stripslashes( $input[ $key ] ) );
 
-    		}
+			}
+		}
 
-    	}
+		// Return the array.
+		return $output;
 
-    	// Return the array
-    	return $output;
-
-    }
+	}
 
 }
 new CCBPress_Settings_Import();
