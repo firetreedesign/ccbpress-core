@@ -172,10 +172,10 @@ class CCBPress_Import {
 		$table  = $wpdb->options;
 		$column = 'option_name';
 
-		if ( is_multisite() ) {
-			$table  = $wpdb->sitemeta;
-			$column = 'meta_key';
-		}
+		// if ( is_multisite() ) {
+		// 	$table  = $wpdb->sitemeta;
+		// 	$column = 'meta_key';
+		// }
 
 		$key   = $wpdb->esc_like( 'wp_ccbpress_get_batch_' ) . '%';
 		$count = $wpdb->get_var(
