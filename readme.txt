@@ -4,7 +4,7 @@ Tags: church, ccb, church community builder, chms, gutenberg
 Requires at least: 4.3
 Tested up to: 5.2
 Requires PHP: 5.3
-Stable tag: 1.3.7
+Stable tag: 1.3.8
 License: GPLv2 or later
 License URI: http://ww.gnu.org/licenses/gpl-2.0.html
 
@@ -44,6 +44,11 @@ Extend the capabilities of CCBPress with these add-ons:
 2. Getting Started
 
 == Changelog ==
+
+= 1.3.8 =
+* Fixed an issue with clearing transient cache.
+* Adjusted the behavior that happens when an import attempts to run, but the queue is not empty. For example, when the previous import failed to complete.
+* Changed how import times are stored and displayed. This should fix some edge cases with timezones.
 
 = 1.3.7 =
 * Fixed an issue with detecting the REST URL on some sites.

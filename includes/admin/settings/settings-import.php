@@ -58,13 +58,16 @@ class CCBPress_Settings_Import extends CCBPress_Settings {
 
 		$import_jobs = apply_filters( 'ccbpress_import_jobs', array() );
 		if ( 0 < count( $import_jobs ) && false !== wp_next_scheduled( 'ccbpress_import' ) ) {
-			$import_schedule = __( 'Scheduled to run in approximately ', 'ccbpress-core' ) . human_time_diff( strtotime( 'now' ), wp_next_scheduled( 'ccbpress_import' ) );
-			$import_active = true;
+			$now             = strtotime( 'now', time() );
+			$next_import     = wp_next_scheduled( 'ccbpress_import' );
+			$passed_due      = $now > $next_import ? '-' : '';
+			$import_schedule = __( 'Scheduled to run in approximately ', 'ccbpress-core' ) . $passed_due . human_time_diff( $now, $next_import );
+			$import_active   = true;
 		}
 
 		/**
 		 * Automatic Sync
-	 	 */
+		 */
 		add_settings_field(
 			'auto_import',
 			'<strong>' . __( 'Automatic Import', 'ccbpress-core' ) . '</strong>',
@@ -85,7 +88,7 @@ class CCBPress_Settings_Import extends CCBPress_Settings {
 			 */
 			$last_import = get_option( 'ccbpress_last_import', 'Never' );
 			if ( 'Never' !== $last_import ) {
-				$last_import = human_time_diff( strtotime( 'now', current_time( 'timestamp' ) ), strtotime( $last_import, current_time( 'timestamp' ) ) ) . ' ago';
+				$last_import = human_time_diff( strtotime( 'now', time() ), strtotime( $last_import, time() ) ) . ' ago';
 			}
 
 			add_settings_field(

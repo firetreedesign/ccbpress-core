@@ -93,7 +93,7 @@ class CCBPress_Import {
 			return;
 		}
 
-		update_option( 'ccbpress_current_import', date( 'Y-m-d H:i:s', current_time( 'timestamp' ) ) );
+		update_option( 'ccbpress_current_import', date( 'Y-m-d H:i:s', time() ) );
 
 		foreach ( $jobs as $job ) {
 			do_action( 'ccbpress_import_job_queued', $job );
