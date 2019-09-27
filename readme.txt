@@ -49,6 +49,8 @@ Extend the capabilities of CCBPress with these add-ons:
 * Fixed an issue with clearing transient cache.
 * Adjusted the behavior that happens when an import attempts to run, but the queue is not empty. For example, when the previous import failed to complete.
 * Changed how import times are stored and displayed. This should fix some edge cases with timezones.
+* Improved imports in multisite environments.
+* Fixed an issue with Group Leader images in the Group Information block.
 
 = 1.3.7 =
 * Fixed an issue with detecting the REST URL on some sites.
