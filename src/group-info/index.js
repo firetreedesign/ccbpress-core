@@ -259,85 +259,85 @@ class CCBPressGroupInfoBlock extends Component {
             </Placeholder>
           )}
           <Disabled>
-            {groupId !== null &&
-              groupId !== "" && (
-                <div>
-                  {showGroupImage &&
-                    this.state.group.image !== "" && (
-                      <div>
-                        <img src={this.state.group.image} />
+            {groupId !== null && groupId !== "" && (
+              <div>
+                {showGroupImage && this.state.group.image !== "" && (
+                  <div>
+                    <img src={this.state.group.image} />
+                  </div>
+                )}
+                {showGroupName &&
+                  !this._isEmptyObject(this.state.group.data.name) && (
+                    <div className="ccbpress-group-info-name">
+                      {this.state.group.data.name}
+                    </div>
+                  )}
+                {showGroupDesc &&
+                  !this._isEmptyObject(this.state.group.data.description) && (
+                    <div className="ccbpress-group-info-desc">
+                      {this.state.group.data.description}
+                    </div>
+                  )}
+                <div
+                  className="ccbpress-group-info-details"
+                  style={{
+                    backgroundColor: boxBackgroundColor
+                      ? boxBackgroundColor
+                      : "",
+                    borderColor: boxBorderColor ? boxBorderColor : ""
+                  }}
+                >
+                  {showMainLeader && (
+                    <div>
+                      <div className="ccbpress-group-info-leader-title">
+                        {__("Group Leader")}
                       </div>
-                    )}
-                  {showGroupName &&
-                    !this._isEmptyObject(this.state.group.data.name) && (
-                      <div className="ccbpress-group-info-name">
-                        {this.state.group.data.name}
-                      </div>
-                    )}
-                  {showGroupDesc &&
-                    !this._isEmptyObject(this.state.group.data.description) && (
-                      <div className="ccbpress-group-info-desc">
-                        {this.state.group.data.description}
-                      </div>
-                    )}
-                  <div
-                    className="ccbpress-group-info-details"
-                    style={{
-                      backgroundColor: boxBackgroundColor
-                        ? boxBackgroundColor
-                        : "",
-                      borderColor: boxBorderColor ? boxBorderColor : ""
-                    }}
-                  >
-                    {showMainLeader && (
-                      <div>
-                        <div className="ccbpress-group-info-leader-title">
-                          {__("Group Leader")}
-                        </div>
-                        <div className="ccbpress-group-info-leader-container">
-                          {this.state.group.data.main_leader.image && (
+                      <div className="ccbpress-group-info-leader-container">
+                        {this.state.group.data.main_leader.image &&
+                          this.state.group.data.main_leader.image.length >
+                            3 && (
                             <img
                               className="ccbpress-group-info-leader-image"
                               src={this.state.group.data.main_leader.image}
                             />
                           )}
-                          <div className="ccbpress-group-info-leader-name">
-                            {showMainLeaderEmail && (
-                              <a
-                                href={`mailto:${this.state.group.data.main_leader.email.toString()}`}
-                              >
-                                {this.state.group.data.main_leader.full_name.toString()}
-                              </a>
-                            )}
-                            {!showMainLeaderEmail && (
-                              <Fragment>
-                                {this.state.group.data.main_leader.full_name.toString()}
-                              </Fragment>
-                            )}
-                          </div>
-                        </div>
-                        {showMainLeaderPhone &&
-                          this._renderPhoneNumbers(
-                            this.state.group.data.main_leader.phones
+                        <div className="ccbpress-group-info-leader-name">
+                          {showMainLeaderEmail && (
+                            <a
+                              href={`mailto:${this.state.group.data.main_leader.email.toString()}`}
+                            >
+                              {this.state.group.data.main_leader.full_name.toString()}
+                            </a>
                           )}
+                          {!showMainLeaderEmail && (
+                            <Fragment>
+                              {this.state.group.data.main_leader.full_name.toString()}
+                            </Fragment>
+                          )}
+                        </div>
+                      </div>
+                      {showMainLeaderPhone &&
+                        this._renderPhoneNumbers(
+                          this.state.group.data.main_leader.phones
+                        )}
+                    </div>
+                  )}
+                  {showRegistrationForms &&
+                    !this._isEmptyObject(
+                      this.state.group.data.registration_forms
+                    ) && (
+                      <div>
+                        <div className="ccbpress-group-info-registration-forms-title">
+                          {__("Registration Forms")}
+                        </div>
+                        {this._renderRegistrationForms(
+                          this.state.group.data.registration_forms
+                        )}
                       </div>
                     )}
-                    {showRegistrationForms &&
-                      !this._isEmptyObject(
-                        this.state.group.data.registration_forms
-                      ) && (
-                        <div>
-                          <div className="ccbpress-group-info-registration-forms-title">
-                            {__("Registration Forms")}
-                          </div>
-                          {this._renderRegistrationForms(
-                            this.state.group.data.registration_forms
-                          )}
-                        </div>
-                      )}
-                  </div>
                 </div>
-              )}
+              </div>
+            )}
           </Disabled>
         </div>
       </Fragment>
