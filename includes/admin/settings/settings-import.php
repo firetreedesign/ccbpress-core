@@ -58,13 +58,16 @@ class CCBPress_Settings_Import extends CCBPress_Settings {
 
 		$import_jobs = apply_filters( 'ccbpress_import_jobs', array() );
 		if ( 0 < count( $import_jobs ) && false !== wp_next_scheduled( 'ccbpress_import' ) ) {
-			$import_schedule = __( 'Scheduled to run in approximately ', 'ccbpress-core' ) . human_time_diff( strtotime( 'now' ), wp_next_scheduled( 'ccbpress_import' ) );
-			$import_active = true;
+			$now             = strtotime( 'now', time() );
+			$next_import     = wp_next_scheduled( 'ccbpress_import' );
+			$passed_due      = $now > $next_import ? '-' : '';
+			$import_schedule = __( 'Scheduled to run in approximately ', 'ccbpress-core' ) . $passed_due . human_time_diff( $now, $next_import );
+			$import_active   = true;
 		}
 
 		/**
 		 * Automatic Sync
-	 	 */
+		 */
 		add_settings_field(
 			'auto_import',
 			'<strong>' . __( 'Automatic Import', 'ccbpress-core' ) . '</strong>',
@@ -85,7 +88,7 @@ class CCBPress_Settings_Import extends CCBPress_Settings {
 			 */
 			$last_import = get_option( 'ccbpress_last_import', 'Never' );
 			if ( 'Never' !== $last_import ) {
-				$last_import = human_time_diff( strtotime( 'now', current_time( 'timestamp' ) ), strtotime( $last_import, current_time( 'timestamp' ) ) ) . ' ago';
+				$last_import = human_time_diff( strtotime( 'now', time() ), strtotime( $last_import, time() ) ) . ' ago';
 			}
 
 			add_settings_field(
@@ -136,35 +139,34 @@ class CCBPress_Settings_Import extends CCBPress_Settings {
     }
 
 	public function data_import_section_callback() {
-        echo '<p>' . __( 'Here you can manage the import settings for your Church Community Builder data. If you have add-ons that need data, we will automatically import the data from Church Community Builder on a regular schedule.', 'ccbpress-core' ) . '</p>';
+		echo '<p>' . __( 'Here you can manage the import settings for your Church Community Builder data. If you have add-ons that need data, we will automatically import the data from Church Community Builder on a regular schedule.', 'ccbpress-core' ) . '</p>';
 	}
 
 	public function sanitize_callback( $input ) {
 
-        // Define all of the variables that we'll be using
+		// Define all of the variables that we'll be using.
 		$output = array();
-		
+
 		if ( ! is_array( $input ) ) {
 			return $output;
 		}
 
-    	// Loop through each of the incoming options
-    	foreach ( $input as $key => $value ) {
+		// Loop through each of the incoming options.
+		foreach ( $input as $key => $value ) {
 
-    		// Check to see if the current option has a value. If so, process it.
-    		if ( isset( $input[$key] ) ) {
+			// Check to see if the current option has a value. If so, process it.
+			if ( isset( $input[ $key ] ) ) {
 
-    			// Strip all HTML and PHP tags and properly handle quoted strings
-    			$output[$key] = strip_tags( stripslashes( $input[$key] ) );
+				// Strip all HTML and PHP tags and properly handle quoted strings.
+				$output[ $key ] = wp_strip_all_tags( stripslashes( $input[ $key ] ) );
 
-    		}
+			}
+		}
 
-    	}
+		// Return the array.
+		return $output;
 
-    	// Return the array
-    	return $output;
-
-    }
+	}
 
 }
 new CCBPress_Settings_Import();

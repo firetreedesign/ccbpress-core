@@ -1,3 +1,4 @@
 {
-  "phpcs.standard": "WordPress"
+"phpcs.standard": "WordPress",
+"phpcs.executablePath": "./vendor/bin/phpcs",
 }

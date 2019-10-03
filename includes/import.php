@@ -89,11 +89,11 @@ class CCBPress_Import {
 
 		// Make sure that the queue is empty before scheduling another import.
 		if ( ! self::is_queue_empty() ) {
-			self::reschedule();
+			self::find_stalled_imports();
 			return;
 		}
 
-		update_option( 'ccbpress_current_import', date( 'Y-m-d H:i:s', current_time( 'timestamp' ) ) );
+		update_option( 'ccbpress_current_import', date( 'Y-m-d H:i:s', time() ) );
 
 		foreach ( $jobs as $job ) {
 			do_action( 'ccbpress_import_job_queued', $job );
@@ -172,10 +172,10 @@ class CCBPress_Import {
 		$table  = $wpdb->options;
 		$column = 'option_name';
 
-		if ( is_multisite() ) {
-			$table  = $wpdb->sitemeta;
-			$column = 'meta_key';
-		}
+		// if ( is_multisite() ) {
+		// 	$table  = $wpdb->sitemeta;
+		// 	$column = 'meta_key';
+		// }
 
 		$key   = $wpdb->esc_like( 'wp_ccbpress_get_batch_' ) . '%';
 		$count = $wpdb->get_var(
