@@ -2,9 +2,9 @@
 Contributors: firetree, danielmilner
 Tags: church, ccb, church community builder, chms, gutenberg
 Requires at least: 4.3
-Tested up to: 5.2
+Tested up to: 5.3
 Requires PHP: 5.3
-Stable tag: 1.3.8
+Stable tag: 1.3.9
 License: GPLv2 or later
 License URI: http://ww.gnu.org/licenses/gpl-2.0.html
 
@@ -44,6 +44,9 @@ Extend the capabilities of CCBPress with these add-ons:
 2. Getting Started
 
 == Changelog ==
+
+= 1.3.9 =
+* Fixed an issue where blocks would not show up in the block selector.
 
 = 1.3.8 =
 * Fixed an issue with clearing transient cache.

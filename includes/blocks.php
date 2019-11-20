@@ -73,7 +73,7 @@ class CCBPress_Core_Blocks {
 		wp_enqueue_script(
 			'ccbpress-core-block-js', // Handle.
 			plugins_url( $editor_block_path, CCBPRESS_CORE_PLUGIN_FILE ), // Block.build.js: We register the block here. Built with Webpack.
-            array('wp-i18n', 'wp-element', 'wp-components' ), // Dependencies, defined above.
+            array('wp-i18n', 'wp-element', 'wp-components', 'wp-blocks', 'wp-editor' ), // Dependencies, defined above.
             filemtime( plugin_dir_path( CCBPRESS_CORE_PLUGIN_FILE ) . $editor_block_path )
 		);
 
@@ -110,6 +110,7 @@ class CCBPress_Core_Blocks {
 				array(
 					'slug' => 'ccbpress',
 					'title' => __( 'CCBPress', 'ccbpress-core' ),
+					'icon' => null,
 				),
 			)
 		);
