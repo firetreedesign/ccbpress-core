@@ -1,4 +1,5 @@
 <?php
+
 /**
  * CCBPress License Handler
  *
@@ -14,32 +15,85 @@ if ( ! class_exists( 'CCBPress_License' ) ) :
 
 	class CCBPress_License {
 
+		/**
+		 * File
+		 *
+		 * @var string
+		 */
 		private $file;
+
+		/**
+		 * License Key
+		 *
+		 * @var string
+		 */
 		private $license;
+
+		/**
+		 * Item Name
+		 *
+		 * @var string
+		 */
 		private $item_name;
+
+		/**
+		 * Item ID
+		 *
+		 * @var string
+		 */
 		private $item_id;
+
+		/**
+		 * Item Shortname
+		 *
+		 * @var string
+		 */
 		private $item_shortname;
+
+		/**
+		 * Version
+		 *
+		 * @var string
+		 */
 		private $version;
+
+		/**
+		 * Author
+		 *
+		 * @var string
+		 */
 		private $author;
+
+		/**
+		 * API URL
+		 *
+		 * @var string
+		 */
 		private $api_url = 'https://ccbpress.com/';
 
-	    /**
-	     * Create a new instance
-	     */
-	    function __construct( $_file, $_item_id, $_item_name, $_version, $_author ) {
+		/**
+		 * Create a new instance
+		 *
+		 * @param string $_file File name.
+		 * @param string $_item_id Numeric item ID.
+		 * @param string $_item_name Item name.
+		 * @param string $_version Version.
+		 * @param string $_author Author.
+		 * @param string $_item_shortname Item short name / slug.
+		 */
+		public function __construct( $_file, $_item_id, $_item_name, $_version, $_author, $_item_shortname = null ) {
 
-	        $this->file				= $_file;
-			$this->item_name		= $_item_name;
-			$this->item_id			= $_item_id;
-			$this->item_shortname	= 'ccbpress_' . $this->item_id;
-			$this->version			= $_version;
-			$this->author			= $_author;
-			$this->license			= trim( $this->get_license_key() );
+			$this->file           = $_file;
+			$this->item_name      = $_item_name;
+			$this->item_id        = $_item_id;
+			$this->item_shortname = is_null( $_item_shortname ) ? $this->item_id : $_item_shortname;
+			$this->version        = $_version;
+			$this->author         = $_author;
+			$this->license        = trim( $this->get_license_key() );
 
 			$this->includes();
 			$this->hooks();
-
-	    }
+		}
 
 		/**
 		 * Include the EDD Sofitware Licensing updater class
@@ -78,7 +132,6 @@ if ( ! class_exists( 'CCBPress_License' ) ) :
 
 			// Register the auto updater.
 			add_action( 'admin_init', array( $this, 'auto_updater' ), 0 );
-
 		}
 
 		private function get_license_key() {
@@ -103,21 +156,34 @@ if ( ! class_exists( 'CCBPress_License' ) ) :
 			$license_data = json_decode( get_option( $this->item_shortname . '_license_key_active', '' ) );
 
 			if ( ! isset( $license_data->license ) || 'valid' !== $license_data->license ) {
-			 	return;
+				return;
 			}
 
-			$edd_updater = new EDD_SL_Plugin_Updater(
-				$this->api_url,
-				$this->file,
-				array(
-					'version'	=> $this->version,
-					'license'	=> $this->license,
-					'item_name'	=> $this->item_name,
-					'author'	=> $this->author,
-					'url'		=> home_url(),
-				)
-			);
-
+			if ( is_numeric( $this->item_id ) ) {
+				$edd_updater = new EDD_SL_Plugin_Updater(
+					$this->api_url,
+					$this->file,
+					array(
+						'version' => $this->version,
+						'license' => $this->license,
+						'item_id' => $this->item_id,
+						'author'  => $this->author,
+						'url'     => home_url(),
+					)
+				);
+			} else {
+				$edd_updater = new EDD_SL_Plugin_Updater(
+					$this->api_url,
+					$this->file,
+					array(
+						'version'   => $this->version,
+						'license'   => $this->license,
+						'item_name' => $this->item_name,
+						'author'    => $this->author,
+						'url'       => home_url(),
+					)
+				);
+			}
 		}
 
 		/**
@@ -139,7 +205,7 @@ if ( ! class_exists( 'CCBPress_License' ) ) :
 				return;
 			}
 
-			foreach( $_POST as $key => $value ) {
+			foreach ( $_POST as $key => $value) {
 				if ( false !== strpos( $key, 'license_key_deactivate' ) ) {
 					return;
 				}
@@ -152,7 +218,7 @@ if ( ! class_exists( 'CCBPress_License' ) ) :
 			$license_data = json_decode( get_option( $this->item_shortname . '_license_key_active', '' ) );
 
 			if ( isset( $license_data->license ) && 'valid' === $license_data->license ) {
-			 	return;
+				return;
 			}
 
 			$license = sanitize_text_field( $_POST['ccbpress_licenses'][ $this->item_shortname . '_license_key' ] );
@@ -161,19 +227,28 @@ if ( ! class_exists( 'CCBPress_License' ) ) :
 				return;
 			}
 
-			$api_params = array(
-				'edd_action'	=> 'activate_license',
-				'license'		=> $license,
-				'item_name'		=> urlencode( $this->item_name ),
-				'url'			=> home_url(),
-			);
+			if ( is_numeric( $this->item_id ) ) {
+				$api_params = array(
+					'edd_action' => 'activate_license',
+					'license'    => $license,
+					'item_id'    => rawurlencode( $this->item_id ),
+					'url'        => home_url(),
+				);
+			} else {
+				$api_params = array(
+					'edd_action' => 'activate_license',
+					'license'    => $license,
+					'item_name'  => rawurlencode( $this->item_name ),
+					'url'        => home_url(),
+				);
+			}
 
 			$response = wp_remote_post(
 				$this->api_url,
 				array(
-					'timeout'	=> 15,
-					'sslverify'	=> false,
-					'body'		=> $api_params,
+					'timeout'   => 15,
+					'sslverify' => false,
+					'body'      => $api_params,
 				)
 			);
 
@@ -188,7 +263,6 @@ if ( ! class_exists( 'CCBPress_License' ) ) :
 			$license_data = wp_remote_retrieve_body( $response );
 
 			update_option( $this->item_shortname . '_license_key_active', $license_data );
-
 		}
 
 		/**
@@ -216,19 +290,28 @@ if ( ! class_exists( 'CCBPress_License' ) ) :
 
 			if ( isset( $_POST[ $this->item_shortname . '_license_key_deactivate' ] ) ) {
 
-				$api_params = array(
-					'edd_action'	=> 'deactivate_license',
-					'license'		=> $this->license,
-					'item_name'		=> urlencode( $this->item_name ),
-					'url'			=> home_url(),
-				);
+				if ( is_numeric( $this->item_id ) ) {
+					$api_params = array(
+						'edd_action' => 'deactivate_license',
+						'license'    => $this->license,
+						'item_id'    => rawurlencode( $this->item_id ),
+						'url'        => home_url(),
+					);
+				} else {
+					$api_params = array(
+						'edd_action' => 'deactivate_license',
+						'license'    => $this->license,
+						'item_name'  => rawurlencode( $this->item_name ),
+						'url'        => home_url(),
+					);
+				}
 
 				$response = wp_remote_post(
 					$this->api_url,
 					array(
-						'timeout'	=> 15,
-						'sslverify'	=> false,
-						'body'		=> $api_params,
+						'timeout'   => 15,
+						'sslverify' => false,
+						'body'      => $api_params,
 					)
 				);
 
@@ -240,9 +323,7 @@ if ( ! class_exists( 'CCBPress_License' ) ) :
 				$license_data = json_decode( wp_remote_retrieve_body( $response ) );
 				update_option( 'ccbpress_license_data', $license_data );
 				delete_option( $this->item_shortname . '_license_key_active' );
-
 			}
-
 		}
 
 		/**
@@ -254,18 +335,16 @@ if ( ! class_exists( 'CCBPress_License' ) ) :
 		 *
 		 * @return array
 		 */
-		public function licenses( $licenses ) {
+		public function licenses($licenses) {
 
 			$licenses[] = array(
-				'id'	=> esc_attr( $this->item_shortname ),
-				'name'	=> esc_html( $this->item_name ),
-				'notes'	=> '',
+				'id'    => esc_attr( $this->item_shortname ),
+				'name'  => esc_html( $this->item_name ),
+				'notes' => '',
 			);
 
 			return $licenses;
-
 		}
-
 	}
 
 endif;
