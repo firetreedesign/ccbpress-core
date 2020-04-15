@@ -230,6 +230,9 @@ class CCBPress_Transients {
 			)
 		);
 
+		// Flush the object cache.
+		wp_cache_flush();
+
 		return true;
 
 	}
