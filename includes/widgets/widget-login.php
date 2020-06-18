@@ -54,7 +54,7 @@ if ( ! class_exists( 'CCBPress_Widget_Login' ) ) :
 				<input type="submit" value="<?php esc_attr_e( 'Login', 'ccbpress-core' ); ?>" />
 			</form>
 			<p>
-				<a href="<?php echo esc_attr( $ccb_password_url ); ?>" target="_blank"><?php esc_html_e( 'Forgot username or password?', 'ccbpress-core' ); ?></a>
+				<a href="<?php echo esc_attr( $ccb_password_url ); ?>" target="_blank"><?php esc_html_e( 'Forgot your password?', 'ccbpress-core' ); ?></a>
 			</p>
 			<?php
 			echo ob_get_clean();
