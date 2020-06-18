@@ -77,9 +77,9 @@ class CCBPress_Core_Login_Block {
 				<input id="password_<?php echo esc_attr( $uniqid ); ?>" type="password" name="form[password]" value="" />
 				<input type="submit" value="<?php echo esc_attr( $button_text ); ?>" style="<?php echo $button_style; ?>" />
 			</form>
-			<?php if (true === $show_forgot_password ) : ?>
+			<?php if ( true === $show_forgot_password ) : ?>
 				<p>
-					<a href="<?php echo esc_attr( $ccb_password_url ); ?>" target="_blank"><?php esc_html_e( 'Forgot username or password?', 'ccbpress-core' ); ?></a>
+					<a href="<?php echo esc_attr( $ccb_password_url ); ?>" target="_blank"><?php esc_html_e( 'Forgot your password?', 'ccbpress-core' ); ?></a>
 				</p>
 			<?php endif; ?>
 		</div>

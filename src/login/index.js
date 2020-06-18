@@ -22,11 +22,11 @@ class CCBPressLoginBlock extends Component {
     super(...arguments);
   }
 
-  _setButtonBackgroundColor = color => {
+  _setButtonBackgroundColor = (color) => {
     this.props.setAttributes({ buttonBackgroundColor: color });
   };
 
-  _setButtonTextColor = color => {
+  _setButtonTextColor = (color) => {
     this.props.setAttributes({ buttonTextColor: color });
   };
 
@@ -36,7 +36,7 @@ class CCBPressLoginBlock extends Component {
       showForgotPassword,
       buttonBackgroundColor,
       buttonTextColor,
-      buttonText
+      buttonText,
     } = attributes;
 
     const inspectorControls = (
@@ -52,7 +52,7 @@ class CCBPressLoginBlock extends Component {
           <TextControl
             label={__("Submit Button Text")}
             value={buttonText}
-            onChange={buttonText => setAttributes({ buttonText })}
+            onChange={(buttonText) => setAttributes({ buttonText })}
           />
         </PanelBody>
         <PanelColorSettings
@@ -62,19 +62,19 @@ class CCBPressLoginBlock extends Component {
             {
               value: buttonBackgroundColor,
               onChange: this._setButtonBackgroundColor,
-              label: __("Background Color")
+              label: __("Background Color"),
             },
             {
               value: buttonTextColor,
               onChange: this._setButtonTextColor,
-              label: __("Text Color")
-            }
+              label: __("Text Color"),
+            },
           ]}
         >
           <ContrastChecker
             {...{
               textColor: buttonTextColor,
-              backgroundColor: buttonBackgroundColor
+              backgroundColor: buttonBackgroundColor,
             }}
           />
         </PanelColorSettings>
@@ -98,13 +98,13 @@ class CCBPressLoginBlock extends Component {
                   backgroundColor: buttonBackgroundColor
                     ? buttonBackgroundColor
                     : "",
-                  color: buttonTextColor ? buttonTextColor : ""
+                  color: buttonTextColor ? buttonTextColor : "",
                 }}
               />
             </form>
             {showForgotPassword && (
               <p>
-                <a href="#">{__("Forgot username or password?")}</a>
+                <a href="#">{__("Forgot your password?")}</a>
               </p>
             )}
           </div>
@@ -134,23 +134,23 @@ registerBlockType("ccbpress/login", {
   category: "ccbpress", // Block category — Group blocks together based on common traits E.g. common, formatting, layout widgets, embed.
   keywords: [__("church community builder"), __("ccb"), __("ccbpress")],
   supports: {
-    html: false
+    html: false,
   },
   attributes: {
     showForgotPassword: {
       type: "boolean",
-      default: true
+      default: true,
     },
     buttonBackgroundColor: {
-      type: "string"
+      type: "string",
     },
     buttonTextColor: {
-      type: "string"
+      type: "string",
     },
     buttonText: {
       type: "string",
-      default: __("Login")
-    }
+      default: __("Login"),
+    },
   },
 
   edit: CCBPressLoginBlock,
@@ -158,5 +158,5 @@ registerBlockType("ccbpress/login", {
   save() {
     // Rendering in PHP
     return null;
-  }
+  },
 });
