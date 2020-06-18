@@ -665,6 +665,37 @@ class CCBPress_Connection {
 	}
 
 	/**
+	 * Delete a single image.
+	 * 
+	 * @since 1.3.11
+	 *
+	 * @param string $image_id The ID of the image.
+	 * @param string $type The type of the image.
+	 * @return void
+	 */
+	public function delete_image( $image_id, $type ) {
+		$upload_dir = wp_upload_dir();
+
+		// If there is an error, then exit.
+		if ( false !== $upload_dir['error'] ) {
+			return;
+		}
+
+		$cache_path = $upload_dir['basedir'] . '/' . $this->image_cache_dir . '/cache';
+
+		// If the cache path does not exist, then exit.
+		if ( ! file_exists( $cache_path ) ) {
+			return;
+		}
+
+		$image = "{$cache_path}/{$type}-{$image_id}.jpg";
+
+		if ( is_file( $image ) ) {
+			unlink( $image );
+		}
+	}
+
+	/**
 	 * Purge the image cache
 	 *
 	 * @since 1.0.2
