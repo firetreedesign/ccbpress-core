@@ -40,8 +40,9 @@ class CCBPress_Admin_REST_API {
 			'ccbpress/v1',
 			'/admin/purge_image_cache',
 			array(
-				'methods'  => 'POST',
-				'callback' => __CLASS__ . '::purge_image_cache',
+				'methods'             => 'POST',
+				'callback'            => __CLASS__ . '::purge_image_cache',
+				'permission_callback' => __CLASS__ . '::permission_callback',
 			)
 		);
 
@@ -49,8 +50,9 @@ class CCBPress_Admin_REST_API {
 			'ccbpress/v1',
 			'/admin/purge_transient_cache',
 			array(
-				'methods'  => 'POST',
-				'callback' => __CLASS__ . '::purge_transient_cache',
+				'methods'             => 'POST',
+				'callback'            => __CLASS__ . '::purge_transient_cache',
+				'permission_callback' => __CLASS__ . '::permission_callback',
 			)
 		);
 
@@ -58,8 +60,9 @@ class CCBPress_Admin_REST_API {
 			'ccbpress/v1',
 			'/admin/check_api_services',
 			array(
-				'methods'  => 'POST',
-				'callback' => __CLASS__ . '::check_api_services',
+				'methods'             => 'POST',
+				'callback'            => __CLASS__ . '::check_api_services',
+				'permission_callback' => __CLASS__ . '::permission_callback',
 			)
 		);
 
@@ -67,8 +70,9 @@ class CCBPress_Admin_REST_API {
 			'ccbpress/v1',
 			'/admin/reset_import',
 			array(
-				'methods'  => 'POST',
-				'callback' => __CLASS__ . '::reset_import',
+				'methods'             => 'POST',
+				'callback'            => __CLASS__ . '::reset_import',
+				'permission_callback' => __CLASS__ . '::permission_callback',
 			)
 		);
 
@@ -76,8 +80,9 @@ class CCBPress_Admin_REST_API {
 			'ccbpress/v1',
 			'/admin/start_import',
 			array(
-				'methods'  => 'POST',
-				'callback' => __CLASS__ . '::start_import',
+				'methods'             => 'POST',
+				'callback'            => __CLASS__ . '::start_import',
+				'permission_callback' => __CLASS__ . '::permission_callback',
 			)
 		);
 
@@ -85,8 +90,9 @@ class CCBPress_Admin_REST_API {
 			'ccbpress/v1',
 			'/admin/last_import',
 			array(
-				'methods'  => 'POST',
-				'callback' => __CLASS__ . '::last_import',
+				'methods'             => 'POST',
+				'callback'            => __CLASS__ . '::last_import',
+				'permission_callback' => __CLASS__ . '::permission_callback',
 			)
 		);
 
@@ -94,8 +100,9 @@ class CCBPress_Admin_REST_API {
 			'ccbpress/v1',
 			'/admin/import_status',
 			array(
-				'methods'  => 'POST',
-				'callback' => __CLASS__ . '::import_status',
+				'methods'             => 'POST',
+				'callback'            => __CLASS__ . '::import_status',
+				'permission_callback' => __CLASS__ . '::permission_callback',
 			)
 		);
 
@@ -103,8 +110,9 @@ class CCBPress_Admin_REST_API {
 			'ccbpress/v1',
 			'/admin/groups',
 			array(
-				'methods'  => 'POST',
-				'callback' => __CLASS__ . '::rest_api_groups',
+				'methods'             => 'POST',
+				'callback'            => __CLASS__ . '::rest_api_groups',
+				'permission_callback' => __CLASS__ . '::permission_callback',
 			)
 		);
 
@@ -112,8 +120,9 @@ class CCBPress_Admin_REST_API {
 			'ccbpress/v1',
 			'/admin/group/(?P<id>\d+)',
 			array(
-				'methods'  => 'POST',
-				'callback' => __CLASS__ . '::rest_api_group',
+				'methods'             => 'POST',
+				'callback'            => __CLASS__ . '::rest_api_group',
+				'permission_callback' => __CLASS__ . '::permission_callback',
 			)
 		);
 
@@ -121,11 +130,21 @@ class CCBPress_Admin_REST_API {
 			'ccbpress/v1',
 			'/admin/is-form-active/(?P<id>\d+)',
 			array(
-				'methods'  => 'POST',
-				'callback' => __CLASS__ . '::rest_api_is_form_active',
+				'methods'             => 'POST',
+				'callback'            => __CLASS__ . '::rest_api_is_form_active',
+				'permission_callback' => __CLASS__ . '::permission_callback',
 			)
 		);
 
+	}
+
+	/**
+	 * Check the user permissions
+	 *
+	 * @return boolean
+	 */
+	public static function permission_callback() {
+		return __return_true();
 	}
 
 	/**

@@ -2,9 +2,9 @@
 Contributors: firetree, danielmilner
 Tags: church, ccb, church community builder, chms, gutenberg
 Requires at least: 4.3
-Tested up to: 5.4
+Tested up to: 5.5
 Requires PHP: 5.3
-Stable tag: 1.3.11
+Stable tag: 1.3.12
 License: GPLv2 or later
 License URI: http://ww.gnu.org/licenses/gpl-2.0.html
 
@@ -44,6 +44,9 @@ Extend the capabilities of CCBPress with these add-ons:
 2. Getting Started
 
 == Changelog ==
+
+= 1.3.12 =
+* Compatibility with WordPress 5.5.
 
 = 1.3.11 =
 * Added the ability for images to be deleted during a data import.
