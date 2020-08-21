@@ -14,7 +14,11 @@ import blockIcons from "../icons.js";
 const { Component, Fragment } = wp.element;
 const { __ } = wp.i18n; // Import __() from wp.i18n
 const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
-const { InspectorControls, PanelColorSettings, ContrastChecker } = wp.editor;
+const {
+  InspectorControls,
+  ContrastChecker,
+  PanelColorSettings,
+} = wp.blockEditor;
 const { PanelBody, ToggleControl, TextControl, Disabled } = wp.components;
 
 class CCBPressLoginBlock extends Component {

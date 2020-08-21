@@ -16,13 +16,13 @@ import { getGroup, isFormActive } from "../utils/data.js";
 const { Component, Fragment } = wp.element;
 const { __ } = wp.i18n;
 const { registerBlockType } = wp.blocks;
-const { InspectorControls, PanelColorSettings } = wp.editor;
+const { InspectorControls, PanelColorSettings } = wp.blockEditor;
 const {
   PanelBody,
   ToggleControl,
   Spinner,
   Placeholder,
-  Disabled
+  Disabled,
 } = wp.components;
 
 class CCBPressGroupInfoBlock extends Component {
@@ -32,7 +32,7 @@ class CCBPressGroupInfoBlock extends Component {
       group: null,
       prevGroupId: null,
       isLoading: true,
-      externalData: null
+      externalData: null,
     };
   }
 
@@ -43,7 +43,7 @@ class CCBPressGroupInfoBlock extends Component {
       return {
         group: null,
         prevGroupId: nextProps.attributes.groupId,
-        isLoading: true
+        isLoading: true,
       };
     }
 
@@ -71,8 +71,8 @@ class CCBPressGroupInfoBlock extends Component {
     }
 
     getGroup(groupId)
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         // console.log(data.data);
         this.setState({ group: data, isLoading: false });
       });
@@ -132,11 +132,11 @@ class CCBPressGroupInfoBlock extends Component {
     return forms_array;
   }
 
-  _setBoxBackgroundColor = color => {
+  _setBoxBackgroundColor = (color) => {
     this.props.setAttributes({ boxBackgroundColor: color });
   };
 
-  _setBoxBorderColor = color => {
+  _setBoxBorderColor = (color) => {
     this.props.setAttributes({ boxBorderColor: color });
   };
 
@@ -152,7 +152,7 @@ class CCBPressGroupInfoBlock extends Component {
       showMainLeaderPhone,
       showRegistrationForms,
       boxBackgroundColor,
-      boxBorderColor
+      boxBorderColor,
     } = attributes;
 
     const inspectorControls = (
@@ -160,7 +160,7 @@ class CCBPressGroupInfoBlock extends Component {
         <PanelBody title={__("Group Settings")}>
           <CCBPressGroupSelect
             value={groupId}
-            onChange={value => setAttributes({ groupId: value })}
+            onChange={(value) => setAttributes({ groupId: value })}
           />
         </PanelBody>
         <PanelBody title={__("Display Settings")}>
@@ -172,23 +172,23 @@ class CCBPressGroupInfoBlock extends Component {
           <ToggleControl
             label={__("Group Name")}
             checked={showGroupName}
-            onChange={checked => setAttributes({ showGroupName: checked })}
+            onChange={(checked) => setAttributes({ showGroupName: checked })}
           />
           <ToggleControl
             label={__("Description")}
             checked={showGroupDesc}
-            onChange={checked => setAttributes({ showGroupDesc: checked })}
+            onChange={(checked) => setAttributes({ showGroupDesc: checked })}
           />
           <ToggleControl
             label={__("Main Leader")}
             checked={showMainLeader}
-            onChange={checked => setAttributes({ showMainLeader: checked })}
+            onChange={(checked) => setAttributes({ showMainLeader: checked })}
           />
           {showMainLeader && (
             <ToggleControl
               label={__("Email Address")}
               checked={showMainLeaderEmail}
-              onChange={checked =>
+              onChange={(checked) =>
                 setAttributes({ showMainLeaderEmail: checked })
               }
             />
@@ -197,7 +197,7 @@ class CCBPressGroupInfoBlock extends Component {
             <ToggleControl
               label={__("Phone Numbers")}
               checked={showMainLeaderPhone}
-              onChange={checked =>
+              onChange={(checked) =>
                 setAttributes({ showMainLeaderPhone: checked })
               }
             />
@@ -205,7 +205,7 @@ class CCBPressGroupInfoBlock extends Component {
           <ToggleControl
             label={__("Registration Forms")}
             checked={showRegistrationForms}
-            onChange={checked =>
+            onChange={(checked) =>
               setAttributes({ showRegistrationForms: checked })
             }
           />
@@ -217,13 +217,13 @@ class CCBPressGroupInfoBlock extends Component {
             {
               value: boxBackgroundColor,
               onChange: this._setBoxBackgroundColor,
-              label: __("Background Color")
+              label: __("Background Color"),
             },
             {
               value: boxBorderColor,
               onChange: this._setBoxBorderColor,
-              label: __("Border Color")
-            }
+              label: __("Border Color"),
+            },
           ]}
         />
       </InspectorControls>
@@ -254,7 +254,7 @@ class CCBPressGroupInfoBlock extends Component {
             >
               <CCBPressGroupSelect
                 value={groupId}
-                onChange={value => setAttributes({ groupId: value })}
+                onChange={(value) => setAttributes({ groupId: value })}
               />
             </Placeholder>
           )}
@@ -284,7 +284,7 @@ class CCBPressGroupInfoBlock extends Component {
                     backgroundColor: boxBackgroundColor
                       ? boxBackgroundColor
                       : "",
-                    borderColor: boxBorderColor ? boxBorderColor : ""
+                    borderColor: boxBorderColor ? boxBorderColor : "",
                   }}
                 >
                   {showMainLeader && (
@@ -366,52 +366,52 @@ export default registerBlockType("ccbpress/group-info", {
   category: "ccbpress", // Block category — Group blocks together based on common traits E.g. common, formatting, layout widgets, embed.
   keywords: [__("church community builder"), __("ccb"), __("ccbpress")],
   supports: {
-    html: false
+    html: false,
   },
   attributes: {
     groupId: {
       type: "select",
-      default: null
+      default: null,
     },
     showGroupImage: {
       type: "boolean",
-      default: true
+      default: true,
     },
     showGroupName: {
       type: "boolean",
-      default: true
+      default: true,
     },
     showGroupDesc: {
       type: "boolean",
-      default: true
+      default: true,
     },
     showMainLeader: {
       type: "boolean",
-      default: true
+      default: true,
     },
     showMainLeaderEmail: {
       type: "boolean",
-      default: true
+      default: true,
     },
     showMainLeaderPhone: {
       type: "boolean",
-      default: true
+      default: true,
     },
     showRegistrationForms: {
       type: "boolean",
-      default: true
+      default: true,
     },
     boxBackgroundColor: {
-      type: "string"
+      type: "string",
     },
     boxBorderColor: {
-      type: "string"
-    }
+      type: "string",
+    },
   },
 
   edit: CCBPressGroupInfoBlock,
 
   save() {
     return;
-  }
+  },
 });
