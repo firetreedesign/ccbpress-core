@@ -4,7 +4,7 @@
  *
  * Enqueue CSS/JS of all the blocks.
  *
- * @since 	1.3.0
+ * @since 1.3.0
  * @package CGB
  */
 
@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class CCBPress_Core_Login_Block {
 
-    /**
+	/**
 	 * Initialize the class
 	 *
 	 * @since 1.2.0
@@ -27,27 +27,41 @@ class CCBPress_Core_Login_Block {
 	 */
 	public static function init() {
 		add_action( 'init', __CLASS__ . '::block_init' );
-    }
-    
-    public static function block_init() {
-		if ( ! function_exists( 'register_block_type' ) ) {
-            return;
-        }
-            
-        register_block_type( 'ccbpress/login', array(
-            'render_callback' => __CLASS__ . '::render',
-        ) );
-    }
+	}
 
-    public static function render( $attributes ) {
-        $ccb_api_url = CCBPress()->ccb->api_url;
-		$ccb_login_url = str_replace( 'api.php', 'login.php', $ccb_api_url );
-        $ccb_password_url = str_replace( 'api.php', 'w_password.php', $ccb_api_url );
-        $uniqid = uniqid();
+	/**
+	 * Block Init
+	 *
+	 * @return void
+	 */
+	public static function block_init() {
+		if ( ! function_exists( 'register_block_type' ) ) {
+			return;
+		}
+
+		register_block_type(
+			'ccbpress/login',
+			array(
+				'render_callback' => __CLASS__ . '::render',
+			)
+		);
+	}
+
+	/**
+	 * Render
+	 *
+	 * @param array $attributes Attributes.
+	 * @return string
+	 */
+	public static function render( $attributes ) {
+		$ccb_api_url      = CCBPress()->ccb->api_url;
+		$ccb_login_url    = str_replace( 'api.php', 'login.php', $ccb_api_url );
+		$ccb_password_url = str_replace( 'api.php', 'w_password.php', $ccb_api_url );
+		$uniqid           = uniqid();
 
 		// Set the values passed from the widget/block options.
 		$show_forgot_password = true;
-        if ( isset( $attributes['showForgotPassword'] ) && false === $attributes['showForgotPassword'] ) {
+		if ( isset( $attributes['showForgotPassword'] ) && false === $attributes['showForgotPassword'] ) {
 			$show_forgot_password = false;
 		}
 
@@ -60,11 +74,11 @@ class CCBPress_Core_Login_Block {
 			$button_style .= 'color: ' . $attributes['buttonTextColor'] . ';';
 		}
 
-		$button_text = __('Login', 'ccbpress-core');
+		$button_text = __( 'Login', 'ccbpress-core' );
 		if ( isset( $attributes['buttonText'] ) ) {
 			$button_text = $attributes['buttonText'];
 		}
-	
+
 		ob_start();
 		?>
 		<div class="wp-block-ccbpress-login">
@@ -85,7 +99,7 @@ class CCBPress_Core_Login_Block {
 		</div>
 		<?php
 		return ob_get_clean();
-    }
+	}
 
 }
 CCBPress_Core_Login_Block::init();

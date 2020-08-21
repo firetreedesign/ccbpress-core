@@ -14,7 +14,11 @@ import blockIcons from "../icons.js";
 const { Component, Fragment } = wp.element;
 const { __ } = wp.i18n; // Import __() from wp.i18n
 const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
-const { InspectorControls, PanelColorSettings, ContrastChecker } = wp.editor;
+const {
+  InspectorControls,
+  PanelColorSettings,
+  ContrastChecker,
+} = wp.blockEditor;
 const { PanelBody, TextControl, Disabled } = wp.components;
 
 class CCBPressOnlineGivingBlock extends Component {
@@ -22,11 +26,11 @@ class CCBPressOnlineGivingBlock extends Component {
     super(...arguments);
   }
 
-  _setBackgroundColor = color => {
+  _setBackgroundColor = (color) => {
     this.props.setAttributes({ backgroundColor: color });
   };
 
-  _setTextColor = color => {
+  _setTextColor = (color) => {
     this.props.setAttributes({ textColor: color });
   };
 
@@ -40,7 +44,7 @@ class CCBPressOnlineGivingBlock extends Component {
           <TextControl
             label={__("Button Text")}
             value={buttonText}
-            onChange={buttonText => setAttributes({ buttonText })}
+            onChange={(buttonText) => setAttributes({ buttonText })}
           />
         </PanelBody>
         <PanelColorSettings
@@ -50,19 +54,19 @@ class CCBPressOnlineGivingBlock extends Component {
             {
               value: backgroundColor,
               onChange: this._setBackgroundColor,
-              label: __("Background Color")
+              label: __("Background Color"),
             },
             {
               value: textColor,
               onChange: this._setTextColor,
-              label: __("Text Color")
-            }
+              label: __("Text Color"),
+            },
           ]}
         >
           <ContrastChecker
             {...{
               textColor: textColor,
-              backgroundColor: backgroundColor
+              backgroundColor: backgroundColor,
             }}
           />
         </PanelColorSettings>
@@ -80,7 +84,7 @@ class CCBPressOnlineGivingBlock extends Component {
                 value={buttonText}
                 style={{
                   backgroundColor: backgroundColor ? backgroundColor : "",
-                  color: textColor ? textColor : ""
+                  color: textColor ? textColor : "",
                 }}
               />
             </form>
@@ -111,19 +115,19 @@ registerBlockType("ccbpress/online-giving", {
   category: "ccbpress", // Block category — Group blocks together based on common traits E.g. common, formatting, layout widgets, embed.
   keywords: [__("church community builder"), __("ccb"), __("ccbpress")],
   supports: {
-    html: false
+    html: false,
   },
   attributes: {
     buttonText: {
       type: "string",
-      default: __("Give Now")
+      default: __("Give Now"),
     },
     backgroundColor: {
-      type: "string"
+      type: "string",
     },
     textColor: {
-      type: "string"
-    }
+      type: "string",
+    },
   },
 
   /**
@@ -147,5 +151,5 @@ registerBlockType("ccbpress/online-giving", {
   save() {
     // Rendering in PHP
     return null;
-  }
+  },
 });
