@@ -105,8 +105,8 @@ if ( ! class_exists( 'CCBPress_License' ) ) :
 		 * @return void
 		 */
 		private function includes() {
-			if ( ! class_exists( 'EDD_SL_Plugin_Updater' ) ) {
-				require CCBPRESS_CORE_PLUGIN_DIR . 'lib/EDD_SL_Plugin_Updater.php';
+			if ( ! class_exists( 'CCBPress_EDD_SL_Plugin_Updater' ) ) {
+				require CCBPRESS_CORE_PLUGIN_DIR . 'lib/CCBPress_EDD_SL_Plugin_Updater.php';
 			}
 		}
 
@@ -160,7 +160,7 @@ if ( ! class_exists( 'CCBPress_License' ) ) :
 			}
 
 			if ( is_numeric( $this->item_id ) ) {
-				$edd_updater = new EDD_SL_Plugin_Updater(
+				$edd_updater = new CCBPress_EDD_SL_Plugin_Updater(
 					$this->api_url,
 					$this->file,
 					array(
@@ -172,7 +172,7 @@ if ( ! class_exists( 'CCBPress_License' ) ) :
 					)
 				);
 			} else {
-				$edd_updater = new EDD_SL_Plugin_Updater(
+				$edd_updater = new CCBPress_EDD_SL_Plugin_Updater(
 					$this->api_url,
 					$this->file,
 					array(
