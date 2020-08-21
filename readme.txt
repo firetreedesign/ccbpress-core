@@ -4,7 +4,7 @@ Tags: church, ccb, church community builder, chms, gutenberg
 Requires at least: 4.3
 Tested up to: 5.5
 Requires PHP: 5.3
-Stable tag: 1.3.12
+Stable tag: 1.3.13
 License: GPLv2 or later
 License URI: http://ww.gnu.org/licenses/gpl-2.0.html
 
@@ -44,6 +44,10 @@ Extend the capabilities of CCBPress with these add-ons:
 2. Getting Started
 
 == Changelog ==
+
+= 1.3.13 =
+* Updated the add-on updater class.
+* Migrated block components from wp.editor to wp.blockEditor.
 
 = 1.3.12 =
 * Compatibility with WordPress 5.5.
