@@ -36,10 +36,6 @@ class CCBPress_Tools_Cache extends CCBPress_Settings {
 	 */
 	public function initialize() {
 
-		if ( ! CCBPress()->ccb->is_connected() ) {
-			return;
-		}
-
 		// First, we register a section. This is necessary since all future options must belong to one.
 		add_settings_section(
 			'ccbpress_tools_cache_section',
