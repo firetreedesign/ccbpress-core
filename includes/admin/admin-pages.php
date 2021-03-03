@@ -408,7 +408,7 @@ class CCBPress_Admin_Pages {
 							__( 'You can check if WP Cron is running properly by installing a plugin called', 'ccbpress-core' ),
 							'https://wordpress.org/plugins/wp-crontrol/',
 							'WP Crontrol',
-							__( 'Once installed, you can visit Tools > Cron Events from your WordPress Admin. There will be a warning at the top of that screen if any issues are detected.', 'ccbpress-core' ),
+							__( 'Once installed, you can visit Tools > Cron Events from your WordPress Admin. There will be a warning at the top of that screen if any issues are detected.', 'ccbpress-core' )
 						),
 						sprintf(
 							'<em>%s</em>',

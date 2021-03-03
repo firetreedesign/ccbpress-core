@@ -4,7 +4,7 @@ Tags: church, ccb, church community builder, chms, gutenberg
 Requires at least: 4.3
 Tested up to: 5.7
 Requires PHP: 5.3
-Stable tag: 1.4.0
+Stable tag: 1.4.1
 License: GPLv2 or later
 License URI: http://ww.gnu.org/licenses/gpl-2.0.html
 
@@ -44,6 +44,9 @@ Extend the capabilities of Church Data Connect for Church Community Builder with
 2. Getting Started
 
 == Changelog ==
+
+= 1.4.1 =
+* Fixed a bug that broke the last update.
 
 = 1.4.0 =
 * Renamed the plugin to Church Data Connect for Church Community Builder.
