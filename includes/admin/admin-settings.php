@@ -94,7 +94,7 @@ class CCBPress_Settings {
 			<?php if ( isset( $license_data->expires ) && 'lifetime' === $license_data->expires ) : ?>
 				<p class="description"><?php esc_html_e( 'Your license key never expires.', 'ccbpress-core' ); ?></p>
 			<?php else : ?>
-				<p class="description"><?php echo esc_html( sprintf( __( 'Your license key expires on %s.', 'ccbpress-core' ), (string) date( 'F jS, Y', strtotime( $license_data->expires ) ) ) ); ?></p>
+				<p class="description"><?php echo esc_html( sprintf( '%1$s %2$s.', __( 'Your license key expires on', 'ccbpress-core' ), (string) date( 'F jS, Y', strtotime( $license_data->expires ) ) ) ); ?></p>
 			<?php endif; ?>
 		<?php endif; ?>
         <?php if ( '' !== $args['label'] ) : ?>

@@ -188,7 +188,7 @@ class CCBPress_Admin_REST_API {
 		sort( $services );
 
 		if ( 0 === count( $services ) ) {
-			return new WP_Error( 'no_services', 'There are no services registered with CCBPress.', array( 'status' => 404 ) );
+			return new WP_Error( 'no_services', 'There are no services registered with Church Data Connect for Church Community Builder.', array( 'status' => 404 ) );
 		}
 
 		$results = array();
