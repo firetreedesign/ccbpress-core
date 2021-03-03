@@ -87,7 +87,7 @@ class CCBPress_Tools_Cache extends CCBPress_Settings {
 
 	public function cache_section_callback() {
         echo sprintf( '<p>%s</p>', __( 'Below are some tools to use if you are having some issues with data from Church Community Builder.', 'ccbpress-core' ) );
-		echo sprintf( '<p>%s</p>', __( 'Generally you will not need to use these unless instructed to by CCBPress support.', 'ccbpress-core' ) );
+		echo sprintf( '<p>%s</p>', __( 'Generally you will not need to use these unless instructed to by Church Data Connect for Church Community Builder support.', 'ccbpress-core' ) );
 	}
 
 	public function sanitize_callback( $input ) {

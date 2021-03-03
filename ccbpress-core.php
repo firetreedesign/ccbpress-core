@@ -1,11 +1,11 @@
 <?php
 /**
- * Plugin Name: CCBPress Core
- * Plugin URI: https://ccbpress.com/
+ * Plugin Name: Church Data Connect for Church Community Builder
+ * Plugin URI: https://churchdataconnect.com/
  * Description: Display information from Church Community Builder on your WordPress site.
- * Version: 1.3.13
- * Author: CCBPress <info@ccbpress.com>
- * Author URI: https://ccbpress.com/
+ * Version: 1.4.0
+ * Author: FireTree Design, LLC <info@firetreedesign.com>
+ * Author URI: https://firetreedesign.com/
  * Text Domain: ccbpress-core
  * License:     GPL-2.0+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
@@ -66,7 +66,7 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 		 * @var string
 		 * @since 1.0.0
 		 */
-		public $version = '1.3.13';
+		public $version = '1.4.0';
 
 		/**
 		 * Main CCBPress_Core Instance
@@ -263,7 +263,7 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 				return;
 			}
 
-			printf( '<div class="notice notice-warning"><p>%s %s</p></div>', __( 'CCBPress may not work properly because the DISABLE_WP_CRON constant is set to true.', 'ccbpress-core' ), sprintf( '<a href="#" class="ccbpress-cron-help">%s</a>', esc_html__( 'Get more info.', 'ccbpress-core' ) ) );
+			printf( '<div class="notice notice-warning"><p>%s %s</p></div>', __( 'Church Data Connect for Church Community Builder may not work properly because the DISABLE_WP_CRON constant is set to true.', 'ccbpress-core' ), sprintf( '<a href="#" class="ccbpress-cron-help">%s</a>', esc_html__( 'Get more info.', 'ccbpress-core' ) ) );
 		}
 
 		/**
@@ -288,7 +288,7 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 				return;
 			}
 
-			printf( '<div class="notice notice-warning"><p>%s %s</p></div>', __( 'CCBPress may not work properly because the ALTERNATE_WP_CRON constant is set to true.', 'ccbpress-core' ), sprintf( '<a href="#" class="ccbpress-cron-help">%s</a>', esc_html__( 'Get more info.', 'ccbpress-core' ) ) );
+			printf( '<div class="notice notice-warning"><p>%s %s</p></div>', __( 'Church Data Connect for Church Community Builder may not work properly because the ALTERNATE_WP_CRON constant is set to true.', 'ccbpress-core' ), sprintf( '<a href="#" class="ccbpress-cron-help">%s</a>', esc_html__( 'Get more info.', 'ccbpress-core' ) ) );
 		}
 
 		/**

@@ -109,7 +109,7 @@ class CCBPress_Core_Blocks {
 			array(
 				array(
 					'slug' => 'ccbpress',
-					'title' => __( 'CCBPress', 'ccbpress-core' ),
+					'title' => __( 'Church Data Connect for Church Community Builder', 'ccbpress-core' ),
 					'icon' => null,
 				),
 			)

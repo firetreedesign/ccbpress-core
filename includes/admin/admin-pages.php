@@ -39,8 +39,8 @@ class CCBPress_Admin_Pages {
 
 		// Getting Started Page.
 		add_menu_page(
-			__( 'CCBPress Options', 'ccbpress-core' ),
-			__( 'CCBPress', 'ccbpress-core' ),
+			__( 'Church Data - CCB', 'ccbpress-core' ),
+			__( 'Church Data - CCB', 'ccbpress-core' ),
 			'manage_options',
 			'ccbpress',
 			array( $this, 'welcome_page' ),
@@ -130,11 +130,11 @@ class CCBPress_Admin_Pages {
 		$active_tab = isset( $_GET['tab'] ) ? $_GET['tab'] : 'welcome';
 		?>
 		<div class="wrap about-wrap ccbpress">
-			<h1><?php esc_html_e( 'Welcome to CCBPress', 'ccbpress-core' ); ?></h1>
+			<h1><?php esc_html_e( 'Welcome to Church Data Connect for Church Community Builder', 'ccbpress-core' ); ?></h1>
 			<div class="about-text">
-				<?php esc_html_e( 'Thank you for using CCBPress. CCBPress allows you to display content from Church Community Builder on your WordPress site.', 'ccbpress-core' ); ?>
+				<?php esc_html_e( 'Thank you for using Church Data Connect for Church Community Builder. Church Data Connect for Church Community Builder allows you to display content from Church Community Builder on your WordPress site.', 'ccbpress-core' ); ?>
 			</div>
-			<div class="ccbpress-badge"><img src="<?php echo esc_attr( CCBPRESS_CORE_PLUGIN_URL ) . 'assets/images/ccbpress_mark.png'; ?>" alt="<?php esc_html_e( 'CCBPress', 'ccbpress-core' ); ?>" / ></div>
+			<div class="ccbpress-badge"><img src="<?php echo esc_attr( CCBPRESS_CORE_PLUGIN_URL ) . 'assets/images/ccbpress_mark.png'; ?>" alt="<?php esc_html_e( 'Church Data Connect for Church Community Builder', 'ccbpress-core' ); ?>" / ></div>
 			<h1 class="nav-tab-wrapper">
 				<a class="nav-tab<?php echo ( 'welcome' === $active_tab ? ' nav-tab-active' : '' ); ?>" href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'ccbpress' ), 'admin.php' ) ) ); ?>">
 					<?php esc_html_e( 'Welcome', 'ccbpress-core' ); ?>
@@ -169,7 +169,7 @@ class CCBPress_Admin_Pages {
 		<div class="feature-section">
 			<div>
 				<h2><?php esc_html_e( 'Dashboard Widget', 'ccbpress-core' ); ?></h2>
-				<p class="lead-description"><?php esc_html_e( 'At a glance, you can keep tabs on CCBPress.', 'ccbpress-core' ); ?></p>
+				<p class="lead-description"><?php esc_html_e( 'At a glance, you can keep tabs on Church Data Connect for Church Community Builder.', 'ccbpress-core' ); ?></p>
 			</div>
 		</div>
 		<div class="feature-section has-2-columns is-wider-right">
@@ -191,7 +191,7 @@ class CCBPress_Admin_Pages {
 		<div class="feature-section has-2-columns is-wider-right">
 			<div class="column">
 				<h3><?php esc_html_e( 'Blocks', 'ccbpress-core' ); ?></h3>
-				<p><?php esc_html_e( 'Our goal with CCBPress is to make it as easy as possible for churches to display content from Church Community Builder on their WordPress websites.', 'ccbpress-core' ); ?></p>
+				<p><?php esc_html_e( 'Our goal with Church Data Connect for Church Community Builder is to make it as easy as possible for churches to display content from Church Community Builder on their WordPress websites.', 'ccbpress-core' ); ?></p>
 			</div>
 			<div class="column">
 				<img src="<?php echo esc_attr( CCBPRESS_CORE_PLUGIN_URL ) . '/assets/images/blocks.png'; ?>" />
@@ -251,7 +251,7 @@ class CCBPress_Admin_Pages {
 					<li><?php echo esc_html( $service ); ?></li>
 				<?php endforeach; ?>
 				<?php if ( count( $services ) === 0 ) : ?>
-					<li><?php esc_html_e( 'There are no services registered with CCBPress.', 'ccbpress-core' ); ?></li>
+					<li><?php esc_html_e( 'There are no services registered with Church Data Connect for Church Community Builder.', 'ccbpress-core' ); ?></li>
 				<?php endif; ?>
 				</ul>
 				<p><?php esc_html_e( 'This list is automatically updated based on the add-ons that are installed and the services that they require.', 'ccbpress-core' ); ?></p>
@@ -282,14 +282,14 @@ class CCBPress_Admin_Pages {
 		<div class="feature-section has-2-columns is-fullwidth">
 			<div class="column">
 				<h3><?php esc_html_e( '3. Add Some Blocks or Widgets', 'ccbpress-core' ); ?></h3>
-				<p><?php esc_html_e( 'You are now ready to use any of the blocks and widgets that come with CCBPress.', 'ccbpress-core' ); ?></p>
+				<p><?php esc_html_e( 'You are now ready to use any of the blocks and widgets that come with Church Data Connect for Church Community Builder.', 'ccbpress-core' ); ?></p>
 			</div>
 		</div>
 		<hr />
 		<div class="feature-section has-2-columns is-fullwidth">
 			<div class="column">
 				<h3><?php esc_html_e( '4. Browse Our Add-ons', 'ccbpress-core' ); ?></h3>
-				<p><?php esc_html_e( 'Feel free to browse our add-ons to add additional functionality to CCBPress.', 'ccbpress-core' ); ?></p>
+				<p><?php esc_html_e( 'Feel free to browse our add-ons to add additional functionality to Church Data Connect for Church Community Builder.', 'ccbpress-core' ); ?></p>
 				<p><a class="button button-primary" href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'ccbpress-addons' ), 'admin.php' ) ) ); ?>"><?php esc_html_e( 'Browse Add-ons', 'ccbpress-core' ); ?></a></p>
 			</div>
 		</div>
@@ -489,9 +489,9 @@ class CCBPress_Admin_Pages {
 		}
 		?>
 		<div class="wrap ccbpress-addons">
-			<h2><?php esc_html_e( 'CCBPress Add-ons', 'ccbpress-core' ); ?></h2>
+			<h2><?php esc_html_e( 'Church Data Connect for Church Community Builder Add-ons', 'ccbpress-core' ); ?></h2>
 			<p>
-				The following are available add-ons to extend CCBPress Core functionality.
+				The following are available add-ons to extend Church Data Connect for Church Community Builder functionality.
 			</p>
 			<div id="tab_container">
 				<?php
@@ -532,7 +532,7 @@ class CCBPress_Admin_Pages {
 			return $data;
 		}
 
-		$response = wp_remote_get( 'https://ccbpress.com/wp-json/wp/v2/edd-addons' );
+		$response = wp_remote_get( 'https://churchdataconnect.com/wp-json/wp/v2/edd-addons' );
 
 		// Return false if there was an error.
 		if ( is_wp_error( $response ) ) {

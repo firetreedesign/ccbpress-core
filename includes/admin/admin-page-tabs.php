@@ -23,7 +23,7 @@ class CCBPress_Admin_Page_Tabs {
 		$tabs[] = array(
 			'tab_id'		=> 'ccbpress',
 			'settings_id'	=> 'ccbpress_settings',
-			'title'			=> __( 'CCBPress', 'ccbpress-core' ),
+			'title'			=> __( 'Options', 'ccbpress-core' ),
 			'submit'		=> true,
 		);
 

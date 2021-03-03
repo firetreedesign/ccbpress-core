@@ -26,7 +26,7 @@ class CCBPress_Settings_CCBPress extends CCBPress_Settings {
         // The Remove Data field
     	add_settings_field(
     		'remove_data',
-    		'<strong>' . __('CCBPress Core', 'ccbpress-core') . '</strong>',
+    		'<strong>' . __('Church Data Connect for Church Community Builder', 'ccbpress-core') . '</strong>',
     		array( $this, 'checkbox_callback' ),
     		'ccbpress_settings',
     		'ccbpress_settings_uninstall_section',
@@ -63,7 +63,7 @@ class CCBPress_Settings_CCBPress extends CCBPress_Settings {
     }
 
     public function ccbpress_uninstall_section_callback() {
-        echo '<p>' . __('Upon deletion of CCBPress Core, you can optionally remove any custom tables, settings, and license keys that have been entered.', 'ccbpress-core') . '</p>';
+        echo '<p>' . __('Upon deletion of Church Data Connect for Church Community Builder, you can optionally remove any custom tables, settings, and license keys that have been entered.', 'ccbpress-core') . '</p>';
     }
 
 	public function sanitize_callback( $input ) {
