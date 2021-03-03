@@ -400,7 +400,21 @@ class CCBPress_Admin_Pages {
 				array(
 					'id'      => 'ccbpress-cron',
 					'title'   => __( 'WP Cron', 'ccbpress-core' ),
-					'content' => sprintf( '<p>%s</p><p>%s</p><p>%s</p>', __( "WP Cron is WordPress' way of scheduling tasks. Every time a visitor requests a page on your site, WordPress checks WP Cron for any tasks that are scheduled and fires off those tasks in the background. This is how CCBPress retrieves data from Church Community Builder.", 'ccbpress-core' ), sprintf( __( 'You can check if WP Cron is running properly by installing a plugin called <a href="%s" target="_blank">WP Crontrol</a>. Once installed, you can visit Tools > Cron Events from your WordPress Admin. There will be a warning at the top of that screen if any issues are detected.', 'ccbpress-core' ), 'https://wordpress.org/plugins/wp-crontrol/' ), sprintf( '<em>%s</em>', __( 'You can ignore this warning if you have setup a manual cron job.', 'ccbpress-core' ) ) ),
+					'content' => sprintf(
+						'<p>%s</p><p>%s</p><p>%s</p>',
+						__( "WP Cron is WordPress' way of scheduling tasks. Every time a visitor requests a page on your site, WordPress checks WP Cron for any tasks that are scheduled and fires off those tasks in the background. This is how CCBPress retrieves data from Church Community Builder.", 'ccbpress-core' ),
+						sprintf(
+							'%1$s <a href="%2$s" target="_blank">%3$s</a>. %4$s',
+							__( 'You can check if WP Cron is running properly by installing a plugin called', 'ccbpress-core' ),
+							'https://wordpress.org/plugins/wp-crontrol/',
+							'WP Crontrol',
+							__( 'Once installed, you can visit Tools > Cron Events from your WordPress Admin. There will be a warning at the top of that screen if any issues are detected.', 'ccbpress-core' ),
+						),
+						sprintf(
+							'<em>%s</em>',
+							__( 'You can ignore this warning if you have setup a manual cron job.', 'ccbpress-core' )
+						)
+					),
 				)
 			);
 		}
