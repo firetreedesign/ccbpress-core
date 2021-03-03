@@ -255,7 +255,7 @@ class CCBPress_Admin_Pages {
 				<?php endif; ?>
 				</ul>
 				<p><?php esc_html_e( 'This list is automatically updated based on the add-ons that are installed and the services that they require.', 'ccbpress-core' ); ?></p>
-				<p><a class="button" href="https://churchcommunitybuilder.force.com/s/article/How-to-Create-and-Edit-API-Users" target="_blank"><?php esc_html_e( 'Creating an API User and Assigning Services', 'ccbpress-core' ); ?></a></p>
+				<p><a class="button" href="https://churchcommunitybuilder.force.com/s/article/How-to-Create-and-Manage-API-Users" target="_blank"><?php esc_html_e( 'Creating an API User and Assigning Services', 'ccbpress-core' ); ?></a></p>
 			</div>
 			<div class="column">
 				<img src="<?php echo esc_attr( CCBPRESS_CORE_PLUGIN_URL ) . '/assets/images/getting_started_api_user.png'; ?>" />
