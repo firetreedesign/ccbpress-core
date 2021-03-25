@@ -540,7 +540,7 @@ class CCBPress_Admin_Pages {
 		if ( false !== $data ) {
 			$data = json_decode( $data );
 			if ( null === $data ) {
-				$data = wp_json_decode( wp_json_encode( new stdClass() ) );
+				$data = json_decode( wp_json_encode( new stdClass() ) );
 			}
 			usort( $data, array( $this, 'sort_addons_data' ) );
 			return $data;
@@ -563,7 +563,7 @@ class CCBPress_Admin_Pages {
 
 		$data = json_decode( $data );
 		if ( null === $data ) {
-			$data = wp_json_decode( wp_json_encode( new stdClass() ) );
+			$data = json_decode( wp_json_encode( new stdClass() ) );
 		}
 		usort( $data, array( $this, 'sort_addons_data' ) );
 
