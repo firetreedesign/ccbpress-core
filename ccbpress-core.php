@@ -3,7 +3,7 @@
  * Plugin Name: Church Data Connect for Church Community Builder
  * Plugin URI: https://churchdataconnect.com/
  * Description: Display information from Church Community Builder on your WordPress site.
- * Version: 1.4.2
+ * Version: 1.4.3
  * Author: FireTree Design, LLC <info@firetreedesign.com>
  * Author URI: https://firetreedesign.com/
  * Text Domain: ccbpress-core
@@ -66,7 +66,7 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 		 * @var string
 		 * @since 1.0.0
 		 */
-		public $version = '1.4.2';
+		public $version = '1.4.3';
 
 		/**
 		 * Main CCBPress_Core Instance
@@ -172,7 +172,7 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/admin-rest-api.php';
 
 			// Blocks.
-			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/blocks.php';
+			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/class-ccbpress-core-blocks.php';
 
 			if ( is_admin() ) {
 				require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/admin-page-tabs.php';
