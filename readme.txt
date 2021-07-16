@@ -2,7 +2,7 @@
 Contributors: firetree, danielmilner
 Tags: church, ccb, church community builder, chms, gutenberg
 Requires at least: 4.3
-Tested up to: 5.7
+Tested up to: 5.8
 Requires PHP: 5.3
 Stable tag: 1.4.3
 License: GPLv2 or later
