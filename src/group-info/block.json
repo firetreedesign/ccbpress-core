@@ -1,0 +1,51 @@
+{
+    "name": "ccbpress/group-info",
+    "title": "Group Information",
+    "category": "ccbpress",
+    "description": "Display group information from Church Community Builder.",
+    "keywords": [ "church community builder", "ccb", "ccbpress" ],
+    "textdomain": "ccbpress-core",
+    "supports": {
+        "html": false
+    },
+    "attributes": {
+        "groupId": {
+            "type": "integer",
+            "default": null
+        },
+        "showGroupImage": {
+            "type": "boolean",
+            "default": true
+        },
+        "showGroupName": {
+            "type": "boolean",
+            "default": true
+        },
+        "showGroupDesc": {
+            "type": "boolean",
+            "default": true
+        },
+        "showMainLeader": {
+            "type": "boolean",
+            "default": true
+        },
+        "showMainLeaderEmail": {
+            "type": "boolean",
+            "default": true
+        },
+        "showMainLeaderPhone": {
+            "type": "boolean",
+            "default": true
+        },
+        "showRegistrationForms": {
+            "type": "boolean",
+            "default": true
+        },
+        "boxBackgroundColor": {
+            "type": "string"
+        },
+        "boxBorderColor": {
+            "type": "string"
+        }
+    }
+}
