@@ -1,0 +1,27 @@
+{
+	"name": "ccbpress/login",
+	"title": "CCB Login",
+	"category": "ccbpress",
+	"description": "Login form for Church Community Builder.",
+	"keywords": [ "church community builder", "ccb", "ccbpress" ],
+	"textdomain": "ccbpress-core",
+	"supports": {
+		"html": false
+	},
+	"attributes": {
+		"showForgotPassword": {
+			"type": "boolean",
+			"default": true
+		},
+		"buttonBackgroundColor": {
+			"type": "string"
+		},
+		"buttonTextColor": {
+			"type": "string"
+		},
+		"buttonText": {
+			"type": "string",
+			"default": "Login"
+		}
+	}
+}

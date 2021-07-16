@@ -1,0 +1,23 @@
+{
+	"name": "ccbpress/online-giving",
+	"title": "Online Giving",
+	"category": "ccbpress",
+	"description": "Link to online giving for Church Community Builder.",
+	"keywords": [ "church community builder", "ccb", "ccbpress" ],
+	"textdomain": "ccbpress-core",
+	"supports": {
+		"html": false
+	},
+	"attributes": {
+		"buttonText": {
+			"type": "string",
+			"default": "Give Now"
+		},
+		"backgroundColor": {
+			"type": "string"
+		},
+		"textColor": {
+			"type": "string"
+		}
+	}
+}
