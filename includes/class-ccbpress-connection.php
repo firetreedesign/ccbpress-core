@@ -352,6 +352,14 @@ class CCBPress_Connection {
 		if ( ! isset( $ccbpress_rate_limits[ $srv ] ) ) {
 			return true;
 		}
+
+		if ( isset( $ccbpress_rate_limits[ $srv ]['limit'] ) && isset( $ccbpress_rate_limits[ $srv ]['remaining'] ) ) {
+			$limit = $ccbpress_rate_limits[ $srv ]['limit'];
+			$remaining = $ccbpress_rate_limits[ $srv ]['remaining'];
+			if ($remaining >= ($limit / 2)) {
+				return true;
+			}
+		}
 		
 		if ( isset( $ccbpress_rate_limits[ $srv ]['reset'] ) ) {
 			$reset = $ccbpress_rate_limits[ $srv ]['reset'];
