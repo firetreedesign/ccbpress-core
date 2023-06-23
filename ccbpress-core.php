@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Plugin Name: Church Data Connect for Church Community Builder
  * Plugin URI: https://churchdataconnect.com/
  * Description: Display information from Church Community Builder on your WordPress site.
- * Version: 1.4.6
+ * Version: 1.4.7
  * Author: FireTree Design, LLC <info@firetreedesign.com>
  * Author URI: https://firetreedesign.com/
  * Text Domain: ccbpress-core
@@ -14,19 +15,20 @@
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) {
+if (!defined('ABSPATH')) {
 	exit;
 }
 
-if ( ! class_exists( 'CCBPress_Core' ) ) :
+if (!class_exists('CCBPress_Core')) :
 
-	register_activation_hook( __FILE__, array( 'CCBPress_Core', 'schedule_cron' ) );
-	register_deactivation_hook( __FILE__, array( 'CCBPress_Core', 'unschedule_cron' ) );
+	register_activation_hook(__FILE__, array('CCBPress_Core', 'schedule_cron'));
+	register_deactivation_hook(__FILE__, array('CCBPress_Core', 'unschedule_cron'));
 
 	/**
 	 * CCBPress Core class
 	 */
-	class CCBPress_Core {
+	class CCBPress_Core
+	{
 
 		/**
 		 * Instance
@@ -53,6 +55,14 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 		public $ccb;
 
 		/**
+		 * CCBPress Background Get
+		 * 
+		 * @var function
+		 * @since 1.0.0
+		 */
+		public $get;
+
+		/**
 		 * CCBPress Sync Object
 		 *
 		 * @var object
@@ -66,7 +76,7 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 		 * @var string
 		 * @since 1.0.0
 		 */
-		public $version = '1.4.6';
+		public $version = '1.4.7';
 
 		/**
 		 * Main CCBPress_Core Instance
@@ -81,9 +91,10 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 		 * @see CCBPress_Core()
 		 * @return The one true CCBPress_Core
 		 */
-		public static function instance() {
+		public static function instance()
+		{
 
-			if ( ! isset( self::$instance ) && ! ( self::$instance instanceof CCBPress_Core ) ) {
+			if (!isset(self::$instance) && !(self::$instance instanceof CCBPress_Core)) {
 
 				self::$instance = new CCBPress_Core();
 				self::$instance->setup_constants();
@@ -96,11 +107,9 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 				self::$instance->init();
 				self::$instance->transients->init();
 				self::$instance->ccb->init();
-
 			}
 
 			return self::$instance;
-
 		}
 
 		/**
@@ -110,28 +119,28 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 		 * @since 1.0.0
 		 * @return void
 		 */
-		private function setup_constants() {
+		private function setup_constants()
+		{
 
 			// Plugin Database Version.
-			if ( ! defined( 'CCBPRESS_CORE_DB_VERSION' ) ) {
-				define( 'CCBPRESS_CORE_DB_VERSION', CCBPress()->version );
+			if (!defined('CCBPRESS_CORE_DB_VERSION')) {
+				define('CCBPRESS_CORE_DB_VERSION', CCBPress()->version);
 			}
 
 			// Plugin File.
-			if ( ! defined( 'CCBPRESS_CORE_PLUGIN_FILE' ) ) {
-				define( 'CCBPRESS_CORE_PLUGIN_FILE', __FILE__ );
+			if (!defined('CCBPRESS_CORE_PLUGIN_FILE')) {
+				define('CCBPRESS_CORE_PLUGIN_FILE', __FILE__);
 			}
 
 			// Plugin Folder Path.
-			if ( ! defined( 'CCBPRESS_CORE_PLUGIN_DIR' ) ) {
-				define( 'CCBPRESS_CORE_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+			if (!defined('CCBPRESS_CORE_PLUGIN_DIR')) {
+				define('CCBPRESS_CORE_PLUGIN_DIR', plugin_dir_path(__FILE__));
 			}
 
 			// Plugin Folder URL.
-			if ( ! defined( 'CCBPRESS_CORE_PLUGIN_URL' ) ) {
-				define( 'CCBPRESS_CORE_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+			if (!defined('CCBPRESS_CORE_PLUGIN_URL')) {
+				define('CCBPRESS_CORE_PLUGIN_URL', plugin_dir_url(__FILE__));
 			}
-
 		}
 
 		/**
@@ -141,7 +150,8 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 		 * @since 1.0
 		 * @return void
 		 */
-		private function includes() {
+		private function includes()
+		{
 
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/class-ccbpress-transients.php';
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/class-ccbpress-connection.php';
@@ -174,15 +184,13 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 			// Blocks.
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/class-ccbpress-core-blocks.php';
 
-			if ( is_admin() ) {
+			if (is_admin()) {
 				require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/admin-page-tabs.php';
 				require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/admin-pages.php';
 				require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/admin-scripts.php';
 				require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/admin-styles.php';
 				require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/admin-dashboard.php';
-
 			}
-
 		}
 
 		/**
@@ -192,20 +200,21 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 		 *
 		 * @return void
 		 */
-		public static function init() {
+		public static function init()
+		{
 			// Load plugin text domain.
-			add_action( 'plugins_loaded', array( 'CCBPress_Core', 'plugin_textdomain' ) );
+			add_action('plugins_loaded', array('CCBPress_Core', 'plugin_textdomain'));
 
-			if ( false === get_option( 'ccbpress_import_in_progress', false ) ) {
-				add_action( 'ccbpress_maintenance', array( 'CCBPress_Core', 'schedule_cron' ) );
+			if (false === get_option('ccbpress_import_in_progress', false)) {
+				add_action('ccbpress_maintenance', array('CCBPress_Core', 'schedule_cron'));
 			}
 
-			if ( defined( 'DISABLE_WP_CRON' ) && true === DISABLE_WP_CRON ) {
-				add_action( 'admin_notices', array( 'CCBPress_Core', 'cron_disabled' ) );
+			if (defined('DISABLE_WP_CRON') && true === DISABLE_WP_CRON) {
+				add_action('admin_notices', array('CCBPress_Core', 'cron_disabled'));
 			}
 
-			if ( defined( 'ALTERNATE_WP_CRON' ) && true === ALTERNATE_WP_CRON ) {
-				add_action( 'admin_notices', array( 'CCBPress_Core', 'cron_alternate' ) );
+			if (defined('ALTERNATE_WP_CRON') && true === ALTERNATE_WP_CRON) {
+				add_action('admin_notices', array('CCBPress_Core', 'cron_alternate'));
 			}
 		}
 
@@ -216,16 +225,16 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 		 *
 		 * @return void
 		 */
-		public static function schedule_cron() {
+		public static function schedule_cron()
+		{
 
-			if ( false === wp_next_scheduled( 'ccbpress_maintenance' ) ) {
-				wp_schedule_event( time() + 1800, 'hourly', 'ccbpress_maintenance' );
+			if (false === wp_next_scheduled('ccbpress_maintenance')) {
+				wp_schedule_event(time() + 1800, 'hourly', 'ccbpress_maintenance');
 			}
 
-			if ( false === wp_next_scheduled( 'ccbpress_import' ) && false === get_option( 'ccbpress_import_in_progress', false ) && CCBPress_Import::is_queue_empty() ) {
-				wp_schedule_single_event( time(), 'ccbpress_import' );
+			if (false === wp_next_scheduled('ccbpress_import') && false === get_option('ccbpress_import_in_progress', false) && CCBPress_Import::is_queue_empty()) {
+				wp_schedule_single_event(time(), 'ccbpress_import');
 			}
-
 		}
 
 		/**
@@ -235,10 +244,11 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 		 *
 		 * @return void
 		 */
-		public static function unschedule_cron() {
-			wp_clear_scheduled_hook( 'ccbpress_maintenance' );
-			wp_clear_scheduled_hook( 'ccbpress_import' );
-			wp_clear_scheduled_hook( 'ccbpress_transient_cache_cleanup' );
+		public static function unschedule_cron()
+		{
+			wp_clear_scheduled_hook('ccbpress_maintenance');
+			wp_clear_scheduled_hook('ccbpress_import');
+			wp_clear_scheduled_hook('ccbpress_transient_cache_cleanup');
 		}
 
 		/**
@@ -248,22 +258,23 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 		 *
 		 * @return void
 		 */
-		public static function cron_disabled() {
+		public static function cron_disabled()
+		{
 			global $pagenow;
 
-			if ( 'admin.php' !== $pagenow ) {
+			if ('admin.php' !== $pagenow) {
 				return;
 			}
 
-			if ( ! isset( $_GET['page'] ) ) {
+			if (!isset($_GET['page'])) {
 				return;
 			}
 
-			if ( 'ccbpress-settings' !== $_GET['page'] ) {
+			if ('ccbpress-settings' !== $_GET['page']) {
 				return;
 			}
 
-			printf( '<div class="notice notice-warning"><p>%s %s</p></div>', __( 'Church Data Connect for Church Community Builder may not work properly because the DISABLE_WP_CRON constant is set to true.', 'ccbpress-core' ), sprintf( '<a href="#" class="ccbpress-cron-help">%s</a>', esc_html__( 'Get more info.', 'ccbpress-core' ) ) );
+			printf('<div class="notice notice-warning"><p>%s %s</p></div>', __('Church Data Connect for Church Community Builder may not work properly because the DISABLE_WP_CRON constant is set to true.', 'ccbpress-core'), sprintf('<a href="#" class="ccbpress-cron-help">%s</a>', esc_html__('Get more info.', 'ccbpress-core')));
 		}
 
 		/**
@@ -273,22 +284,23 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 		 *
 		 * @return void
 		 */
-		public static function cron_alternate() {
+		public static function cron_alternate()
+		{
 			global $pagenow;
 
-			if ( 'admin.php' !== $pagenow ) {
+			if ('admin.php' !== $pagenow) {
 				return;
 			}
 
-			if ( ! isset( $_GET['page'] ) ) {
+			if (!isset($_GET['page'])) {
 				return;
 			}
 
-			if ( 'ccbpress-settings' !== $_GET['page'] ) {
+			if ('ccbpress-settings' !== $_GET['page']) {
 				return;
 			}
 
-			printf( '<div class="notice notice-warning"><p>%s %s</p></div>', __( 'Church Data Connect for Church Community Builder may not work properly because the ALTERNATE_WP_CRON constant is set to true.', 'ccbpress-core' ), sprintf( '<a href="#" class="ccbpress-cron-help">%s</a>', esc_html__( 'Get more info.', 'ccbpress-core' ) ) );
+			printf('<div class="notice notice-warning"><p>%s %s</p></div>', __('Church Data Connect for Church Community Builder may not work properly because the ALTERNATE_WP_CRON constant is set to true.', 'ccbpress-core'), sprintf('<a href="#" class="ccbpress-cron-help">%s</a>', esc_html__('Get more info.', 'ccbpress-core')));
 		}
 
 		/**
@@ -298,10 +310,10 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 		 *
 		 * @return void
 		 */
-		public static function plugin_textdomain() {
-			load_plugin_textdomain( 'ccbpress-core', false, dirname( plugin_basename( CCBPRESS_CORE_PLUGIN_FILE ) ) . '/languages' );
+		public static function plugin_textdomain()
+		{
+			load_plugin_textdomain('ccbpress-core', false, dirname(plugin_basename(CCBPRESS_CORE_PLUGIN_FILE)) . '/languages');
 		}
-
 	}
 
 endif; // End if class_exists check.
@@ -309,7 +321,8 @@ endif; // End if class_exists check.
 /**
  * Initialize the CCBPress_Core class
  */
-function ccbpress() {
+function ccbpress()
+{
 	return CCBPress_Core::instance();
 }
 ccbpress();
