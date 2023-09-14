@@ -232,6 +232,62 @@ document.addEventListener(
             });
         });
     }
+
+    if (document.querySelector("#ccbpress-reschedule-cron-jobs-button")) {
+      document
+        .querySelector("#ccbpress-reschedule-cron-jobs-button")
+        .addEventListener("click", function () {
+          var button = document.getElementById(
+            "ccbpress-reschedule-cron-jobs-button"
+          );
+          var button_text = button.textContent || button.innerText;
+
+          button.innerText = ccbpress_vars.messages.running;
+          button.setAttribute("disabled", true);
+          button.classList.add("updating-message");
+
+          fetch(
+            ccbpress_vars.api_url + "ccbpress/v1/admin/reschedule_cron_jobs",
+            {
+              method: "POST",
+              headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                _wpnonce: ccbpress_vars.api_nonce,
+              }),
+            }
+          )
+            .then((response) => response.json())
+            .then((data) => {
+              if (
+                typeof data.result !== "undefined" &&
+                "success" === data.result
+              ) {
+                button.innerText = ccbpress_vars.messages.done;
+                button.classList.remove("updating-message");
+                button.classList.add("updated-message");
+                setTimeout(function () {
+                  button.innerText = button_text;
+                  button.classList.remove("updated-message");
+                  button.removeAttribute("disabled");
+                }, 3000);
+              } else {
+                button.innerText = button_text;
+                button.classList.remove("updated-message");
+                button.removeAttribute("disabled");
+                alert("There was an error rescheduling the cron jobs.");
+              }
+            })
+            .catch((err) => {
+              button.innerText = button_text;
+              button.classList.remove("updated-message");
+              button.removeAttribute("disabled");
+              alert("There was an error rescheduling the cron jobs.");
+            });
+        });
+    }
   },
   false
 );
