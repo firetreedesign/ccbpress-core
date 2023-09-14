@@ -70,7 +70,6 @@ class CCBPress_Admin_Scripts {
 	 */
 	private function register() {
 		wp_register_script( 'chosen', CCBPRESS_CORE_PLUGIN_URL . 'lib/chosen/chosen.jquery.min.js', array( 'jquery' ), '1.7.0' );
-		wp_register_script( 'ccbpress-core-beacon', CCBPRESS_CORE_PLUGIN_URL . 'assets/js/help.js', array(), '1.0.1', true );
 	}
 
 	/**
@@ -93,15 +92,6 @@ class CCBPress_Admin_Scripts {
 			'api_url' => get_rest_url(),
 			'api_nonce' => wp_create_nonce( 'wp_rest' ),
 		) );
-
-		$current_user = wp_get_current_user();
-		wp_localize_script( 'ccbpress-core-beacon', 'ccbpress_core_beacon_vars', array(
-			'customer_name'		=> $current_user->display_name,
-			'customer_email'	=> $current_user->user_email,
-			'ccbpress_ver'		=> CCBPress()->version,
-			'wp_ver'			=> get_bloginfo( 'version' ),
-			'php_ver'			=> phpversion(),
-	   	) );
 	}
 
 }

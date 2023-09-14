@@ -2,9 +2,9 @@
 Contributors: firetree, danielmilner
 Tags: church, ccb, church community builder, chms, gutenberg
 Requires at least: 4.3
-Tested up to: 5.9
+Tested up to: 6.3
 Requires PHP: 5.3
-Stable tag: 1.4.6
+Stable tag: 1.5.0
 License: GPLv2 or later
 License URI: http://ww.gnu.org/licenses/gpl-2.0.html
 
@@ -44,6 +44,12 @@ Extend the capabilities of Church Data Connect for Church Community Builder with
 2. Getting Started
 
 == Changelog ==
+
+= 1.5.0 =
+* Added compatibility with WordPress 6.3.
+* Added tool to reschedule cron jobs.
+* Fixed deprecated PHP function calls.
+* Removed Help Scout beacon.
 
 = 1.4.6 =
 * Fixed a PHP compatibility issue.

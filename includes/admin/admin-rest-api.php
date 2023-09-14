@@ -38,6 +38,16 @@ class CCBPress_Admin_REST_API {
 
 		register_rest_route(
 			'ccbpress/v1',
+			'/admin/reschedule_cron_jobs',
+			array(
+				'methods'             => 'POST',
+				'callback'            => __CLASS__ . '::reschedule_cron_jobs',
+				'permission_callback' => __CLASS__ . '::permission_callback',
+			)
+		);
+
+		register_rest_route(
+			'ccbpress/v1',
 			'/admin/purge_image_cache',
 			array(
 				'methods'             => 'POST',
@@ -145,6 +155,19 @@ class CCBPress_Admin_REST_API {
 	 */
 	public static function permission_callback() {
 		return __return_true();
+	}
+
+	/**
+	 * @since 1.5.0
+	 * @param WP_REST_Request $request Request object.
+	 * @return array
+	 */
+	public static function reschedule_cron_jobs( WP_REST_Request $request ) {
+
+		CCBPress_Core::unschedule_cron();
+		CCBPress_Core::schedule_cron();
+		return new WP_REST_Response( array( 'result' => 'success' ), 200 );
+
 	}
 
 	/**

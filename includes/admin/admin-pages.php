@@ -39,8 +39,8 @@ class CCBPress_Admin_Pages {
 
 		// Getting Started Page.
 		add_menu_page(
-			__( 'Church Data - CCB', 'ccbpress-core' ),
-			__( 'Church Data - CCB', 'ccbpress-core' ),
+			__( 'Church Data', 'ccbpress-core' ),
+			__( 'Church Data', 'ccbpress-core' ),
 			'manage_options',
 			'ccbpress',
 			array( $this, 'welcome_page' ),

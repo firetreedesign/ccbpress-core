@@ -3,7 +3,7 @@
  * Plugin Name: Church Data Connect for Church Community Builder
  * Plugin URI: https://churchdataconnect.com/
  * Description: Display information from Church Community Builder on your WordPress site.
- * Version: 1.4.6
+ * Version: 1.5.0
  * Author: FireTree Design, LLC <info@firetreedesign.com>
  * Author URI: https://firetreedesign.com/
  * Text Domain: ccbpress-core
@@ -53,6 +53,14 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 		public $ccb;
 
 		/**
+		 * CCBPress Background Get
+		 *
+		 * @var function
+		 * @since 1.0.0
+		 */
+		public $get;
+
+		/**
 		 * CCBPress Sync Object
 		 *
 		 * @var object
@@ -66,7 +74,7 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 		 * @var string
 		 * @since 1.0.0
 		 */
-		public $version = '1.4.6';
+		public $version = '1.5.0';
 
 		/**
 		 * Main CCBPress_Core Instance
@@ -96,11 +104,9 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 				self::$instance->init();
 				self::$instance->transients->init();
 				self::$instance->ccb->init();
-
 			}
 
 			return self::$instance;
-
 		}
 
 		/**
@@ -131,7 +137,6 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 			if ( ! defined( 'CCBPRESS_CORE_PLUGIN_URL' ) ) {
 				define( 'CCBPRESS_CORE_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 			}
-
 		}
 
 		/**
@@ -160,6 +165,7 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/settings/settings-ccbpress.php';
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/settings/settings-licenses.php';
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/tools/tools-cache.php';
+			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/tools/class-ccbpress-tools-cron.php';
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/admin-purge-cache.php';
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/widgets/widget-login.php';
 			require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/widgets/widget-online-giving.php';
@@ -180,9 +186,7 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 				require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/admin-scripts.php';
 				require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/admin-styles.php';
 				require_once CCBPRESS_CORE_PLUGIN_DIR . 'includes/admin/admin-dashboard.php';
-
 			}
-
 		}
 
 		/**
@@ -225,7 +229,6 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 			if ( false === wp_next_scheduled( 'ccbpress_import' ) && false === get_option( 'ccbpress_import_in_progress', false ) && CCBPress_Import::is_queue_empty() ) {
 				wp_schedule_single_event( time(), 'ccbpress_import' );
 			}
-
 		}
 
 		/**
@@ -263,7 +266,7 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 				return;
 			}
 
-			printf( '<div class="notice notice-warning"><p>%s %s</p></div>', __( 'Church Data Connect for Church Community Builder may not work properly because the DISABLE_WP_CRON constant is set to true.', 'ccbpress-core' ), sprintf( '<a href="#" class="ccbpress-cron-help">%s</a>', esc_html__( 'Get more info.', 'ccbpress-core' ) ) );
+			printf( '<div class="notice notice-warning"><p>%s %s</p></div>', esc_html__( 'Church Data Connect for Church Community Builder may not work properly because the DISABLE_WP_CRON constant is set to true.', 'ccbpress-core' ), sprintf( '<a href="#" class="ccbpress-cron-help">%s</a>', esc_html__( 'Get more info.', 'ccbpress-core' ) ) );
 		}
 
 		/**
@@ -288,7 +291,7 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 				return;
 			}
 
-			printf( '<div class="notice notice-warning"><p>%s %s</p></div>', __( 'Church Data Connect for Church Community Builder may not work properly because the ALTERNATE_WP_CRON constant is set to true.', 'ccbpress-core' ), sprintf( '<a href="#" class="ccbpress-cron-help">%s</a>', esc_html__( 'Get more info.', 'ccbpress-core' ) ) );
+			printf( '<div class="notice notice-warning"><p>%s %s</p></div>', esc_html__( 'Church Data Connect for Church Community Builder may not work properly because the ALTERNATE_WP_CRON constant is set to true.', 'ccbpress-core' ), sprintf( '<a href="#" class="ccbpress-cron-help">%s</a>', esc_html__( 'Get more info.', 'ccbpress-core' ) ) );
 		}
 
 		/**
@@ -301,7 +304,6 @@ if ( ! class_exists( 'CCBPress_Core' ) ) :
 		public static function plugin_textdomain() {
 			load_plugin_textdomain( 'ccbpress-core', false, dirname( plugin_basename( CCBPRESS_CORE_PLUGIN_FILE ) ) . '/languages' );
 		}
-
 	}
 
 endif; // End if class_exists check.
