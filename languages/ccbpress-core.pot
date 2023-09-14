@@ -1,5 +1,6 @@
 # Copyright (C) 2021 FireTree Design, LLC <info@firetreedesign.com>
 # This file is distributed under the same license as the Church Data Connect for Church Community Builder plugin.
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: Church Data Connect for Church Community Builder 1.4.0\n"
@@ -9,395 +10,55 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-03-03T19:41:01+00:00\n"
+"POT-Creation-Date: 2023-09-14 17:19+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.4.0\n"
+"X-Generator: Loco https://localise.biz/\n"
 "X-Domain: ccbpress-core\n"
-
-#. Plugin Name of the plugin
-#: includes/admin/admin-pages.php:137
-#: includes/admin/settings/settings-ccbpress.php:29
-#: includes/blocks.php:112
-msgid "Church Data Connect for Church Community Builder"
-msgstr ""
-
-#. Plugin URI of the plugin
-msgid "https://churchdataconnect.com/"
-msgstr ""
-
-#. Description of the plugin
-msgid "Display information from Church Community Builder on your WordPress site."
-msgstr ""
-
-#. Author of the plugin
-msgid "FireTree Design, LLC <info@firetreedesign.com>"
-msgstr ""
-
-#. Author URI of the plugin
-msgid "https://firetreedesign.com/"
-msgstr ""
-
-#: ccbpress-core.php:266
-msgid "Church Data Connect for Church Community Builder may not work properly because the DISABLE_WP_CRON constant is set to true."
-msgstr ""
-
-#: ccbpress-core.php:266
-#: ccbpress-core.php:291
-msgid "Get more info."
-msgstr ""
-
-#: ccbpress-core.php:291
-msgid "Church Data Connect for Church Community Builder may not work properly because the ALTERNATE_WP_CRON constant is set to true."
-msgstr ""
-
-#: includes/admin/admin-dashboard.php:29
-msgid "Church Community Builder API Status"
-msgstr ""
-
-#: includes/admin/admin-dashboard.php:52
-msgid "requests today"
-msgstr ""
-
-#: includes/admin/admin-dashboard.php:56
-msgid "your daily limit"
-msgstr ""
-
-#: includes/admin/admin-page-tabs.php:19
-msgid "Church Community Builder"
-msgstr ""
-
-#: includes/admin/admin-page-tabs.php:26
-msgid "Options"
-msgstr ""
-
-#: includes/admin/admin-page-tabs.php:36
-#: includes/admin/settings/settings-import.php:51
-msgid "Data Import"
-msgstr ""
-
-#: includes/admin/admin-page-tabs.php:52
-msgid "Licenses"
-msgstr ""
-
-#: includes/admin/admin-page-tabs.php:68
-msgid "How to create an API user"
-msgstr ""
-
-#: includes/admin/admin-page-tabs.php:76
-msgid "Required services"
-msgstr ""
-
-#: includes/admin/admin-page-tabs.php:90
-msgid "Cache"
-msgstr ""
-
-#: includes/admin/admin-pages.php:42
-#: includes/admin/admin-pages.php:43
-msgid "Church Data - CCB"
-msgstr ""
-
-#: includes/admin/admin-pages.php:53
-#: includes/admin/admin-pages.php:54
-#: includes/admin/admin-pages.php:140
-msgid "Welcome"
-msgstr ""
-
-#: includes/admin/admin-pages.php:64
-#: includes/admin/admin-pages.php:65
-#: includes/admin/admin-pages.php:322
-msgid "Settings"
-msgstr ""
-
-#: includes/admin/admin-pages.php:75
-#: includes/admin/admin-pages.php:76
-#: includes/admin/admin-pages.php:450
-msgid "Tools"
-msgstr ""
-
-#: includes/admin/admin-pages.php:84
-#: includes/admin/admin-pages.php:85
-msgid "Add-ons"
-msgstr ""
-
-#: includes/admin/admin-pages.php:133
-msgid "Welcome to Church Data Connect for Church Community Builder"
-msgstr ""
-
-#: includes/admin/admin-pages.php:135
-msgid "Thank you for using Church Data Connect for Church Community Builder. Church Data Connect for Church Community Builder allows you to display content from Church Community Builder on your WordPress site."
-msgstr ""
-
-#: includes/admin/admin-pages.php:143
-msgid "Getting Started"
-msgstr ""
-
-#: includes/admin/admin-pages.php:171
-msgid "Dashboard Widget"
-msgstr ""
-
-#: includes/admin/admin-pages.php:172
-msgid "At a glance, you can keep tabs on Church Data Connect for Church Community Builder."
-msgstr ""
-
-#: includes/admin/admin-pages.php:177
-msgid "API Status"
-msgstr ""
-
-#: includes/admin/admin-pages.php:178
-msgid "The Church Community Builder API status is displayed on your WordPress Dashboard. Easily keep track of your API usage throughout the day."
-msgstr ""
-
-#: includes/admin/admin-pages.php:187
-msgid "Gutenberg Blocks"
-msgstr ""
-
-#: includes/admin/admin-pages.php:188
-msgid "Blocks to display your content."
-msgstr ""
-
-#: includes/admin/admin-pages.php:193
-msgid "Blocks"
-msgstr ""
-
-#: includes/admin/admin-pages.php:194
-msgid "Our goal with Church Data Connect for Church Community Builder is to make it as easy as possible for churches to display content from Church Community Builder on their WordPress websites."
-msgstr ""
-
-#: includes/admin/admin-pages.php:203
-msgid "Widgets"
-msgstr ""
-
-#: includes/admin/admin-pages.php:204
-msgid "We have widgets to display a variety of information."
-msgstr ""
-
-#: includes/admin/admin-pages.php:209
-msgid "Group Information Widget"
-msgstr ""
-
-#: includes/admin/admin-pages.php:211
-msgid "The Group Information Widget displays details about a specific group from Church Community Builder."
-msgstr ""
-
-#: includes/admin/admin-pages.php:214
-msgid "Online Giving Widget"
-msgstr ""
-
-#: includes/admin/admin-pages.php:216
-msgid "Church Community Builder has a very nice Online Giving page. This widget allows you to easily place a link to that page anywhere you'd like."
-msgstr ""
-
-#: includes/admin/admin-pages.php:219
-msgid "CCB Login"
-msgstr ""
-
-#: includes/admin/admin-pages.php:221
-msgid "The CCB Login widget allows you to place a form on your site that lets your users log in to Church Community Builder from your website. It passes their login info to CCB and opens CCB in a new window."
-msgstr ""
-
-#: includes/admin/admin-pages.php:240
-msgid "Connecting Church Community Builder"
-msgstr ""
-
-#: includes/admin/admin-pages.php:241
-msgid "Before you can use the plugin, you need to provide it with information needed to connect to your Church Community Builder account."
-msgstr ""
+"\n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;"
 
 #: includes/admin/admin-pages.php:246
 msgid "1. Creating a Church Community Builder API User"
-msgstr ""
-
-#: includes/admin/admin-pages.php:247
-msgid "The API User is created from inside the API Admin section of Church Community Builder. Church Community Builder has some excellent documentation on doing this."
-msgstr ""
-
-#: includes/admin/admin-pages.php:248
-msgid "Your API User must have permission to use the following services:"
-msgstr ""
-
-#: includes/admin/admin-pages.php:254
-msgid "There are no services registered with Church Data Connect for Church Community Builder."
-msgstr ""
-
-#: includes/admin/admin-pages.php:257
-msgid "This list is automatically updated based on the add-ons that are installed and the services that they require."
-msgstr ""
-
-#: includes/admin/admin-pages.php:258
-msgid "Creating an API User and Assigning Services"
 msgstr ""
 
 #: includes/admin/admin-pages.php:267
 msgid "2. Entering Your API User Information"
 msgstr ""
 
-#: includes/admin/admin-pages.php:268
-msgid "Next, you will need to visit the Church Community Builder tab of the Settings page and enter the Connection Settings for your API User."
-msgstr ""
-
-#: includes/admin/admin-pages.php:269
-msgid "You will need to have the following information:"
-msgstr ""
-
-#: includes/admin/admin-pages.php:271
-#: includes/admin/settings/settings-ccb.php:41
-msgid "The URL you use to access your Church Community Builder site."
-msgstr ""
-
-#: includes/admin/admin-pages.php:272
-msgid "The API Username that you created."
-msgstr ""
-
-#: includes/admin/admin-pages.php:273
-msgid "The Password for your API User."
-msgstr ""
-
-#: includes/admin/admin-pages.php:275
-msgid "Enter Your Connection Settings"
-msgstr ""
-
 #: includes/admin/admin-pages.php:284
 msgid "3. Add Some Blocks or Widgets"
-msgstr ""
-
-#: includes/admin/admin-pages.php:285
-msgid "You are now ready to use any of the blocks and widgets that come with Church Data Connect for Church Community Builder."
 msgstr ""
 
 #: includes/admin/admin-pages.php:291
 msgid "4. Browse Our Add-ons"
 msgstr ""
 
-#: includes/admin/admin-pages.php:292
-msgid "Feel free to browse our add-ons to add additional functionality to Church Data Connect for Church Community Builder."
+#: includes/class-ccbpress-customizer.php:73
+msgid ""
+"<p>How would you like to open links to Church Community Builder forms?</p>"
 msgstr ""
 
-#: includes/admin/admin-pages.php:293
-msgid "Browse Add-ons"
+#: includes/class-ccbpress-customizer.php:40
+msgid ""
+"<p>This screen is used to manage the CCBPress settings that affect the look "
+"of your website.</p>"
 msgstr ""
 
-#: includes/admin/admin-pages.php:402
-msgid "WP Cron"
-msgstr ""
-
-#: includes/admin/admin-pages.php:405
-msgid "WP Cron is WordPress' way of scheduling tasks. Every time a visitor requests a page on your site, WordPress checks WP Cron for any tasks that are scheduled and fires off those tasks in the background. This is how CCBPress retrieves data from Church Community Builder."
-msgstr ""
-
-#: includes/admin/admin-pages.php:408
-msgid "You can check if WP Cron is running properly by installing a plugin called"
-msgstr ""
-
-#: includes/admin/admin-pages.php:411
-msgid "Once installed, you can visit Tools > Cron Events from your WordPress Admin. There will be a warning at the top of that screen if any issues are detected."
-msgstr ""
-
-#: includes/admin/admin-pages.php:415
-msgid "You can ignore this warning if you have setup a manual cron job."
-msgstr ""
-
-#: includes/admin/admin-pages.php:506
-msgid "Church Data Connect for Church Community Builder Add-ons"
-msgstr ""
-
-#: includes/admin/admin-pages.php:520
-msgid "Get this add-on"
-msgstr ""
-
-#: includes/admin/admin-rest-api.php:217
-msgid "Passed"
-msgstr ""
-
-#: includes/admin/admin-rest-api.php:228
-msgid "There was an error with this service"
-msgstr ""
-
-#: includes/admin/admin-rest-api.php:311
-msgid "Import is running in the background. Leaving this page will not interrupt the process."
-msgstr ""
-
-#: includes/admin/admin-scripts.php:85
-msgid "Done"
-msgstr ""
-
-#: includes/admin/admin-scripts.php:86
-msgid "Running..."
-msgstr ""
-
-#: includes/admin/admin-scripts.php:87
-msgid "Import Now"
-msgstr ""
-
-#: includes/admin/admin-scripts.php:88
-msgid "Reset"
-msgstr ""
-
-#: includes/admin/admin-scripts.php:89
-msgid "Check Services Now"
-msgstr ""
-
-#: includes/admin/admin-scripts.php:90
-msgid "Process is running..."
-msgstr ""
-
-#: includes/admin/admin-scripts.php:91
-msgid "Are you sure that you want to reset the last import time?"
-msgstr ""
-
-#: includes/admin/admin-settings.php:93
-msgid "Deactivate License"
-msgstr ""
-
-#: includes/admin/admin-settings.php:95
-msgid "Your license key never expires."
-msgstr ""
-
-#: includes/admin/admin-settings.php:97
-msgid "Your license key expires on"
+#: includes/admin/settings/settings-import.php:117
+msgid "Actions"
 msgstr ""
 
 #: includes/admin/admin-settings.php:267
 msgid "Add"
 msgstr ""
 
-#: includes/admin/admin-settings.php:284
-msgid "Edit"
-msgstr ""
-
-#: includes/admin/admin-settings.php:285
-msgid "Remove"
-msgstr ""
-
-#: includes/admin/admin-settings.php:336
-msgid "Unselected:"
-msgstr ""
-
 #: includes/admin/admin-settings.php:349
 msgid "Add To Selected"
 msgstr ""
 
-#: includes/admin/admin-settings.php:352
-msgid "Selected:"
-msgstr ""
-
-#: includes/admin/admin-settings.php:365
-msgid "Remove From Selected"
-msgstr ""
-
-#: includes/admin/settings/settings-ccb.php:17
-msgid "Connection Settings"
-msgstr ""
-
-#: includes/admin/settings/settings-ccb.php:33
-msgid "Your CCB Website"
-msgstr ""
-
-#: includes/admin/settings/settings-ccb.php:53
-msgid "API Username"
-msgstr ""
-
-#: includes/admin/settings/settings-ccb.php:62
-msgid "This is different from the login you use for Church Community Builder."
+#: includes/admin/admin-pages.php:84 includes/admin/admin-pages.php:85
+msgid "Add-ons"
 msgstr ""
 
 #: includes/admin/settings/settings-ccb.php:72
@@ -408,138 +69,195 @@ msgstr ""
 msgid "API Services"
 msgstr ""
 
-#: includes/admin/settings/settings-ccb.php:97
-msgid "Check Your Services"
+#: includes/admin/admin-pages.php:177
+msgid "API Status"
 msgstr ""
 
-#: includes/admin/settings/settings-ccb.php:120
-msgid "These are the settings for the API connection to Church Community Builder."
+#: includes/admin/settings/settings-ccb.php:53
+msgid "API Username"
 msgstr ""
 
-#: includes/admin/settings/settings-ccb.php:124
-msgid "Use this tool to check if your API User has the appropriate API Services enabled in Church Community Builder."
+#: includes/admin/admin-scripts.php:90
+msgid "Are you sure that you want to reset the last import time?"
 msgstr ""
 
-#: includes/admin/settings/settings-ccb.php:185
-msgid "There are no services registered with CCBPress."
-msgstr ""
-
-#: includes/admin/settings/settings-ccb.php:194
-msgid "Required Services"
-msgstr ""
-
-#: includes/admin/settings/settings-ccbpress.php:21
-msgid "Uninstall"
-msgstr ""
-
-#: includes/admin/settings/settings-ccbpress.php:36
-#: includes/admin/settings/settings-ccbpress.php:51
-msgid "Remove all of its data when the plugin is deleted."
-msgstr ""
-
-#: includes/admin/settings/settings-ccbpress.php:66
-msgid "Upon deletion of Church Data Connect for Church Community Builder, you can optionally remove any custom tables, settings, and license keys that have been entered."
-msgstr ""
-
-#: includes/admin/settings/settings-import.php:56
-msgid "No import jobs are currently scheduled."
-msgstr ""
-
-#: includes/admin/settings/settings-import.php:64
-msgid "Scheduled to run in approximately "
+#: includes/admin/admin-pages.php:172
+msgid ""
+"At a glance, you can keep tabs on Church Data Connect for Church Community "
+"Builder."
 msgstr ""
 
 #: includes/admin/settings/settings-import.php:73
 msgid "Automatic Import"
 msgstr ""
 
-#: includes/admin/settings/settings-import.php:96
-msgid "Last Import"
-msgstr ""
-
-#: includes/admin/settings/settings-import.php:117
-msgid "Actions"
-msgstr ""
-
-#: includes/admin/settings/settings-import.php:142
-msgid "Here you can manage the import settings for your Church Community Builder data. If you have add-ons that need data, we will automatically import the data from Church Community Builder on a regular schedule."
-msgstr ""
-
-#: includes/admin/settings/settings-licenses.php:16
-msgid "License Keys"
-msgstr ""
-
-#: includes/admin/settings/settings-licenses.php:53
-msgid "Please enter your license keys in order to receive updates and support."
-msgstr ""
-
-#: includes/admin/tools/tools-cache.php:46
-msgid "Purge Cache"
-msgstr ""
-
-#: includes/admin/tools/tools-cache.php:53
-msgid "Images"
-msgstr ""
-
-#: includes/admin/tools/tools-cache.php:66
-msgid "Transients"
-msgstr ""
-
-#: includes/admin/tools/tools-cache.php:89
-msgid "Below are some tools to use if you are having some issues with data from Church Community Builder."
-msgstr ""
-
-#: includes/admin/tools/tools-cache.php:90
-msgid "Generally you will not need to use these unless instructed to by Church Data Connect for Church Community Builder support."
-msgstr ""
-
-#: includes/class-ccbpress-connection.php:443
-msgid "The API URL appears to be incorrect"
-msgstr ""
-
-#: includes/class-ccbpress-connection.php:453
+#: includes/class-ccbpress-connection.php:461
 msgid "Bad connection information"
 msgstr ""
 
-#: includes/class-ccbpress-connection.php:473
-msgid "Your CCB Website must not be blank."
+#: includes/admin/admin-pages.php:241
+msgid ""
+"Before you can use the plugin, you need to provide it with information "
+"needed to connect to your Church Community Builder account."
 msgstr ""
 
-#: includes/class-ccbpress-connection.php:502
-msgid "Successfully connected to Church Community Builder. Please check your API Services below."
+#: includes/admin/tools/tools-cache.php:85
+msgid ""
+"Below are some tools to use if you are having some issues with data from "
+"Church Community Builder."
+msgstr ""
+
+#: includes/admin/admin-pages.php:193
+msgid "Blocks"
+msgstr ""
+
+#: includes/admin/admin-pages.php:188
+msgid "Blocks to display your content."
+msgstr ""
+
+#: includes/admin/admin-pages.php:293
+msgid "Browse Add-ons"
+msgstr ""
+
+#: includes/admin/admin-page-tabs.php:124
+msgid "Cache"
+msgstr ""
+
+#: includes/admin/admin-pages.php:219
+msgid "CCB Login"
+msgstr ""
+
+#: includes/widgets/widget-login.php:18
+msgid "CCB Login (CCBPress)"
 msgstr ""
 
 #: includes/class-ccbpress-customizer.php:39
 msgid "CCBPress"
 msgstr ""
 
-#: includes/class-ccbpress-customizer.php:40
-msgid "<p>This screen is used to manage the CCBPress settings that affect the look of your website.</p>"
+#: includes/admin/admin-scripts.php:88
+msgid "Check Services Now"
+msgstr ""
+
+#: includes/admin/settings/settings-ccb.php:97
+msgid "Check Your Services"
+msgstr ""
+
+#: includes/admin/admin-page-tabs.php:39
+msgid "Church Community Builder"
+msgstr ""
+
+#: includes/admin/admin-dashboard.php:29
+msgid "Church Community Builder API Status"
+msgstr ""
+
+#: includes/admin/admin-pages.php:216
+msgid ""
+"Church Community Builder has a very nice Online Giving page. This widget "
+"allows you to easily place a link to that page anywhere you'd like."
 msgstr ""
 
 #: includes/class-ccbpress-customizer.php:50
 msgid "Church Community Builder Links"
 msgstr ""
 
-#: includes/class-ccbpress-customizer.php:72
-msgid "Form Links"
+#: includes/admin/admin-pages.php:42 includes/admin/admin-pages.php:43
+msgid "Church Data"
 msgstr ""
 
-#: includes/class-ccbpress-customizer.php:73
-msgid "<p>How would you like to open links to Church Community Builder forms?</p>"
+#. Name of the plugin
+#: includes/class-ccbpress-core-blocks.php:116
+#: includes/class-ccbpress-core-blocks.php:136
+#: includes/admin/admin-pages.php:137
+#: includes/admin/settings/settings-ccbpress.php:29
+msgid "Church Data Connect for Church Community Builder"
 msgstr ""
 
-#: includes/class-ccbpress-customizer.php:77
-msgid "Link"
+#: includes/admin/admin-pages.php:506
+msgid "Church Data Connect for Church Community Builder Add-ons"
 msgstr ""
 
-#: includes/class-ccbpress-customizer.php:78
-msgid "Lightbox"
+#: ccbpress-core.php:294
+msgid ""
+"Church Data Connect for Church Community Builder may not work properly "
+"because the ALTERNATE_WP_CRON constant is set to true."
 msgstr ""
 
-#: includes/class-ccbpress-licenses.php:215
-#: includes/class-ccbpress-licenses.php:288
-msgid "Nonce verification failed"
+#: ccbpress-core.php:269
+msgid ""
+"Church Data Connect for Church Community Builder may not work properly "
+"because the DISABLE_WP_CRON constant is set to true."
+msgstr ""
+
+#: includes/admin/admin-pages.php:240
+msgid "Connecting Church Community Builder"
+msgstr ""
+
+#: includes/admin/settings/settings-ccb.php:17
+msgid "Connection Settings"
+msgstr ""
+
+#: includes/admin/admin-pages.php:258
+msgid "Creating an API User and Assigning Services"
+msgstr ""
+
+#: includes/admin/admin-page-tabs.php:131
+#: includes/admin/tools/class-ccbpress-tools-cron.php:42
+msgid "Cron Scheduler"
+msgstr ""
+
+#: includes/admin/admin-pages.php:171
+msgid "Dashboard Widget"
+msgstr ""
+
+#: includes/admin/admin-page-tabs.php:55
+#: includes/admin/settings/settings-import.php:51
+msgid "Data Import"
+msgstr ""
+
+#: includes/admin/admin-settings.php:93
+msgid "Deactivate License"
+msgstr ""
+
+#: includes/widgets/widget-group-info.php:35
+msgid "Display group information from Church Community Builder."
+msgstr ""
+
+#. Description of the plugin
+msgid ""
+"Display information from Church Community Builder on your WordPress site."
+msgstr ""
+
+#: includes/widgets/widget-online-giving.php:19
+msgid "Displays a link to CCB Online Giving."
+msgstr ""
+
+#: includes/widgets/widget-online-giving.php:75
+msgid "Displays a link to Church Community Builder Online Giving."
+msgstr ""
+
+#: includes/widgets/widget-login.php:19
+msgid "Displays a login form for CCB."
+msgstr ""
+
+#: includes/widgets/widget-login.php:85
+msgid "Displays a login form for Church Community Builder."
+msgstr ""
+
+#: includes/admin/admin-scripts.php:84
+msgid "Done"
+msgstr ""
+
+#: includes/admin/admin-settings.php:284
+msgid "Edit"
+msgstr ""
+
+#: includes/widgets/widget-group-info.php:291
+msgid "Email Address"
+msgstr ""
+
+#: includes/admin/admin-pages.php:275
+msgid "Enter Your Connection Settings"
 msgstr ""
 
 #: includes/class-ccbpress-licenses.php:215
@@ -547,50 +265,87 @@ msgstr ""
 msgid "Error"
 msgstr ""
 
-#: includes/import.php:120
-msgid "Pushing job to the queue..."
+#: includes/admin/admin-pages.php:292
+msgid ""
+"Feel free to browse our add-ons to add additional functionality to Church "
+"Data Connect for Church Community Builder."
 msgstr ""
 
-#: includes/import.php:131
-msgid "Import job has been dispatched..."
+#. Author of the plugin
+msgid "FireTree Design, LLC <info@firetreedesign.com>"
 msgstr ""
 
-#: includes/widgets/widget-group-info.php:33
-msgid "Group Information (CCBPress)"
+#: includes/widgets/widget-login.php:57 src/login/index.php:96
+msgid "Forgot your password?"
 msgstr ""
 
-#: includes/widgets/widget-group-info.php:35
-msgid "Display group information from Church Community Builder."
+#: includes/class-ccbpress-customizer.php:72
+msgid "Form Links"
 msgstr ""
 
-#: includes/widgets/widget-group-info.php:196
-msgid "Title: (optional)"
+#: includes/admin/tools/tools-cache.php:86
+msgid ""
+"Generally you will not need to use these unless instructed to by Church Data "
+"Connect for Church Community Builder support."
 msgstr ""
 
-#: includes/widgets/widget-group-info.php:201
-msgid "Group Info From:"
+#: ccbpress-core.php:269 ccbpress-core.php:294
+msgid "Get more info."
 msgstr ""
 
-#: includes/widgets/widget-group-info.php:203
-msgid "None"
+#: includes/admin/admin-pages.php:520
+msgid "Get this add-on"
 msgstr ""
 
-#: includes/widgets/widget-group-info.php:236
-msgid "What would you like to show?"
+#: includes/admin/admin-pages.php:143
+msgid "Getting Started"
+msgstr ""
+
+#: src/online-giving/index.php:47
+msgid "Give Now"
+msgstr ""
+
+#: includes/widgets/widget-group-info.php:264
+msgid "Group Description"
 msgstr ""
 
 #: includes/widgets/widget-group-info.php:242
 msgid "Group Image"
 msgstr ""
 
-#: includes/widgets/widget-group-info.php:246
-#: includes/widgets/widget-group-info.php:257
-#: includes/widgets/widget-group-info.php:268
-#: includes/widgets/widget-group-info.php:284
-#: includes/widgets/widget-group-info.php:295
-#: includes/widgets/widget-group-info.php:306
-#: includes/widgets/widget-group-info.php:322
-msgid "Show"
+#: includes/widgets/widget-group-info.php:201
+msgid "Group Info From:"
+msgstr ""
+
+#: includes/widgets/widget-group-info.php:33
+msgid "Group Information (CCBPress)"
+msgstr ""
+
+#: includes/admin/admin-pages.php:209
+msgid "Group Information Widget"
+msgstr ""
+
+#: templates/group-info.php:37
+msgid "Group Leader:"
+msgstr ""
+
+#: includes/widgets/widget-group-info.php:253
+msgid "Group Name"
+msgstr ""
+
+#: src/group-info/index.php:86
+msgid "Group not found."
+msgstr ""
+
+#: includes/admin/admin-pages.php:187
+msgid "Gutenberg Blocks"
+msgstr ""
+
+#: includes/admin/settings/settings-import.php:142
+msgid ""
+"Here you can manage the import settings for your Church Community Builder "
+"data. If you have add-ons that need data, we will automatically import the "
+"data from Church Community Builder on a regular schedule."
 msgstr ""
 
 #: includes/widgets/widget-group-info.php:247
@@ -603,101 +358,418 @@ msgstr ""
 msgid "Hide"
 msgstr ""
 
-#: includes/widgets/widget-group-info.php:253
-msgid "Group Name"
+#: includes/admin/admin-page-tabs.php:97
+msgid "How to create an API user"
 msgstr ""
 
-#: includes/widgets/widget-group-info.php:264
-msgid "Group Description"
+#. URI of the plugin
+msgid "https://churchdataconnect.com/"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://firetreedesign.com/"
+msgstr ""
+
+#: includes/admin/tools/class-ccbpress-tools-cron.php:74
+msgid ""
+"If you are having issues with data updating, you can use the tool below to "
+"reschedule the cron job that updates your data."
+msgstr ""
+
+#: includes/admin/tools/tools-cache.php:49
+msgid "Images"
+msgstr ""
+
+#: includes/admin/admin-rest-api.php:334
+msgid ""
+"Import is running in the background. Leaving this page will not interrupt "
+"the process."
+msgstr ""
+
+#: includes/import.php:131
+msgid "Import job has been dispatched..."
+msgstr ""
+
+#: includes/admin/admin-scripts.php:86
+msgid "Import Now"
+msgstr ""
+
+#: includes/admin/settings/settings-import.php:96
+msgid "Last Import"
+msgstr ""
+
+#: includes/admin/settings/settings-licenses.php:16
+msgid "License Keys"
+msgstr ""
+
+#: includes/admin/admin-page-tabs.php:76
+msgid "Licenses"
+msgstr ""
+
+#: includes/class-ccbpress-customizer.php:78
+msgid "Lightbox"
+msgstr ""
+
+#: includes/class-ccbpress-customizer.php:77
+msgid "Link"
+msgstr ""
+
+#: includes/widgets/widget-login.php:54 src/login/index.php:77
+msgid "Login"
 msgstr ""
 
 #: includes/widgets/widget-group-info.php:280
 msgid "Main Leader"
 msgstr ""
 
-#: includes/widgets/widget-group-info.php:291
-msgid "Email Address"
-msgstr ""
-
-#: includes/widgets/widget-group-info.php:302
-msgid "Phone Numbers"
-msgstr ""
-
-#: includes/widgets/widget-group-info.php:318
-msgid "Registration Forms"
-msgstr ""
-
-#: includes/widgets/widget-group-info.php:382
-#: src/group-info/index.php:187
-msgid "Template not found. Please reinstall CCBPress Core."
-msgstr ""
-
-#: includes/widgets/widget-login.php:18
-msgid "CCB Login (CCBPress)"
-msgstr ""
-
-#: includes/widgets/widget-login.php:19
-msgid "Displays a login form for CCB."
-msgstr ""
-
-#: includes/widgets/widget-login.php:50
-#: src/login/index.php:88
-msgid "Username:"
-msgstr ""
-
-#: includes/widgets/widget-login.php:52
-#: src/login/index.php:90
-msgid "Password:"
-msgstr ""
-
-#: includes/widgets/widget-login.php:54
-#: src/login/index.php:77
-msgid "Login"
-msgstr ""
-
-#: includes/widgets/widget-login.php:57
-#: src/login/index.php:96
-msgid "Forgot your password?"
-msgstr ""
-
-#: includes/widgets/widget-login.php:81
-#: includes/widgets/widget-online-giving.php:71
-msgid "Title:"
-msgstr ""
-
-#: includes/widgets/widget-login.php:85
-msgid "Displays a login form for Church Community Builder."
-msgstr ""
-
-#: includes/widgets/widget-online-giving.php:18
-msgid "Online Giving (CCBPress)"
-msgstr ""
-
-#: includes/widgets/widget-online-giving.php:19
-msgid "Displays a link to CCB Online Giving."
-msgstr ""
-
-#: includes/widgets/widget-online-giving.php:47
-#: src/online-giving/index.php:47
-msgid "Give Now"
-msgstr ""
-
-#: includes/widgets/widget-online-giving.php:75
-msgid "Displays a link to Church Community Builder Online Giving."
+#: includes/admin/admin-pages.php:268
+msgid ""
+"Next, you will need to visit the Church Community Builder tab of the "
+"Settings page and enter the Connection Settings for your API User."
 msgstr ""
 
 #: src/group-info/index.php:67
 msgid "No group ID."
 msgstr ""
 
-#: src/group-info/index.php:86
-msgid "Group not found."
+#: includes/admin/settings/settings-import.php:56
+msgid "No import jobs are currently scheduled."
 msgstr ""
 
-#: templates/group-info.php:37
-msgid "Group Leader:"
+#: includes/class-ccbpress-licenses.php:215
+#: includes/class-ccbpress-licenses.php:288
+msgid "Nonce verification failed"
+msgstr ""
+
+#: includes/widgets/widget-group-info.php:203
+msgid "None"
+msgstr ""
+
+#: includes/admin/admin-pages.php:411
+msgid ""
+"Once installed, you can visit Tools > Cron Events from your WordPress Admin. "
+"There will be a warning at the top of that screen if any issues are detected."
+msgstr ""
+
+#: includes/widgets/widget-online-giving.php:18
+msgid "Online Giving (CCBPress)"
+msgstr ""
+
+#: includes/admin/admin-pages.php:214
+msgid "Online Giving Widget"
+msgstr ""
+
+#: includes/admin/admin-page-tabs.php:46
+msgid "Options"
+msgstr ""
+
+#: includes/admin/admin-pages.php:194
+msgid ""
+"Our goal with Church Data Connect for Church Community Builder is to make it "
+"as easy as possible for churches to display content from Church Community "
+"Builder on their WordPress websites."
+msgstr ""
+
+#: includes/admin/admin-rest-api.php:240
+msgid "Passed"
+msgstr ""
+
+#: includes/widgets/widget-login.php:52 src/login/index.php:90
+msgid "Password:"
+msgstr ""
+
+#: includes/widgets/widget-group-info.php:302
+msgid "Phone Numbers"
+msgstr ""
+
+#: includes/admin/settings/settings-licenses.php:53
+msgid "Please enter your license keys in order to receive updates and support."
+msgstr ""
+
+#: includes/admin/admin-scripts.php:89
+msgid "Process is running..."
+msgstr ""
+
+#: includes/admin/tools/tools-cache.php:42
+msgid "Purge Cache"
+msgstr ""
+
+#: includes/import.php:120
+msgid "Pushing job to the queue..."
 msgstr ""
 
 #: templates/group-info.php:91
 msgid "Registration Form(s):"
+msgstr ""
+
+#: includes/widgets/widget-group-info.php:318
+msgid "Registration Forms"
+msgstr ""
+
+#: includes/admin/admin-settings.php:285
+msgid "Remove"
+msgstr ""
+
+#: includes/admin/settings/settings-ccbpress.php:36
+#: includes/admin/settings/settings-ccbpress.php:51
+msgid "Remove all of its data when the plugin is deleted."
+msgstr ""
+
+#: includes/admin/admin-settings.php:365
+msgid "Remove From Selected"
+msgstr ""
+
+#: includes/admin/admin-dashboard.php:52
+msgid "requests today"
+msgstr ""
+
+#: includes/admin/settings/settings-ccb.php:194
+msgid "Required Services"
+msgstr ""
+
+#: includes/admin/admin-page-tabs.php:105
+msgid "Required services"
+msgstr ""
+
+#: includes/admin/tools/class-ccbpress-tools-cron.php:49
+msgid "Reschedule Cron Jobs"
+msgstr ""
+
+#: includes/admin/admin-scripts.php:87
+msgid "Reset"
+msgstr ""
+
+#: includes/admin/admin-scripts.php:85
+msgid "Running..."
+msgstr ""
+
+#: includes/admin/settings/settings-import.php:64
+msgid "Scheduled to run in approximately "
+msgstr ""
+
+#: includes/admin/admin-settings.php:352
+msgid "Selected:"
+msgstr ""
+
+#: includes/admin/admin-pages.php:64 includes/admin/admin-pages.php:65
+#: includes/admin/admin-pages.php:322
+msgid "Settings"
+msgstr ""
+
+#: includes/widgets/widget-group-info.php:246
+#: includes/widgets/widget-group-info.php:257
+#: includes/widgets/widget-group-info.php:268
+#: includes/widgets/widget-group-info.php:284
+#: includes/widgets/widget-group-info.php:295
+#: includes/widgets/widget-group-info.php:306
+#: includes/widgets/widget-group-info.php:322
+msgid "Show"
+msgstr ""
+
+#: includes/class-ccbpress-connection.php:510
+msgid ""
+"Successfully connected to Church Community Builder. Please check your API "
+"Services below."
+msgstr ""
+
+#: includes/widgets/widget-group-info.php:382 src/group-info/index.php:187
+msgid "Template not found. Please reinstall CCBPress Core."
+msgstr ""
+
+#: includes/admin/admin-pages.php:135
+msgid ""
+"Thank you for using Church Data Connect for Church Community Builder. Church "
+"Data Connect for Church Community Builder allows you to display content from "
+"Church Community Builder on your WordPress site."
+msgstr ""
+
+#: includes/class-ccbpress-connection.php:451
+msgid "The API URL appears to be incorrect"
+msgstr ""
+
+#: includes/admin/admin-pages.php:247
+msgid ""
+"The API User is created from inside the API Admin section of Church "
+"Community Builder. Church Community Builder has some excellent documentation "
+"on doing this."
+msgstr ""
+
+#: includes/admin/admin-pages.php:272
+msgid "The API Username that you created."
+msgstr ""
+
+#: includes/admin/admin-pages.php:221
+msgid ""
+"The CCB Login widget allows you to place a form on your site that lets your "
+"users log in to Church Community Builder from your website. It passes their "
+"login info to CCB and opens CCB in a new window."
+msgstr ""
+
+#: includes/admin/admin-pages.php:178
+msgid ""
+"The Church Community Builder API status is displayed on your WordPress "
+"Dashboard. Easily keep track of your API usage throughout the day."
+msgstr ""
+
+#: includes/admin/admin-pages.php:211
+msgid ""
+"The Group Information Widget displays details about a specific group from "
+"Church Community Builder."
+msgstr ""
+
+#: includes/admin/admin-pages.php:273
+msgid "The Password for your API User."
+msgstr ""
+
+#: includes/admin/admin-pages.php:271
+#: includes/admin/settings/settings-ccb.php:41
+msgid "The URL you use to access your Church Community Builder site."
+msgstr ""
+
+#: includes/admin/settings/settings-ccb.php:185
+msgid "There are no services registered with CCBPress."
+msgstr ""
+
+#: includes/admin/admin-pages.php:254
+msgid ""
+"There are no services registered with Church Data Connect for Church "
+"Community Builder."
+msgstr ""
+
+#: includes/admin/admin-rest-api.php:251
+msgid "There was an error with this service"
+msgstr ""
+
+#: includes/admin/settings/settings-ccb.php:120
+msgid ""
+"These are the settings for the API connection to Church Community Builder."
+msgstr ""
+
+#: includes/admin/settings/settings-ccb.php:62
+msgid "This is different from the login you use for Church Community Builder."
+msgstr ""
+
+#: includes/admin/admin-pages.php:257
+msgid ""
+"This list is automatically updated based on the add-ons that are installed "
+"and the services that they require."
+msgstr ""
+
+#: includes/widgets/widget-online-giving.php:71
+#: includes/widgets/widget-login.php:81
+msgid "Title:"
+msgstr ""
+
+#: includes/widgets/widget-group-info.php:196
+msgid "Title: (optional)"
+msgstr ""
+
+#: includes/admin/admin-pages.php:75 includes/admin/admin-pages.php:76
+#: includes/admin/admin-pages.php:450
+msgid "Tools"
+msgstr ""
+
+#: includes/admin/tools/tools-cache.php:62
+msgid "Transients"
+msgstr ""
+
+#: includes/admin/settings/settings-ccbpress.php:21
+msgid "Uninstall"
+msgstr ""
+
+#: includes/admin/admin-settings.php:336
+msgid "Unselected:"
+msgstr ""
+
+#: includes/admin/settings/settings-ccbpress.php:66
+msgid ""
+"Upon deletion of Church Data Connect for Church Community Builder, you can "
+"optionally remove any custom tables, settings, and license keys that have "
+"been entered."
+msgstr ""
+
+#: includes/admin/settings/settings-ccb.php:124
+msgid ""
+"Use this tool to check if your API User has the appropriate API Services "
+"enabled in Church Community Builder."
+msgstr ""
+
+#: includes/widgets/widget-login.php:50 src/login/index.php:88
+msgid "Username:"
+msgstr ""
+
+#: includes/admin/admin-pages.php:204
+msgid "We have widgets to display a variety of information."
+msgstr ""
+
+#: includes/admin/admin-pages.php:53 includes/admin/admin-pages.php:54
+#: includes/admin/admin-pages.php:140
+msgid "Welcome"
+msgstr ""
+
+#: includes/admin/admin-pages.php:133
+msgid "Welcome to Church Data Connect for Church Community Builder"
+msgstr ""
+
+#: includes/widgets/widget-group-info.php:236
+msgid "What would you like to show?"
+msgstr ""
+
+#: includes/admin/admin-pages.php:203
+msgid "Widgets"
+msgstr ""
+
+#: includes/admin/admin-pages.php:402
+msgid "WP Cron"
+msgstr ""
+
+#: includes/admin/admin-pages.php:405
+msgid ""
+"WP Cron is WordPress' way of scheduling tasks. Every time a visitor requests "
+"a page on your site, WordPress checks WP Cron for any tasks that are "
+"scheduled and fires off those tasks in the background. This is how CCBPress "
+"retrieves data from Church Community Builder."
+msgstr ""
+
+#: includes/admin/admin-pages.php:285
+msgid ""
+"You are now ready to use any of the blocks and widgets that come with Church "
+"Data Connect for Church Community Builder."
+msgstr ""
+
+#: includes/admin/admin-pages.php:408
+msgid ""
+"You can check if WP Cron is running properly by installing a plugin called"
+msgstr ""
+
+#: includes/admin/admin-pages.php:415
+msgid "You can ignore this warning if you have setup a manual cron job."
+msgstr ""
+
+#: includes/admin/admin-pages.php:269
+msgid "You will need to have the following information:"
+msgstr ""
+
+#: includes/admin/admin-pages.php:248
+msgid "Your API User must have permission to use the following services:"
+msgstr ""
+
+#: includes/admin/settings/settings-ccb.php:33
+msgid "Your CCB Website"
+msgstr ""
+
+#: includes/class-ccbpress-connection.php:481
+msgid "Your CCB Website must not be blank."
+msgstr ""
+
+#: includes/admin/admin-dashboard.php:56
+msgid "your daily limit"
+msgstr ""
+
+#: includes/admin/admin-settings.php:97
+msgid "Your license key expires on"
+msgstr ""
+
+#: includes/admin/admin-settings.php:95
+msgid "Your license key never expires."
 msgstr ""
