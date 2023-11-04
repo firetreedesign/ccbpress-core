@@ -7,6 +7,8 @@
  * @package CCBPress Core
  */
 
+use CCBPress\Library\BackgroundProcessing\WP_Background_Process;
+
 /**
  * CCBPress Background Get class
  *
@@ -25,7 +27,7 @@ class CCBPress_Background_Get extends WP_Background_Process {
 
 	/**
 	 * Cron Interval
-	 * 
+	 *
 	 * @var int
 	 */
 	protected $cron_interval = 5;
@@ -56,11 +58,11 @@ class CCBPress_Background_Get extends WP_Background_Process {
 		}
 
 		$defaults = array(
-			'cache_lifespan'	=> 0,
-			'addon'				=> null,
-			'refresh_cache'		=> 1,
+			'cache_lifespan' => 0,
+			'addon'          => null,
+			'refresh_cache'  => 1,
 		);
-		$item = wp_parse_args( $item, $defaults );
+		$item     = wp_parse_args( $item, $defaults );
 
 		/**
 		 * Update our import status
@@ -90,7 +92,7 @@ class CCBPress_Background_Get extends WP_Background_Process {
 		 */
 		$response = CCBPress()->ccb->get( $item );
 
-		$srv = strtolower( $item['query_string']['srv'] );
+		$srv      = strtolower( $item['query_string']['srv'] );
 		$response = apply_filters( "ccbpress_background_get_{$srv}", $response, $item );
 
 		/**
@@ -117,7 +119,6 @@ class CCBPress_Background_Get extends WP_Background_Process {
 		 * Done
 		 */
 		return false;
-
 	}
 
 	/**
@@ -125,7 +126,7 @@ class CCBPress_Background_Get extends WP_Background_Process {
 	 */
 	public function save() {
 		parent::save();
-		$this->data = [];
+		$this->data = array();
 		return $this;
 	}
 
@@ -136,5 +137,4 @@ class CCBPress_Background_Get extends WP_Background_Process {
 		do_action( 'ccbpress_background_get_complete' );
 		parent::complete();
 	}
-
 }
