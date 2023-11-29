@@ -105,14 +105,13 @@ class CCBPress_Connection {
 			$api_prefix = $ccbpress_ccb['api_prefix'];
 		}
 
-		$this->api_url				= $this->api_protocol . $api_prefix . $this->api_endpoint;
-		$this->api_user				= $api_user;
-		$this->api_pass				= $api_pass;
-		$this->transient_prefix		= 'ccbp_';
-		$this->test_srv				= 'api_status';
-		$this->image_cache_dir		= 'ccbpress';
-		$this->transient_fallback	= CCBPress()->transients;
-
+		$this->api_url            = $this->api_protocol . $api_prefix . $this->api_endpoint;
+		$this->api_user           = $api_user;
+		$this->api_pass           = $api_pass;
+		$this->transient_prefix   = 'ccbp_';
+		$this->test_srv           = 'api_status';
+		$this->image_cache_dir    = 'ccbpress';
+		$this->transient_fallback = CCBPress()->transients;
 	}
 
 	/**
@@ -172,7 +171,7 @@ class CCBPress_Connection {
 
 		$url = $this->api_url;
 		foreach ( $query_string as $key => $value ) {
-			if ( 0 === strlen( trim( $value ) ) ) {
+			if ( 0 === strlen( is_string( $value ) ? trim( $value ) : ( is_null( $value ) ? '' : $value ) ) ) {
 				continue;
 			}
 			$url = add_query_arg( (string) $key, (string) $value, $url );
@@ -188,15 +187,15 @@ class CCBPress_Connection {
 	 *
 	 * @param array $args Arguments.
 	 *
-	 * @return	string	An XML string containing the data.
+	 * @return string An XML string containing the data.
 	 */
 	public function get( $args = array() ) {
 
 		$defaults = array(
-			'query_string'		=> array(),
-			'cache_lifespan'	=> 60,
-			'refresh_cache'		=> 0,
-			'validate_data'     => true,
+			'query_string'   => array(),
+			'cache_lifespan' => 60,
+			'refresh_cache'  => 0,
+			'validate_data'  => true,
 		);
 		$new_args = wp_parse_args( $args, $defaults );
 
@@ -210,7 +209,7 @@ class CCBPress_Connection {
 		$srv = strtolower( $new_args['query_string']['srv'] );
 
 		$transient_name = md5( $get_url );
-		$ccb_data = false;
+		$ccb_data       = false;
 
 		// Check the transient cache if the cache is not set to 0.
 		if ( $new_args['cache_lifespan'] > 0 && 0 === $new_args['refresh_cache'] ) {
@@ -275,7 +274,6 @@ class CCBPress_Connection {
 		}
 
 		return $ccb_data;
-
 	}
 
 	/**
@@ -285,15 +283,15 @@ class CCBPress_Connection {
 	 *
 	 * @param array $args Arguments.
 	 *
-	 * @return	string	An XML string containing the data.
+	 * @return string An XML string containing the data.
 	 */
 	public function post( $args = array() ) {
 
 		$defaults = array(
-			'query_string'	=> array(),
-			'body'					=> array(),
+			'query_string' => array(),
+			'body'         => array(),
 		);
-		$args = wp_parse_args( $args, $defaults );
+		$args     = wp_parse_args( $args, $defaults );
 
 		// Construct the URL.
 		$post_url = $this->build_url( $args['query_string'] );
@@ -303,12 +301,12 @@ class CCBPress_Connection {
 		}
 
 		$post_args = array(
-			'headers'	=> array(
+			'headers' => array(
 				'Authorization' => 'Basic ' . base64_encode( $this->api_user . ':' . $this->api_pass ),
-				),
-			'timeout'	=> 300,
-			'body'		=> $args['body'],
-			);
+			),
+			'timeout' => 300,
+			'body'    => $args['body'],
+		);
 
 		$response = wp_remote_post( $post_url, $post_args );
 
@@ -337,32 +335,31 @@ class CCBPress_Connection {
 			return false;
 
 		}
-
 	}
 
 	/**
 	 * Check the rate limit
-	 * 
+	 *
 	 * @return boolean
 	 */
 	public function rate_limit_ok( $srv ) {
 		$ccbpress_rate_limits = get_option( 'ccbpress_rate_limits', array() );
 
-		// Return true if the service has not been requested before
+		// Return true if the service has not been requested before.
 		if ( ! isset( $ccbpress_rate_limits[ $srv ] ) ) {
 			return true;
 		}
 
 		if ( isset( $ccbpress_rate_limits[ $srv ]['limit'] ) && isset( $ccbpress_rate_limits[ $srv ]['remaining'] ) ) {
-			$limit = intval($ccbpress_rate_limits[ $srv ]['limit']);
-			$remaining = intval($ccbpress_rate_limits[ $srv ]['remaining']);
-			if ($remaining >= ($limit / 2)) {
+			$limit     = intval( $ccbpress_rate_limits[ $srv ]['limit'] );
+			$remaining = intval( $ccbpress_rate_limits[ $srv ]['remaining'] );
+			if ( $remaining >= ( $limit / 2 ) ) {
 				return true;
 			}
 		}
-		
+
 		if ( isset( $ccbpress_rate_limits[ $srv ]['reset'] ) ) {
-			$reset = intval($ccbpress_rate_limits[ $srv ]['reset']);
+			$reset = intval( $ccbpress_rate_limits[ $srv ]['reset'] );
 			if ( time() >= $reset ) {
 				return true;
 			} else {
@@ -373,11 +370,11 @@ class CCBPress_Connection {
 
 	/**
 	 * Update rate limit option values
-	 * 
+	 *
 	 * @return void
 	 */
 	public function update_rate_limit( $response, $srv ) {
-		// Get rate-limit headers
+		// Get rate-limit headers.
 		$ratelimit_limit     = wp_remote_retrieve_header( $response, 'x-ratelimit-limit' );
 		$ratelimit_remaining = wp_remote_retrieve_header( $response, 'x-ratelimit-remaining' );
 		$ratelimit_reset     = wp_remote_retrieve_header( $response, 'x-ratelimit-reset' );
@@ -386,10 +383,10 @@ class CCBPress_Connection {
 		$ccbpress_rate_limits = get_option( 'ccbpress_rate_limits', array() );
 
 		$ccbpress_rate_limits[ $srv ] = array(
-			'limit'	=> $ratelimit_limit,
-			'remaining' => $ratelimit_remaining,
-			'reset' => $ratelimit_reset,
-			'retry_after' => $retry_after
+			'limit'       => $ratelimit_limit,
+			'remaining'   => $ratelimit_remaining,
+			'reset'       => $ratelimit_reset,
+			'retry_after' => $retry_after,
 		);
 
 		update_option( 'ccbpress_rate_limits', $ccbpress_rate_limits );
@@ -398,7 +395,7 @@ class CCBPress_Connection {
 	/**
 	 * Test the connection.
 	 *
-	 * @return 	string	Success/error messages.
+	 * @return string Success/error messages.
 	 */
 	public function test() {
 
@@ -417,11 +414,11 @@ class CCBPress_Connection {
 
 			// Define the arguments for the request.
 			$args = array(
-				'headers'	=> array(
+				'headers' => array(
 					'Authorization' => 'Basic ' . base64_encode( $this->api_user . ':' . $this->api_pass ),
-					),
-				'timeout'	=> 5,
-				);
+				),
+				'timeout' => 5,
+			);
 
 			// Query the url for a connection response.
 			$response = wp_remote_get( $test_url, $args );
@@ -463,17 +460,16 @@ class CCBPress_Connection {
 
 		// Return the response.
 		return $the_response;
-
 	}
 
 	/**
 	 * Test the connection.
 	 *
-	 * @param	string $api_prefix	The API Prefix for CCB.
-	 * @param	string $api_user	The API User for CCB.
-	 * @param	string $api_pass	The API Password for CCB.
+	 * @param string $api_prefix The API Prefix for CCB.
+	 * @param string $api_user   The API User for CCB.
+	 * @param string $api_pass   The API Password for CCB.
 	 *
-	 * @return 	string	Success/error messages.
+	 * @return string Success/error messages.
 	 */
 	public function test_connection( $api_prefix, $api_user, $api_pass ) {
 
@@ -489,30 +485,30 @@ class CCBPress_Connection {
 		}
 
 		// Save the real settings.
-		$real_api_url	= $this->api_url;
-		$real_api_user	= $this->api_user;
-		$real_api_pass	= $this->api_pass;
+		$real_api_url  = $this->api_url;
+		$real_api_user = $this->api_user;
+		$real_api_pass = $this->api_pass;
 
 		// Replace them with these temporary settings.
-		$this->api_url	= $this->api_protocol . $api_prefix . $this->api_endpoint;
-		$this->api_user	= $api_user;
-		$this->api_pass	= $api_pass;
+		$this->api_url  = $this->api_protocol . $api_prefix . $this->api_endpoint;
+		$this->api_user = $api_user;
+		$this->api_pass = $api_pass;
 
 		$message = $this->test();
 
 		// Put back the real settings.
-		$this->api_url	= $real_api_url;
-		$this->api_user	= $real_api_user;
-		$this->api_pass	= $real_api_pass;
+		$this->api_url  = $real_api_url;
+		$this->api_user = $real_api_user;
+		$this->api_pass = $real_api_pass;
 
 		switch ( $message ) {
 			case 'success':
 				$new_message = esc_html__( 'Successfully connected to Church Community Builder. Please check your API Services below.', 'ccbpress-core' );
-				$type = 'updated';
+				$type        = 'updated';
 				break;
 			default:
 				$new_message = $message;
-				$type = 'error';
+				$type        = 'error';
 				break;
 		}
 
@@ -524,15 +520,14 @@ class CCBPress_Connection {
 		);
 
 		return $message;
-
 	} // ccbpress_connection_test
 
 	/**
 	 * Return the default cache lifespan for a service.
 	 *
-	 * @param	string $srv	The CCB service.
+	 * @param string $srv The CCB service.
 	 *
-	 * @return	int
+	 * @return int
 	 */
 	public function cache_lifespan( $srv ) {
 
@@ -547,15 +542,14 @@ class CCBPress_Connection {
 		}
 
 		return 60;
-
 	}
 
 	/**
 	 * Validates the data from CCB.
 	 *
-	 * @param	string $ccb_data	The data from CCB.
+	 * @param string $ccb_data The data from CCB.
 	 *
-	 * @return 	bool	true/false.
+	 * @return bool true/false.
 	 */
 	public function is_valid( $ccb_data ) {
 
@@ -598,15 +592,14 @@ class CCBPress_Connection {
 		}
 
 		return true;
-
 	}
 
 	/**
 	 * Validates the data from CCB.
 	 *
-	 * @param	string $data	The data from CCB.
+	 * @param string $data The data from CCB.
 	 *
-	 * @return 	bool	true/false.
+	 * @return bool true/false.
 	 */
 	public function is_valid_describe( $data ) {
 
@@ -627,17 +620,16 @@ class CCBPress_Connection {
 		}
 
 		return true;
-
 	}
 
 	/**
 	 * Caches an image from CCB locally
 	 *
-	 * @param	string $image_url	The URL to the image.
-	 * @param   string $image_id   The ID of the image.
-	 * @param   string $type       The type of image. (group/profile/etc).
+	 * @param string $image_url The URL to the image.
+	 * @param string $image_id  The ID of the image.
+	 * @param string $type      The type of image. (group/profile/etc).
 	 *
-	 * @return 	bool	true/false.
+	 * @return bool true/false.
 	 */
 	public function cache_image( $image_url, $image_id, $type ) {
 
@@ -659,9 +651,9 @@ class CCBPress_Connection {
 			}
 
 			$image_content = wp_remote_retrieve_body( $response );
-			$save_path = $upload_dir['basedir'] . '/' . $this->image_cache_dir . '/cache/' . $type . '-' . $image_id . '.jpg';
+			$save_path     = $upload_dir['basedir'] . '/' . $this->image_cache_dir . '/cache/' . $type . '-' . $image_id . '.jpg';
 
-			if ( false === file_put_contents( $save_path , $image_content ) ) {
+			if ( false === file_put_contents( $save_path, $image_content ) ) {
 				return false;
 			} else {
 				return true;
@@ -669,16 +661,15 @@ class CCBPress_Connection {
 		} else {
 			return false;
 		}
-
 	}
 
 	/**
 	 * Delete a single image.
-	 * 
+	 *
 	 * @since 1.3.11
 	 *
 	 * @param string $image_id The ID of the image.
-	 * @param string $type The type of the image.
+	 * @param string $type     The type of the image.
 	 * @return void
 	 */
 	public function delete_image( $image_id, $type ) {
@@ -699,7 +690,7 @@ class CCBPress_Connection {
 		$image = "{$cache_path}/{$type}-{$image_id}.jpg";
 
 		if ( is_file( $image ) ) {
-			unlink( $image );
+			wp_delete_file( $image );
 		}
 	}
 
@@ -728,7 +719,7 @@ class CCBPress_Connection {
 		$images = glob( $cache_path . '/*' );
 		foreach ( $images as $image ) {
 			if ( is_file( $image ) ) {
-				unlink( $image );
+				wp_delete_file( $image );
 			}
 		}
 
@@ -740,8 +731,8 @@ class CCBPress_Connection {
 	 *
 	 * @since 1.1.0
 	 *
-	 * @param  object $data	Data from Church Community Builder.
-	 * @param  array  $args Import job item.
+	 * @param object $data Data from Church Community Builder.
+	 * @param array  $args Import job item.
 	 *
 	 * @return void
 	 */
@@ -759,7 +750,6 @@ class CCBPress_Connection {
 
 		$image_id = $data->response->groups->group['id'];
 		$this->cache_image( $image_url, $image_id, 'group' );
-
 	}
 
 	/**
@@ -767,8 +757,8 @@ class CCBPress_Connection {
 	 *
 	 * @since 1.3.0
 	 *
-	 * @param  object $data	Data from Church Community Builder.
-	 * @param  array  $args Import job item.
+	 * @param object $data Data from Church Community Builder.
+	 * @param array  $args Import job item.
 	 *
 	 * @return void
 	 */
@@ -786,7 +776,6 @@ class CCBPress_Connection {
 
 		$image_id = $data->response->individuals->individual['id'];
 		$this->cache_image( $image_url, $image_id, 'individual' );
-
 	}
 
 	/**
@@ -795,7 +784,7 @@ class CCBPress_Connection {
 	 * @param   string $image_id   The ID of the image.
 	 * @param   string $type       The type of image. (group/profile/etc).
 	 *
-	 * @return 	string	The URL to the image.
+	 * @return string The URL to the image.
 	 */
 	public function get_image( $image_id, $type ) {
 
@@ -811,40 +800,41 @@ class CCBPress_Connection {
 		}
 
 		return $upload_dir['baseurl'] . '/' . $this->image_cache_dir . '/cache/' . $type . '-' . $image_id . '.jpg';
-
 	}
 
 	/**
 	 * Check if the form is active.
 	 *
-	 * @param	string $form_id	The ID of the form.
+	 * @param string $form_id The ID of the form.
 	 *
-	 * @return	bool	true/false
+	 * @return bool true/false
 	 */
 	public function is_form_active( $form_id ) {
 
-		$ccb_data = $this->get( array(
-			'cache_lifespan'	=> $this->cache_lifespan( 'form_list' ),
-			'query_string'		=> array(
-				'srv'		=> 'form_list',
-				'form_id'	=> $form_id,
-			),
-		) );
+		$ccb_data = $this->get(
+			array(
+				'cache_lifespan' => $this->cache_lifespan( 'form_list' ),
+				'query_string'   => array(
+					'srv'     => 'form_list',
+					'form_id' => $form_id,
+				),
+			)
+		);
 
 		if ( ! $this->is_valid( $ccb_data ) ) {
 			return false;
 		}
 
 		$current_date = strtotime( (string) date( 'Y-m-d', current_time( 'timestamp' ) ), current_time( 'timestamp' ) );
-		$is_valid = false;
+		$is_valid     = false;
 
 		foreach ( $ccb_data->response->items->form as $form ) {
 
 			if ( (string) $form['id'] === $form_id ) {
 
 				// Check the form date.
-				$form_start	= strtotime( (string) $form->start, current_time( 'timestamp' ) );
-				$form_end = false;
+				$form_start = strtotime( (string) $form->start, current_time( 'timestamp' ) );
+				$form_end   = false;
 				if ( '' !== (string) $form->end ) {
 					$form_end = strtotime( (string) $form->end, current_time( 'timestamp' ) );
 				}
@@ -854,18 +844,12 @@ class CCBPress_Connection {
 					$is_valid = false;
 					break;
 				}
-				
+
 				// Is there and end date and is it after that end date?
 				if ( false !== $form_end && $current_date > $form_end ) {
 					$is_valid = false;
 					break;
 				}
-
-				// // Is the form not public?
-				// if ( 'false' === (string) $form->public ) {
-				// 	$is_valid = false;
-				// 	break;
-				// }
 
 				// Has the form been published?
 				if ( 'false' === (string) $form->published ) {
@@ -893,7 +877,5 @@ class CCBPress_Connection {
 
 		// Return the data.
 		return $is_valid;
-
 	}
-
 }

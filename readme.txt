@@ -1,27 +1,25 @@
 === Church Data Connect for Church Community Builder ===
 Contributors: firetree, danielmilner
-Tags: church, ccb, church community builder, chms, gutenberg
+Tags: church, ccb, church community builder, pushpay, chms, gutenberg
 Requires at least: 4.3
-Tested up to: 6.3
+Tested up to: 6.4
 Requires PHP: 5.3
-Stable tag: 1.5.0
+Stable tag: 1.5.1
 License: GPLv2 or later
 License URI: http://ww.gnu.org/licenses/gpl-2.0.html
 
-Introducing the easiest way to display information from Church Community Builder
-(CCB) on your church WordPress site.
+Introducing the easiest way to display information from Church Community Builder (formerly Church Community Builder) on your church WordPress site.
 
 == Description ==
 
-Introducing the easiest way to display information from Church Community Builder
-(CCB) on your church WordPress site.
+Introducing the easiest way to display information from Church Community Builder (formerly Church Community Builder) on your church WordPress site.
 
 Requires a [Church Community Builder](http://churchcommunitybuilder.com/) account.
 
 = Features: =
 * API Status Dashboard Widget
 * Group Information Block and Widget
-* CCB Login Block and Widget
+* ChMS Login Block and Widget
 * Online Giving Block and Widget
 
 = Do More With Add-ons =
@@ -36,7 +34,7 @@ Extend the capabilities of Church Data Connect for Church Community Builder with
 
 1. Upload the `ccbpress-core` folder to the `/wp-content/plugins/` directory.
 2. Activate the Church Data Connect for Church Community Builder plugin through the 'Plugins' menu in WordPress.
-3. Configure the plugin by going to the CCBPress menu that appears in your WordPress Admin.
+3. Configure the plugin by going to the Church Data menu that appears in your WordPress Admin.
 
 == Screenshots ==
 
@@ -44,6 +42,10 @@ Extend the capabilities of Church Data Connect for Church Community Builder with
 2. Getting Started
 
 == Changelog ==
+
+= 1.5.1 =
+* Added compatibility with WordPress 6.4.
+* Fixed compatibility with PHP 8.2.
 
 = 1.5.0 =
 * Added compatibility with WordPress 6.3.
