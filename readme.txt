@@ -46,7 +46,6 @@ Extend the capabilities of Church Data Connect for Church Community Builder with
 = 1.5.1 =
 * Added compatibility with WordPress 6.4.
 * Fixed compatibility with PHP 8.2.
-* Started replacing "Church Community Builder" with "Church Community Builder".
 
 = 1.5.0 =
 * Added compatibility with WordPress 6.3.
