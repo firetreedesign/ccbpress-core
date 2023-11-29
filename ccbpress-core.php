@@ -1,8 +1,8 @@
 <?php
 /**
- * Plugin Name: Church Data Connect for PushPay ChMS
+ * Plugin Name: Church Data Connect for Church Community Builder
  * Plugin URI: https://churchdataconnect.com/
- * Description: Display information from PushPay ChMS on your WordPress site.
+ * Description: Display information from Church Community Builder on your WordPress site.
  * Version: 1.5.1
  * Author: FireTree Design, LLC <info@firetreedesign.com>
  * Author URI: https://firetreedesign.com/
