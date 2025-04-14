@@ -2,7 +2,7 @@
 Contributors: firetree, danielmilner
 Tags: church, ccb, church community builder, pushpay, chms, gutenberg
 Requires at least: 4.3
-Tested up to: 6.4
+Tested up to: 6.8
 Requires PHP: 5.3
 Stable tag: 1.5.1
 License: GPLv2 or later
